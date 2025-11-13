@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { exportSvgContainerToPng } from "./../lib/export/png";
+import { useAppStore } from "./../lib/state/store";
 
 type Props = {
   targetContainerId: string;
@@ -13,8 +14,21 @@ export function ExportDialog({ targetContainerId }: Props) {
   const [widthPx, setWidthPx] = useState(3840);
   const [heightPx, setHeightPx] = useState(2560);
   const [bg, setBg] = useState("#ffffff");
+  const user = useAppStore((s) => s.user);
+
+  const handleButtonClick = () => {
+    if (!user) {
+      alert("Please log in to export your map as PNG");
+      return;
+    }
+    setOpen((v) => !v);
+  };
 
   const exportPng = async () => {
+    if (!user) {
+      alert("Please log in to export your map");
+      return;
+    }
     const container = document.getElementById(targetContainerId);
     if (!container) return;
     await exportSvgContainerToPng(container, {
@@ -28,7 +42,7 @@ export function ExportDialog({ targetContainerId }: Props) {
 
   return (
     <div className="relative">
-      <Button onClick={() => setOpen((v) => !v)}>Export PNG</Button>
+      <Button onClick={handleButtonClick}>Export PNG</Button>
       {open && (
         <div className="absolute right-0 mt-2 w-[340px] rounded-lg border bg-background p-3 shadow-lg z-50">
           <div className="space-y-3">
