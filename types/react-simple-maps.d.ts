@@ -50,9 +50,21 @@ declare module "react-simple-maps" {
     tabIndex?: number;
   }
 
+  export interface AnnotationProps {
+    subject: [number, number];
+    dx?: number;
+    dy?: number;
+    curve?: number;
+    connectorProps?: Record<string, unknown>;
+    className?: string;
+    style?: CSSProperties;
+    children?: ReactNode;
+  }
+
   export const ComposableMap: ComponentType<ComposableMapProps>;
   export const ZoomableGroup: ComponentType<ZoomableGroupProps>;
   export const Geographies: ComponentType<GeographiesProps>;
   export const Geography: ComponentType<GeographyProps>;
+  export const Annotation: ComponentType<AnnotationProps>;
 }
 
