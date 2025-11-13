@@ -1,13 +1,11 @@
 import Link from "next/link";
-import { Button, buttonVariants } from "./../components/ui/button";
+import { buttonVariants } from "./../components/ui/button";
 import { MapView } from "./../components/MapView";
 import { CountryDrawer } from "./../components/CountryDrawer";
 import { TagManager } from "./../components/TagManager";
 import { StatsBar } from "./../components/StatsBar";
 import { Legend } from "./../components/Legend";
 import { ExportDialog } from "./../components/ExportDialog";
-import { ImportButton } from "./../components/ImportButton";
-import { ExportJsonButton } from "./../components/ExportJsonButton";
 import { ThemeToggle } from "./../components/ThemeToggle";
 import { CountrySearch } from "./../components/CountrySearch";
 import { cn } from "./../lib/utils";
@@ -29,8 +27,6 @@ export default function HomePage() {
             >
               Manage countries
             </Link>
-            <ImportButton />
-            <ExportJsonButton />
             <ExportDialog targetContainerId="map-container" />
           </div>
         </div>
