@@ -36,6 +36,7 @@ declare module "react-simple-maps" {
     geography: Feature<Geometry, Record<string, unknown>>;
     onMouseEnter?: (event: React.MouseEvent) => void;
     onMouseLeave?: (event: React.MouseEvent) => void;
+    onMouseMove?: (event: React.MouseEvent) => void;
     onMouseDown?: (event: React.MouseEvent) => void;
     onMouseUp?: (event: React.MouseEvent) => void;
     onFocus?: (event: React.FocusEvent) => void;

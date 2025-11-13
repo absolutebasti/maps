@@ -157,7 +157,7 @@ export function MapView({ onSelectCountry }: Props) {
                           y: event.clientY,
                           countryName,
                           visited: isVisited,
-                          notes: countryData?.notes
+                          notes: countryData?.note
                         });
                       }}
                       onMouseMove={(event) => {
