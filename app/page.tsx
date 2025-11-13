@@ -15,6 +15,12 @@ export default function HomePage() {
   const user = useAppStore((s) => s.user);
   const logout = useAppStore((s) => s.logout);
 
+  const handleLogout = async () => {
+    await logout();
+    // Force a page reload to clear all state
+    window.location.reload();
+  };
+
   return (
     <main className="min-h-dvh flex flex-col">
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -29,7 +35,7 @@ export default function HomePage() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={logout}
+                  onClick={handleLogout}
                   className="h-8"
                 >
                   Logout
