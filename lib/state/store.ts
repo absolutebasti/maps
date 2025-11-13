@@ -59,10 +59,17 @@ type AppState = {
   logout: () => void;
 };
 
+// Predefined tags that users can add to countries
+export const PREDEFINED_TAGS: TagData[] = [
+  { id: "want-to-visit", name: "Want to Visit", emoji: "😍", color: "#F87171" },
+  { id: "lived-here", name: "Lived Here", emoji: "🏠", color: "#60A5FA" },
+  { id: "favorite", name: "Favorite", emoji: "⭐", color: "#FBBF24" },
+];
+
 export const useAppStore = create<AppState>((set) => ({
   selectedCountryId: undefined,
   countriesById: {},
-  tagsById: {},
+  tagsById: PREDEFINED_TAGS.reduce((acc, tag) => ({ ...acc, [tag.id]: tag }), {}),
   settings: {
     theme: "system",
     showLegend: true,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { useAppStore } from "./../lib/state/store";
+import { useAppStore, PREDEFINED_TAGS } from "./../lib/state/store";
 import { Button } from "./ui/button";
 import { getCountryNameById } from "./../lib/map";
 
@@ -14,6 +14,8 @@ export function CountryDrawer() {
   const setNote = useAppStore((s) => s.setNote);
   const setVisitedAt = useAppStore((s) => s.setVisitedAt);
   const setRating = useAppStore((s) => s.setRating);
+  const addTagToCountry = useAppStore((s) => s.addTagToCountry);
+  const removeTagFromCountry = useAppStore((s) => s.removeTagFromCountry);
 
   const title = useMemo(() => {
     if (!selectedId) return "No selection";
@@ -79,8 +81,43 @@ export function CountryDrawer() {
           </select>
         </div>
       </div>
-      <div className="text-xs text-muted-foreground">
-        Tag management and filters will be added next.
+      
+      {/* Tags Section */}
+      <div className="space-y-3">
+        <label className="text-sm font-medium">Tags</label>
+        <div className="flex flex-wrap gap-2">
+          {PREDEFINED_TAGS.map((tag) => {
+            const isActive = country?.tags?.includes(tag.id);
+            return (
+              <button
+                key={tag.id}
+                onClick={() => {
+                  if (isActive) {
+                    removeTagFromCountry(selectedId, tag.id);
+                  } else {
+                    addTagToCountry(selectedId, tag.id);
+                  }
+                }}
+                className={`
+                  flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium
+                  transition-all duration-200 border-2
+                  ${isActive 
+                    ? 'bg-opacity-20 border-opacity-100 scale-105' 
+                    : 'bg-opacity-0 border-opacity-30 hover:border-opacity-60'
+                  }
+                `}
+                style={{
+                  backgroundColor: isActive ? tag.color : 'transparent',
+                  borderColor: tag.color,
+                  color: isActive ? tag.color : 'currentColor',
+                }}
+              >
+                <span className="text-base">{tag.emoji}</span>
+                <span>{tag.name}</span>
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

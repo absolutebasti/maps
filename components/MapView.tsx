@@ -4,9 +4,10 @@ import { useMemo, useState } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup, Annotation } from "react-simple-maps";
 import type { Feature } from "geojson";
 import { getWorldCountries, getCountryId, getCountryName, getWorldCountryList } from "./../lib/map";
-import { useAppStore } from "./../lib/state/store";
+import { useAppStore, PREDEFINED_TAGS } from "./../lib/state/store";
 import { Button } from "./ui/button";
 import { MapTooltip } from "./MapTooltip";
+import { geoCentroid } from "d3-geo";
 
 type Props = {
   onSelectCountry?: (id: string) => void;
@@ -207,6 +208,44 @@ export function MapView({ onSelectCountry }: Props) {
                 })
               }
             </Geographies>
+
+            {/* Emoji badges for countries with tags */}
+            {Object.entries(countriesById).map(([countryId, countryData]) => {
+              if (!countryData.tags || countryData.tags.length === 0) return null;
+              
+              // Find the geography for this country to get its centroid
+              const geo = geoUrlData.features.find((f: any) => getCountryId(f) === countryId);
+              if (!geo) return null;
+
+              const centroid = geoCentroid(geo);
+              
+              return countryData.tags.map((tagId, index) => {
+                const tag = PREDEFINED_TAGS.find(t => t.id === tagId);
+                if (!tag) return null;
+
+                return (
+                  <Annotation
+                    key={`${countryId}-${tagId}`}
+                    subject={centroid as [number, number]}
+                    dx={0}
+                    dy={index * 12 / zoom} // Stack multiple emojis vertically
+                  >
+                    <text
+                      x={0}
+                      y={0}
+                      textAnchor="middle"
+                      style={{
+                        fontSize: `${14 / zoom}px`,
+                        pointerEvents: "none",
+                        filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))",
+                      }}
+                    >
+                      {tag.emoji}
+                    </text>
+                  </Annotation>
+                );
+              });
+            })}
           </ZoomableGroup>
         </ComposableMap>
       </div>
