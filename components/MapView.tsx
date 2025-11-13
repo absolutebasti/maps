@@ -13,12 +13,11 @@ type Props = {
 };
 
 const oceanLabels = [
-  { name: "PACIFIC OCEAN", coordinates: [-150, -15] as [number, number] },
-  { name: "PACIFIC OCEAN", coordinates: [170, 5] as [number, number] },
-  { name: "ATLANTIC OCEAN", coordinates: [-30, -5] as [number, number] },
-  { name: "INDIAN OCEAN", coordinates: [85, -25] as [number, number] },
-  { name: "ARCTIC OCEAN", coordinates: [0, 85] as [number, number] },
-  { name: "SOUTHERN OCEAN", coordinates: [50, -75] as [number, number] },
+  { name: "PACIFIC", coordinates: [-130, -30] as [number, number] },
+  { name: "PACIFIC", coordinates: [160, -10] as [number, number] },
+  { name: "ATLANTIC", coordinates: [-35, 5] as [number, number] },
+  { name: "INDIAN", coordinates: [70, -40] as [number, number] },
+  { name: "ARCTIC", coordinates: [-90, 80] as [number, number] },
 ];
 
 export function MapView({ onSelectCountry }: Props) {
@@ -67,25 +66,29 @@ export function MapView({ onSelectCountry }: Props) {
 
   return (
     <div className="relative w-full h-full">
-      {/* Ocean background with wave pattern */}
+      {/* Ocean background with wave lines */}
       <div 
         className="absolute inset-0 w-full h-full" 
         style={{ 
           backgroundColor: "#A8D8EA",
           backgroundImage: `
             repeating-linear-gradient(
-              0deg,
+              45deg,
               transparent,
-              transparent 35px,
-              rgba(255, 255, 255, 0.1) 35px,
-              rgba(255, 255, 255, 0.1) 40px
+              transparent 80px,
+              rgba(255, 255, 255, 0.15) 80px,
+              rgba(255, 255, 255, 0.15) 82px,
+              transparent 82px,
+              transparent 85px,
+              rgba(255, 255, 255, 0.08) 85px,
+              rgba(255, 255, 255, 0.08) 86px
             ),
             repeating-linear-gradient(
-              90deg,
+              -45deg,
               transparent,
-              transparent 35px,
-              rgba(255, 255, 255, 0.05) 35px,
-              rgba(255, 255, 255, 0.05) 40px
+              transparent 120px,
+              rgba(255, 255, 255, 0.06) 120px,
+              rgba(255, 255, 255, 0.06) 121px
             )
           `
         }}
@@ -115,11 +118,11 @@ export function MapView({ onSelectCountry }: Props) {
                   textAnchor="middle"
                   style={{
                     fontFamily: "var(--font-lemon-milk), system-ui",
-                    fontSize: `${12 / zoom}px`,
-                    fill: "#4A7C8F",
-                    fontWeight: 700,
-                    letterSpacing: "2px",
-                    opacity: 0.4,
+                    fontSize: `${10 / zoom}px`,
+                    fill: "#6B9FB0",
+                    fontWeight: 600,
+                    letterSpacing: "4px",
+                    opacity: 0.35,
                     pointerEvents: "none",
                     textTransform: "uppercase"
                   }}
