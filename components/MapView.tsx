@@ -145,11 +145,13 @@ export function MapView({ onSelectCountry }: Props) {
                     ? visitedCountryColor
                     : "#E5E7EB";  // Light gray
                   
-                  // Create hover color by darkening the base color slightly
+                  // Only darken on hover, not on selection
                   const hoverFill = isVisited
-                    ? `color-mix(in srgb, ${visitedCountryColor} 80%, black)`
+                    ? `color-mix(in srgb, ${visitedCountryColor} 85%, black)`
                     : "#D1D5DB";
-                  const fill = isSelected || isHovered ? hoverFill : baseFill;
+                  
+                  // Use base fill even when selected, only change on hover
+                  const fill = isHovered ? hoverFill : baseFill;
                   
                   return (
                     <Geography
@@ -186,15 +188,17 @@ export function MapView({ onSelectCountry }: Props) {
                           fill,
                           outline: "none",
                           stroke: isSelected ? "#8B7355" : "#9CA3AF",
-                          strokeWidth: isSelected ? 1.2 : 0.5
+                          strokeWidth: isSelected ? 1.5 : 0.5
                         },
                         hover: {
                           fill: hoverFill,
                           outline: "none",
-                          cursor: "pointer"
+                          cursor: "pointer",
+                          stroke: "#8B7355",
+                          strokeWidth: 1
                         },
                         pressed: {
-                          fill: isVisited ? "#C4B49A" : "#9CA3AF",
+                          fill: baseFill,
                           outline: "none"
                         }
                       }}
