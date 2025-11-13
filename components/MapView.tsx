@@ -12,12 +12,13 @@ type Props = {
   onSelectCountry?: (id: string) => void;
 };
 
+// Ocean labels positioned as percentages of the container (avoids overlap with countries)
 const oceanLabels = [
-  { name: "PACIFIC", coordinates: [-130, -30] as [number, number] },
-  { name: "PACIFIC", coordinates: [160, -10] as [number, number] },
-  { name: "ATLANTIC", coordinates: [-35, 5] as [number, number] },
-  { name: "INDIAN", coordinates: [70, -40] as [number, number] },
-  { name: "ARCTIC", coordinates: [-90, 80] as [number, number] },
+  { name: "PACIFIC", top: "60%", left: "12%" },      // Bottom left Pacific
+  { name: "PACIFIC", top: "45%", right: "8%" },      // Right Pacific
+  { name: "ATLANTIC", top: "45%", left: "42%" },     // Atlantic (center-left)
+  { name: "INDIAN", top: "65%", left: "62%" },       // Indian Ocean
+  { name: "ARCTIC", top: "12%", left: "48%" },       // Arctic (top center)
 ];
 
 export function MapView({ onSelectCountry }: Props) {
@@ -93,6 +94,32 @@ export function MapView({ onSelectCountry }: Props) {
           `
         }}
       >
+        {/* Ocean labels - positioned as HTML elements OUTSIDE the SVG */}
+        {oceanLabels.map(({ name, top, left, right }, idx) => (
+          <div
+            key={`${name}-${idx}`}
+            className="absolute pointer-events-none select-none"
+            style={{
+              top,
+              left,
+              right,
+              transform: "translate(-50%, -50%)",
+              fontFamily: "var(--font-lemon-milk), system-ui",
+              fontSize: "clamp(8px, 1.2vw, 14px)",
+              color: "#4A7C8C",
+              fontWeight: 700,
+              letterSpacing: "0.3em",
+              opacity: 0.4,
+              textTransform: "uppercase",
+              textShadow: "0 0 20px rgba(168, 216, 234, 0.5)",
+              whiteSpace: "nowrap",
+              zIndex: 5,
+            }}
+          >
+            {name}
+          </div>
+        ))}
+
         <ComposableMap 
           projection="geoEqualEarth" 
           width={960} 
@@ -104,34 +131,6 @@ export function MapView({ onSelectCountry }: Props) {
             center={center}
             onMoveEnd={(position) => setCenter(position.coordinates)}
           >
-            {/* Ocean labels */}
-            {oceanLabels.map(({ name, coordinates }, idx) => (
-              <Annotation
-                key={`${name}-${idx}`}
-                subject={coordinates}
-                dx={0}
-                dy={0}
-              >
-                <text
-                  x={0}
-                  y={0}
-                  textAnchor="middle"
-                  style={{
-                    fontFamily: "var(--font-lemon-milk), system-ui",
-                    fontSize: `${10 / zoom}px`,
-                    fill: "#6B9FB0",
-                    fontWeight: 600,
-                    letterSpacing: "4px",
-                    opacity: 0.35,
-                    pointerEvents: "none",
-                    textTransform: "uppercase"
-                  }}
-                >
-                  {name}
-                </text>
-              </Annotation>
-            ))}
-
             <Geographies geography={geoUrlData as any}>
               {({ geographies }) =>
                 geographies.map((geo: any, index: number) => {
