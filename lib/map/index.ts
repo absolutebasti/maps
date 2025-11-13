@@ -50,7 +50,8 @@ export function getWorldCountries(): FeatureCollection {
     throw new Error("Topology missing countries collection");
   }
   // @ts-expect-error topojson type is lenient here at runtime
-  cachedCountries = topoToGeo(topology, object);
+  const features = topoToGeo(topology, object) as FeatureCollection;
+  cachedCountries = features;
   return cachedCountries;
 }
 
