@@ -20,6 +20,7 @@ export type Settings = {
   theme: "light" | "dark" | "system";
   showLegend: boolean;
   showLabels: boolean;
+  visitedCountryColor: string;
 };
 
 type SelectCountryOptions = {
@@ -44,6 +45,7 @@ type AppState = {
   deleteTag: (tagId: string) => void;
   setVisitedAt: (id: string, isoDate?: string) => void;
   setRating: (id: string, rating?: number) => void;
+  setVisitedCountryColor: (color: string) => void;
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -53,7 +55,8 @@ export const useAppStore = create<AppState>((set) => ({
   settings: {
     theme: "system",
     showLegend: true,
-    showLabels: false
+    showLabels: false,
+    visitedCountryColor: "#E8DCC4"
   },
   selectCountry: (id, opts) =>
     set((s) => {
@@ -169,7 +172,11 @@ export const useAppStore = create<AppState>((set) => ({
       const existing = s.countriesById[id] || { id, visited: false, tags: [] };
       const next: CountryData = { ...existing, rating };
       return { countriesById: { ...s.countriesById, [id]: next } };
-    })
+    }),
+  setVisitedCountryColor: (color) =>
+    set((s) => ({
+      settings: { ...s.settings, visitedCountryColor: color }
+    }))
 }));
 
 

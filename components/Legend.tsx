@@ -4,13 +4,30 @@ import { useMemo, useState } from "react";
 import { useAppStore } from "./../lib/state/store";
 import { getWorldCountryList } from "./../lib/map";
 import { cn } from "./../lib/utils";
+import { Button } from "./ui/button";
+
+const COLOR_PALETTE = [
+  { name: "Pastel Beige", value: "#E8DCC4" },
+  { name: "Soft Pink", value: "#FFD1DC" },
+  { name: "Light Blue", value: "#ADD8E6" },
+  { name: "Mint Green", value: "#98FF98" },
+  { name: "Lavender", value: "#E6E6FA" },
+  { name: "Peach", value: "#FFDAB9" },
+  { name: "Light Coral", value: "#F08080" },
+  { name: "Powder Blue", value: "#B0E0E6" },
+  { name: "Thistle", value: "#D8BFD8" },
+  { name: "Khaki", value: "#F0E68C" },
+];
 
 export function Legend() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterVisited, setFilterVisited] = useState<boolean | null>(null);
+  const [showColorPicker, setShowColorPicker] = useState(false);
   const countriesById = useAppStore((s) => s.countriesById);
   const toggleVisited = useAppStore((s) => s.toggleVisited);
   const selectCountry = useAppStore((s) => s.selectCountry);
+  const visitedCountryColor = useAppStore((s) => s.settings.visitedCountryColor);
+  const setVisitedCountryColor = useAppStore((s) => s.setVisitedCountryColor);
 
   const allCountries = useMemo(() => getWorldCountryList(), []);
 
@@ -33,10 +50,44 @@ export function Legend() {
     <div className="space-y-3">
       <h4 className="text-sm font-medium">Legend</h4>
       <div className="space-y-2">
-        <div className="flex items-center gap-2 text-sm">
-          <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: "#E8DCC4" }} />
-          <span>Visited</span>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-sm">
+            <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: visitedCountryColor }} />
+            <span>Visited</span>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowColorPicker(!showColorPicker)}
+            className="h-7 text-xs"
+          >
+            Change color
+          </Button>
         </div>
+        {showColorPicker && (
+          <div className="p-3 rounded-md border bg-card space-y-2">
+            <div className="text-xs font-medium">Select color</div>
+            <div className="grid grid-cols-5 gap-2">
+              {COLOR_PALETTE.map((color) => (
+                <button
+                  key={color.value}
+                  onClick={() => {
+                    setVisitedCountryColor(color.value);
+                    setShowColorPicker(false);
+                  }}
+                  className={cn(
+                    "w-full aspect-square rounded border-2 transition-all hover:scale-110",
+                    visitedCountryColor === color.value
+                      ? "border-primary ring-2 ring-primary ring-offset-2"
+                      : "border-transparent"
+                  )}
+                  style={{ backgroundColor: color.value }}
+                  title={color.name}
+                />
+              ))}
+            </div>
+          </div>
+        )}
         <div className="flex items-center gap-2 text-sm">
           <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: "#E5E7EB" }} />
           <span>Not visited</span>

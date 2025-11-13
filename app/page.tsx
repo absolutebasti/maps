@@ -10,10 +10,10 @@ import { cn } from "./../lib/utils";
 
 export default function HomePage() {
   return (
-    <main className="min-h-dvh grid grid-rows-[auto,1fr]">
-      <header className="border-b">
-        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-          <h1 className="text-lg font-bold tracking-wide" style={{ fontFamily: "var(--font-lemon-milk)" }}>
+    <main className="min-h-dvh flex flex-col">
+      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+          <h1 className="text-2xl font-bold tracking-wide" style={{ fontFamily: "var(--font-lemon-milk)" }}>
             My Visited Countries Map
           </h1>
           <div className="flex gap-2 items-center">
@@ -30,7 +30,7 @@ export default function HomePage() {
           </div>
         </div>
       </header>
-      <section className="grid md:grid-cols-[1fr,360px]">
+      <section className="flex-1 grid md:grid-cols-[1fr,360px]">
         <div className="p-4 flex items-center justify-center min-h-[400px]">
           <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden">
             <MapView />

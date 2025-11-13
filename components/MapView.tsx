@@ -13,12 +13,12 @@ type Props = {
 };
 
 const oceanLabels = [
-  { name: "PACIFIC OCEAN", coordinates: [-140, -25] as [number, number] },
-  { name: "PACIFIC OCEAN", coordinates: [165, 10] as [number, number] },
-  { name: "ATLANTIC OCEAN", coordinates: [-35, 0] as [number, number] },
-  { name: "INDIAN OCEAN", coordinates: [80, -35] as [number, number] },
-  { name: "ARCTIC OCEAN", coordinates: [0, 82] as [number, number] },
-  { name: "SOUTHERN OCEAN", coordinates: [30, -72] as [number, number] },
+  { name: "PACIFIC OCEAN", coordinates: [-150, -15] as [number, number] },
+  { name: "PACIFIC OCEAN", coordinates: [170, 5] as [number, number] },
+  { name: "ATLANTIC OCEAN", coordinates: [-30, -5] as [number, number] },
+  { name: "INDIAN OCEAN", coordinates: [85, -25] as [number, number] },
+  { name: "ARCTIC OCEAN", coordinates: [0, 85] as [number, number] },
+  { name: "SOUTHERN OCEAN", coordinates: [50, -75] as [number, number] },
 ];
 
 export function MapView({ onSelectCountry }: Props) {
@@ -26,6 +26,7 @@ export function MapView({ onSelectCountry }: Props) {
   const selectCountry = useAppStore((s) => s.selectCountry);
   const toggleVisited = useAppStore((s) => s.toggleVisited);
   const countriesById = useAppStore((s) => s.countriesById);
+  const visitedCountryColor = useAppStore((s) => s.settings.visitedCountryColor);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [tooltipData, setTooltipData] = useState<{
     x: number;
@@ -33,6 +34,7 @@ export function MapView({ onSelectCountry }: Props) {
     countryName: string;
     visited: boolean;
     notes?: string;
+    rating?: number;
   } | null>(null);
   const [zoom, setZoom] = useState(1);
   const [center, setCenter] = useState<[number, number]>([0, 0]);
@@ -113,11 +115,11 @@ export function MapView({ onSelectCountry }: Props) {
                   textAnchor="middle"
                   style={{
                     fontFamily: "var(--font-lemon-milk), system-ui",
-                    fontSize: `${16 / zoom}px`,
+                    fontSize: `${12 / zoom}px`,
                     fill: "#4A7C8F",
                     fontWeight: 700,
-                    letterSpacing: "3px",
-                    opacity: 0.5,
+                    letterSpacing: "2px",
+                    opacity: 0.4,
                     pointerEvents: "none",
                     textTransform: "uppercase"
                   }}
@@ -136,11 +138,14 @@ export function MapView({ onSelectCountry }: Props) {
                   const isHovered = hoveredId === id;
                   const isVisited = Boolean(countriesById[id]?.visited);
                   
+                  // Use custom color from store for visited countries
                   const baseFill = isVisited
-                    ? "#E8DCC4"  // Pastel Beige
+                    ? visitedCountryColor
                     : "#E5E7EB";  // Light gray
+                  
+                  // Create hover color by darkening the base color slightly
                   const hoverFill = isVisited
-                    ? "#D4C4A8"
+                    ? `color-mix(in srgb, ${visitedCountryColor} 80%, black)`
                     : "#D1D5DB";
                   const fill = isSelected || isHovered ? hoverFill : baseFill;
                   
@@ -157,7 +162,8 @@ export function MapView({ onSelectCountry }: Props) {
                           y: event.clientY,
                           countryName,
                           visited: isVisited,
-                          notes: countryData?.note
+                          notes: countryData?.note,
+                          rating: countryData?.rating
                         });
                       }}
                       onMouseMove={(event) => {
@@ -207,6 +213,7 @@ export function MapView({ onSelectCountry }: Props) {
           countryName={tooltipData.countryName}
           visited={tooltipData.visited}
           notes={tooltipData.notes}
+          rating={tooltipData.rating}
         />
       )}
 

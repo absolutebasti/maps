@@ -8,9 +8,10 @@ interface TooltipProps {
   countryName: string;
   visited: boolean;
   notes?: string;
+  rating?: number;
 }
 
-export function MapTooltip({ x, y, countryName, visited, notes }: TooltipProps) {
+export function MapTooltip({ x, y, countryName, visited, notes, rating }: TooltipProps) {
   const [position, setPosition] = useState({ x, y });
 
   useEffect(() => {
@@ -30,6 +31,21 @@ export function MapTooltip({ x, y, countryName, visited, notes }: TooltipProps) 
         <div className="text-xs text-gray-300 mb-1">
           {visited ? "✓ Visited" : "Not visited"}
         </div>
+        {rating !== undefined && rating > 0 && (
+          <div className="flex items-center gap-1 mt-1">
+            {Array.from({ length: 5 }).map((_, idx) => (
+              <span
+                key={idx}
+                className="text-xs"
+                style={{
+                  color: idx < rating ? "#FCD34D" : "#4B5563",
+                }}
+              >
+                ★
+              </span>
+            ))}
+          </div>
+        )}
         {notes && (
           <div className="text-xs text-gray-400 mt-2 border-t border-gray-700 pt-2">
             {notes.length > 100 ? `${notes.substring(0, 100)}...` : notes}
