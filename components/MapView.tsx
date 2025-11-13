@@ -16,9 +16,9 @@ type Props = {
 // Ocean labels positioned as percentages of the container (avoids overlap with countries)
 const oceanLabels = [
   { name: "PACIFIC", top: "60%", left: "12%" },      // Bottom left Pacific
-  { name: "PACIFIC", top: "45%", right: "8%" },      // Right Pacific
-  { name: "ATLANTIC", top: "45%", left: "42%" },     // Atlantic (center-left)
-  { name: "INDIAN", top: "65%", left: "62%" },       // Indian Ocean
+  { name: "PACIFIC", top: "45%", right: "3%" },      // Right Pacific - moved more right
+  { name: "ATLANTIC", top: "45%", left: "38%" },     // Atlantic - moved more left
+  { name: "INDIAN", top: "65%", left: "65%" },       // Indian Ocean - moved more right
   { name: "ARCTIC", top: "12%", left: "48%" },       // Arctic (top center)
 ];
 
