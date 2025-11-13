@@ -18,3 +18,6 @@ export const config = {
   ],
 };
 
+// Disable Edge Runtime for middleware
+export const runtime = 'nodejs';
+
