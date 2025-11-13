@@ -11,11 +11,11 @@ export function Legend() {
       <h4 className="text-sm font-medium">Legend</h4>
       <div className="space-y-2">
         <div className="flex items-center gap-2 text-sm">
-          <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: "hsl(210 80% 55%)" }} />
+          <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: "#E8DCC4" }} />
           <span>Visited</span>
         </div>
         <div className="flex items-center gap-2 text-sm">
-          <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: "hsl(213 31% 91%)" }} />
+          <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: "#E5E7EB" }} />
           <span>Not visited</span>
         </div>
       </div>

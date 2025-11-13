@@ -1,6 +1,7 @@
 import "./../styles/globals.css";
 import type { ReactNode } from "react";
 import { StorePersistence } from "./../components/StorePersistence";
+import { lemonMilk } from "./fonts";
 
 export const metadata = {
   title: "MyMap — Visited Countries",
@@ -9,7 +10,7 @@ export const metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={lemonMilk.variable}>
       <body>
         <StorePersistence />
         {children}

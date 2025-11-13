@@ -15,7 +15,9 @@ export default function HomePage() {
     <main className="min-h-dvh grid grid-rows-[auto,1fr]">
       <header className="border-b">
         <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-          <h1 className="text-lg font-semibold tracking-tight">MyMap</h1>
+          <h1 className="text-lg font-bold tracking-wide" style={{ fontFamily: "var(--font-lemon-milk)" }}>
+            My Visited Countries Map
+          </h1>
           <div className="flex gap-2 items-center">
             <ThemeToggle />
             <Link
