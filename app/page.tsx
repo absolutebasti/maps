@@ -2,11 +2,9 @@ import Link from "next/link";
 import { buttonVariants } from "./../components/ui/button";
 import { MapView } from "./../components/MapView";
 import { CountryDrawer } from "./../components/CountryDrawer";
-import { TagManager } from "./../components/TagManager";
 import { StatsBar } from "./../components/StatsBar";
 import { Legend } from "./../components/Legend";
 import { ExportDialog } from "./../components/ExportDialog";
-import { ThemeToggle } from "./../components/ThemeToggle";
 import { CountrySearch } from "./../components/CountrySearch";
 import { cn } from "./../lib/utils";
 
@@ -19,7 +17,6 @@ export default function HomePage() {
             My Visited Countries Map
           </h1>
           <div className="flex gap-2 items-center">
-            <ThemeToggle />
             <Link
               href="/countries"
               className={cn(
@@ -47,7 +44,6 @@ export default function HomePage() {
             <CountrySearch />
           </div>
           <CountryDrawer />
-          <TagManager />
           <Legend />
         </aside>
       </section>

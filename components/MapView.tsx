@@ -6,17 +6,19 @@ import type { Feature } from "geojson";
 import { getWorldCountries, getCountryId, getCountryName, getWorldCountryList } from "./../lib/map";
 import { useAppStore } from "./../lib/state/store";
 import { Button } from "./ui/button";
+import { MapTooltip } from "./MapTooltip";
 
 type Props = {
   onSelectCountry?: (id: string) => void;
 };
 
 const oceanLabels = [
-  { name: "Pacific Ocean", coordinates: [150, -10] as [number, number] },
-  { name: "Atlantic Ocean", coordinates: [-30, 15] as [number, number] },
-  { name: "Indian Ocean", coordinates: [75, -20] as [number, number] },
-  { name: "Arctic Ocean", coordinates: [0, 75] as [number, number] },
-  { name: "Southern Ocean", coordinates: [0, -65] as [number, number] },
+  { name: "PACIFIC OCEAN", coordinates: [-140, -25] as [number, number] },
+  { name: "PACIFIC OCEAN", coordinates: [165, 10] as [number, number] },
+  { name: "ATLANTIC OCEAN", coordinates: [-35, 0] as [number, number] },
+  { name: "INDIAN OCEAN", coordinates: [80, -35] as [number, number] },
+  { name: "ARCTIC OCEAN", coordinates: [0, 82] as [number, number] },
+  { name: "SOUTHERN OCEAN", coordinates: [30, -72] as [number, number] },
 ];
 
 export function MapView({ onSelectCountry }: Props) {
@@ -25,6 +27,13 @@ export function MapView({ onSelectCountry }: Props) {
   const toggleVisited = useAppStore((s) => s.toggleVisited);
   const countriesById = useAppStore((s) => s.countriesById);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [tooltipData, setTooltipData] = useState<{
+    x: number;
+    y: number;
+    countryName: string;
+    visited: boolean;
+    notes?: string;
+  } | null>(null);
   const [zoom, setZoom] = useState(1);
   const [center, setCenter] = useState<[number, number]>([0, 0]);
 
@@ -91,9 +100,9 @@ export function MapView({ onSelectCountry }: Props) {
             onMoveEnd={(position) => setCenter(position.coordinates)}
           >
             {/* Ocean labels */}
-            {oceanLabels.map(({ name, coordinates }) => (
+            {oceanLabels.map(({ name, coordinates }, idx) => (
               <Annotation
-                key={name}
+                key={`${name}-${idx}`}
                 subject={coordinates}
                 dx={0}
                 dy={0}
@@ -103,12 +112,12 @@ export function MapView({ onSelectCountry }: Props) {
                   y={0}
                   textAnchor="middle"
                   style={{
-                    fontFamily: "system-ui",
-                    fontSize: `${20 / zoom}px`,
-                    fill: "#5B8FA3",
-                    fontWeight: 600,
-                    letterSpacing: "2px",
-                    opacity: 0.7,
+                    fontFamily: "var(--font-lemon-milk), system-ui",
+                    fontSize: `${16 / zoom}px`,
+                    fill: "#4A7C8F",
+                    fontWeight: 700,
+                    letterSpacing: "3px",
+                    opacity: 0.5,
                     pointerEvents: "none",
                     textTransform: "uppercase"
                   }}
@@ -140,8 +149,30 @@ export function MapView({ onSelectCountry }: Props) {
                       key={`${id}-${geo.rsmKey ?? index}`}
                       geography={geo}
                       onClick={() => handleClick(geo)}
-                      onMouseEnter={() => setHoveredId(id)}
-                      onMouseLeave={() => setHoveredId((prev) => (prev === id ? null : prev))}
+                      onMouseEnter={(event) => {
+                        setHoveredId(id);
+                        const countryData = countriesById[id];
+                        setTooltipData({
+                          x: event.clientX,
+                          y: event.clientY,
+                          countryName,
+                          visited: isVisited,
+                          notes: countryData?.notes
+                        });
+                      }}
+                      onMouseMove={(event) => {
+                        if (tooltipData && hoveredId === id) {
+                          setTooltipData({
+                            ...tooltipData,
+                            x: event.clientX,
+                            y: event.clientY
+                          });
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        setHoveredId((prev) => (prev === id ? null : prev));
+                        setTooltipData(null);
+                      }}
                       style={{
                         default: {
                           fill,
@@ -167,6 +198,17 @@ export function MapView({ onSelectCountry }: Props) {
           </ZoomableGroup>
         </ComposableMap>
       </div>
+
+      {/* Tooltip */}
+      {tooltipData && (
+        <MapTooltip
+          x={tooltipData.x}
+          y={tooltipData.y}
+          countryName={tooltipData.countryName}
+          visited={tooltipData.visited}
+          notes={tooltipData.notes}
+        />
+      )}
 
       {/* Stats box - top right */}
       <div className="absolute top-4 right-4 bg-black/90 text-white px-4 py-3 rounded-lg shadow-xl backdrop-blur-sm">

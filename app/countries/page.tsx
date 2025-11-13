@@ -164,18 +164,19 @@ export default function CountriesPage() {
             <span className="font-medium text-foreground">{selectedCount}</span>
           </span>
           <div className="flex flex-wrap gap-2">
-            <Button disabled={!selectedCount} onClick={() => handleMarkVisited(true)}>
+            <Button 
+              disabled={!selectedCount} 
+              onClick={() => handleMarkVisited(true)}
+              className="bg-green-600 hover:bg-green-700 text-white"
+            >
               Mark visited
             </Button>
             <Button
-              variant="outline"
               disabled={!selectedCount}
               onClick={() => handleMarkVisited(false)}
+              className="bg-red-600 hover:bg-red-700 text-white"
             >
               Mark not visited
-            </Button>
-            <Button variant="ghost" disabled={!selectedCount} onClick={handleToggleVisited}>
-              Toggle visited
             </Button>
           </div>
         </div>
