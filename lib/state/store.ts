@@ -192,7 +192,13 @@ export const useAppStore = create<AppState>((set) => ({
     })),
   setUser: (user) => set({ user }),
   setHasSeenAuthModal: (seen) => set({ hasSeenAuthModal: seen }),
-  logout: () => {
+  logout: async () => {
+    // Sign out from Supabase
+    const { createClient } = await import("../supabase/client");
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    
+    // Clear local state
     localStorage.removeItem("mymap_auth");
     set({ user: undefined });
   }

@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { Button } from "./ui/button";
+import { createClient } from "@/lib/supabase/client";
 
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSuccess: (email: string) => void;
+  onSuccess: (email: string, name: string) => void;
 }
 
 export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
@@ -25,6 +26,8 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
     setLoading(true);
 
     try {
+      const supabase = createClient();
+
       if (mode === "register") {
         if (!name.trim()) {
           setError("Please enter your name");
@@ -36,49 +39,69 @@ export function AuthModal({ isOpen, onClose, onSuccess }: AuthModalProps) {
           setLoading(false);
           return;
         }
-      }
 
-      // For now, we'll use localStorage-based authentication
-      // In production, replace with actual API calls
-      const users = JSON.parse(localStorage.getItem("mymap_users") || "{}");
-
-      if (mode === "register") {
-        if (users[email]) {
-          setError("Email already registered");
-          setLoading(false);
-          return;
-        }
-        users[email] = {
-          name,
-          password, // In production, this should be hashed
-          createdAt: new Date().toISOString(),
-        };
-        localStorage.setItem("mymap_users", JSON.stringify(users));
-      } else {
-        const user = users[email];
-        if (!user || user.password !== password) {
-          setError("Invalid email or password");
-          setLoading(false);
-          return;
-        }
-      }
-
-      // Set auth session
-      localStorage.setItem(
-        "mymap_auth",
-        JSON.stringify({
+        // Register with Supabase
+        const { data, error: signUpError } = await supabase.auth.signUp({
           email,
-          name: mode === "register" ? name : users[email].name,
-          loggedInAt: new Date().toISOString(),
-        })
-      );
+          password,
+          options: {
+            data: {
+              name: name,
+            },
+          },
+        });
 
-      onSuccess(email);
-      setEmail("");
-      setPassword("");
-      setName("");
+        if (signUpError) {
+          setError(signUpError.message);
+          setLoading(false);
+          return;
+        }
+
+        if (!data.user) {
+          setError("Registration failed. Please try again.");
+          setLoading(false);
+          return;
+        }
+
+        // Check if email confirmation is required
+        if (data.user && !data.session) {
+          setError("Please check your email to confirm your account.");
+          setLoading(false);
+          return;
+        }
+
+        onSuccess(email, name);
+        setEmail("");
+        setPassword("");
+        setName("");
+      } else {
+        // Login with Supabase
+        const { data, error: signInError } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (signInError) {
+          setError(signInError.message);
+          setLoading(false);
+          return;
+        }
+
+        if (!data.user) {
+          setError("Login failed. Please try again.");
+          setLoading(false);
+          return;
+        }
+
+        const userName = data.user.user_metadata?.name || email.split("@")[0];
+        onSuccess(email, userName);
+        setEmail("");
+        setPassword("");
+      }
     } catch (err) {
+      console.error("Auth error:", err);
       setError("Something went wrong. Please try again.");
+      setLoading(false);
     } finally {
       setLoading(false);
     }
