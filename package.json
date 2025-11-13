@@ -27,8 +27,11 @@
     "zod": "3.23.8"
   },
   "devDependencies": {
+    "@types/d3-geo": "^3.1.0",
+    "@types/geojson": "^7946.0.14",
     "@types/node": "20.14.2",
     "@types/react": "18.2.55",
+    "@types/topojson-client": "^3.1.4",
     "autoprefixer": "10.4.20",
     "eslint": "8.57.0",
     "eslint-config-next": "15.0.0",
