@@ -25,7 +25,6 @@ const oceanLabels = [
 export function MapView({ onSelectCountry }: Props) {
   const selectedId = useAppStore((s) => s.selectedCountryId);
   const selectCountry = useAppStore((s) => s.selectCountry);
-  const toggleVisited = useAppStore((s) => s.toggleVisited);
   const countriesById = useAppStore((s) => s.countriesById);
   const visitedCountryColor = useAppStore((s) => s.settings.visitedCountryColor);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -73,9 +72,8 @@ export function MapView({ onSelectCountry }: Props) {
       return;
     }
     
-    // Otherwise, select the new country and toggle its visited status
+    // Otherwise, just select the new country (don't auto-mark as visited)
     selectCountry(id);
-    toggleVisited(id);
     onSelectCountry?.(id);
   };
 

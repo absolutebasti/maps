@@ -5,7 +5,7 @@ A professional, interactive web application for tracking and visualizing the cou
 ## Features
 
 ### 🗺️ Interactive World Map
-- **Click-to-mark**: Click any country on the map to mark it as visited
+- **Click to select**: Click any country on the map to open its details panel
 - **Visual feedback**: Visited countries are highlighted in pastel beige, with hover and selection states
 - **Zoom & pan**: Navigate the map with smooth zoom controls (+/- buttons)
 - **Real-time updates**: Map colors update instantly as you mark countries
@@ -72,12 +72,13 @@ A professional, interactive web application for tracking and visualizing the cou
 
 ## Usage
 
-1. **Mark countries**: Click on any country on the map to mark it as visited
-2. **Add details**: Click a country again to add notes, visit dates, and ratings
-3. **Add tags**: Assign predefined tags like "Want to Visit", "Lived Here", or "Favorite"
-4. **Search**: Use the search dropdown to quickly find and select any country
-5. **Export**: Click "Export PNG" to generate a high-resolution image of your map
-6. **Manage**: Visit the "Manage countries" page to view all countries and bulk operations
+1. **Select a country**: Click on any country on the map to open its details panel
+2. **Mark as visited**: Click the "Mark visited" button in the details panel
+3. **Add details**: Add notes, visit dates, and ratings for each visited country
+4. **Add tags**: Assign predefined tags like "Want to Visit", "Lived Here", or "Favorite"
+5. **Search**: Use the search dropdown to quickly find and select any country
+6. **Export**: Click "Export PNG" to generate a high-resolution image of your map
+7. **Manage**: Visit the "Manage countries" page to view all countries and bulk operations
 
 ## Project Structure
 
