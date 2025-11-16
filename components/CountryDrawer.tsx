@@ -102,14 +102,14 @@ export function CountryDrawer() {
                   flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium
                   transition-all duration-200 border-2
                   ${isActive 
-                    ? 'bg-opacity-20 border-opacity-100 scale-105' 
+                    ? 'bg-opacity-100 border-opacity-100 scale-105' 
                     : 'bg-opacity-0 border-opacity-30 hover:border-opacity-60'
                   }
                 `}
                 style={{
                   backgroundColor: isActive ? tag.color : 'transparent',
                   borderColor: tag.color,
-                  color: isActive ? tag.color : 'currentColor',
+                  color: isActive ? 'white' : 'currentColor',
                 }}
               >
                 <span className="text-base">{tag.emoji}</span>
