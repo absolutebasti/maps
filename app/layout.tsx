@@ -1,8 +1,6 @@
 import "./../styles/globals.css";
 import type { ReactNode } from "react";
 import { StorePersistence } from "./../components/StorePersistence";
-import { AuthTimer } from "./../components/AuthTimer";
-import { SupabaseSync } from "./../components/SupabaseSync";
 import { lemonMilk } from "./fonts";
 
 export const metadata = {
@@ -79,8 +77,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <StorePersistence />
-        <AuthTimer />
-        <SupabaseSync />
         {children}
       </body>
     </html>

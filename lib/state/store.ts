@@ -23,12 +23,6 @@ export type Settings = {
   visitedCountryColor: string;
 };
 
-export type AuthUser = {
-  email: string;
-  name: string;
-  loggedInAt: string;
-};
-
 type SelectCountryOptions = {
   autoMark?: boolean;
   centerOn?: boolean;
@@ -39,8 +33,6 @@ type AppState = {
   countriesById: Record<string, CountryData>;
   tagsById: Record<string, TagData>;
   settings: Settings;
-  user?: AuthUser;
-  hasSeenAuthModal: boolean;
   // actions
   selectCountry: (id?: string, opts?: SelectCountryOptions) => void;
   toggleVisited: (id: string) => void;
@@ -54,9 +46,6 @@ type AppState = {
   setVisitedAt: (id: string, isoDate?: string) => void;
   setRating: (id: string, rating?: number) => void;
   setVisitedCountryColor: (color: string) => void;
-  setUser: (user: AuthUser | undefined) => void;
-  setHasSeenAuthModal: (seen: boolean) => void;
-  logout: () => void;
   clearAllData: () => void;
 };
 
@@ -77,8 +66,6 @@ export const useAppStore = create<AppState>((set) => ({
     showLabels: false,
     visitedCountryColor: "#E8DCC4"
   },
-  user: undefined,
-  hasSeenAuthModal: false,
   selectCountry: (id, opts) =>
     set((s) => {
       const updates: Partial<AppState> = { selectedCountryId: id };
@@ -198,18 +185,6 @@ export const useAppStore = create<AppState>((set) => ({
     set((s) => ({
       settings: { ...s.settings, visitedCountryColor: color }
     })),
-  setUser: (user) => set({ user }),
-  setHasSeenAuthModal: (seen) => set({ hasSeenAuthModal: seen }),
-  logout: async () => {
-    // Sign out from Supabase
-    const { createClient } = await import("../supabase/client");
-    const supabase = createClient();
-    await supabase.auth.signOut();
-    
-    // Clear local state
-    localStorage.removeItem("mymap_auth");
-    set({ user: undefined });
-  },
   clearAllData: () =>
     set({
       countriesById: {},

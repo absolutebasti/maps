@@ -12,14 +12,6 @@ import { useAppStore } from "./../lib/state/store";
 import { cn } from "./../lib/utils";
 
 export default function HomePage() {
-  const user = useAppStore((s) => s.user);
-  const logout = useAppStore((s) => s.logout);
-
-  const handleLogout = async () => {
-    await logout();
-    // Force a page reload to clear all state
-    window.location.reload();
-  };
 
   return (
     <>
@@ -67,19 +59,6 @@ export default function HomePage() {
             My Visited Countries Map
           </h1>
           <div className="flex gap-2 items-center">
-            {user && (
-              <div className="hidden sm:flex items-center gap-2 text-sm text-muted-foreground">
-                <span>👋 {user.name}</span>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleLogout}
-                  className="h-8"
-                >
-                  Logout
-                </Button>
-              </div>
-            )}
             <Link
               href="/countries"
               className={cn(
