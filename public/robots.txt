@@ -1,0 +1,10 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://maps-production-d32c.up.railway.app/sitemap.xml
+
+# Crawl-delay for politeness
+Crawl-delay: 1
+
