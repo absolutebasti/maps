@@ -267,7 +267,41 @@ export function MapView({ onSelectCountry }: Props) {
               const geo = geoUrlData.features.find((f: any) => getCountryId(f) === countryId);
               if (!geo) return null;
 
-              const centroid = geoCentroid(geo);
+              // Use visual center (polylabel) for better placement
+              // For now, use geoCentroid but we'll improve this
+              let centroid: [number, number];
+              try {
+                centroid = geoCentroid(geo);
+                
+                // If centroid seems invalid (NaN or out of bounds), skip
+                if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) {
+                  return null;
+                }
+                
+                // For multi-polygon geometries, centroid might not be inside the main landmass
+                // We'll use the centroid but add manual adjustments for common cases
+                const adjustments: Record<string, [number, number]> = {
+                  'FRA': [2.5, 47],      // France - center of mainland
+                  'USA': [-98, 38],      // USA - center of mainland
+                  'RUS': [95, 60],       // Russia - center
+                  'CAN': [-95, 60],      // Canada - center
+                  'AUS': [133, -27],     // Australia - center
+                  'NZL': [174, -41],     // New Zealand - North Island
+                  'GBR': [-2, 54],       // UK - center
+                  'NOR': [9, 61],        // Norway - center mainland
+                  'DNK': [10, 56],       // Denmark - mainland
+                  'NLD': [5.5, 52.2],    // Netherlands - center
+                  'PRT': [-8, 39.5],     // Portugal - mainland
+                  'ESP': [-3.5, 40],     // Spain - center
+                  'ITA': [12.5, 42.5],   // Italy - center
+                  'CHL': [-71, -35],     // Chile - center
+                  'ECU': [-78.5, -1.5],  // Ecuador - mainland
+                };
+                
+                centroid = adjustments[countryId] || centroid;
+              } catch (error) {
+                return null;
+              }
               
               return countryData.tags.map((tagId, index) => {
                 const tag = PREDEFINED_TAGS.find(t => t.id === tagId);
@@ -276,7 +310,7 @@ export function MapView({ onSelectCountry }: Props) {
                 return (
                   <Annotation
                     key={`${countryId}-${tagId}`}
-                    subject={centroid as [number, number]}
+                    subject={centroid}
                     dx={0}
                     dy={index * 12 / zoom} // Stack multiple emojis vertically
                   >
@@ -284,10 +318,12 @@ export function MapView({ onSelectCountry }: Props) {
                       x={0}
                       y={0}
                       textAnchor="middle"
+                      dominantBaseline="middle"
                       style={{
-                        fontSize: `${14 / zoom}px`,
+                        fontSize: `${16 / zoom}px`,
                         pointerEvents: "none",
-                        filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.3))",
+                        filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.5))",
+                        fontWeight: "bold",
                       }}
                     >
                       {tag.emoji}
