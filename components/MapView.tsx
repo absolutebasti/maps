@@ -44,6 +44,19 @@ export function MapView({ onSelectCountry }: Props) {
     return getWorldCountries();
   }, []);
 
+  // Constrain center coordinates to prevent panning too far
+  const constrainCenter = (coordinates: [number, number], zoomLevel: number): [number, number] => {
+    const [lon, lat] = coordinates;
+    // Define max pan distance based on zoom level (less zoom = less pan allowed)
+    const maxLon = 180 / zoomLevel;
+    const maxLat = 90 / zoomLevel;
+    
+    return [
+      Math.max(-maxLon, Math.min(maxLon, lon)),
+      Math.max(-maxLat, Math.min(maxLat, lat))
+    ];
+  };
+
   const stats = useMemo(() => {
     const totalCountries = getWorldCountryList().length;
     const visitedCount = Object.values(countriesById).filter((c) => c.visited).length;
@@ -59,15 +72,31 @@ export function MapView({ onSelectCountry }: Props) {
   };
 
   const handleZoomIn = () => {
-    if (zoom < 4) setZoom(zoom + 0.5);
+    if (zoom < 4) {
+      const newZoom = zoom + 0.5;
+      setZoom(newZoom);
+      // Re-constrain center when zooming
+      setCenter(constrainCenter(center, newZoom));
+    }
   };
 
   const handleZoomOut = () => {
-    if (zoom > 1) setZoom(zoom - 0.5);
+    if (zoom > 1) {
+      const newZoom = zoom - 0.5;
+      setZoom(newZoom);
+      // Re-constrain center when zooming out
+      setCenter(constrainCenter(center, newZoom));
+    }
+  };
+
+  const handleMoveEnd = (position: { coordinates: [number, number] }) => {
+    // Constrain the new position
+    const constrained = constrainCenter(position.coordinates, zoom);
+    setCenter(constrained);
   };
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative w-full h-full overflow-hidden">
       {/* Ocean background with wave lines */}
       <div 
         className="absolute inset-0 w-full h-full" 
@@ -95,32 +124,6 @@ export function MapView({ onSelectCountry }: Props) {
           `
         }}
       >
-        {/* Ocean labels - positioned as HTML elements OUTSIDE the SVG */}
-        {oceanLabels.map(({ name, top, left, right }, idx) => (
-          <div
-            key={`${name}-${idx}`}
-            className="absolute pointer-events-none select-none"
-            style={{
-              top,
-              left,
-              right,
-              transform: "translate(-50%, -50%)",
-              fontFamily: "var(--font-lemon-milk), system-ui",
-              fontSize: "clamp(8px, 1.2vw, 14px)",
-              color: "#4A7C8C",
-              fontWeight: 700,
-              letterSpacing: "0.3em",
-              opacity: 0.4,
-              textTransform: "uppercase",
-              textShadow: "0 0 20px rgba(168, 216, 234, 0.5)",
-              whiteSpace: "nowrap",
-              zIndex: 5,
-            }}
-          >
-            {name}
-          </div>
-        ))}
-
         <ComposableMap 
           projection="geoEqualEarth" 
           width={960} 
@@ -130,8 +133,47 @@ export function MapView({ onSelectCountry }: Props) {
           <ZoomableGroup 
             zoom={zoom}
             center={center}
-            onMoveEnd={(position) => setCenter(position.coordinates)}
+            onMoveEnd={handleMoveEnd}
           >
+            {/* Ocean labels - now INSIDE the SVG so they move with the map */}
+            {oceanLabels.map(({ name, top, left, right }, idx) => {
+              // Convert percentage positions to approximate geo coordinates
+              const getGeoPosition = (): [number, number] => {
+                if (name === "PACIFIC" && left === "12%") return [-140, -40]; // Bottom left
+                if (name === "PACIFIC" && right === "3%") return [160, 0]; // Right
+                if (name === "ATLANTIC") return [-30, 0];
+                if (name === "INDIAN") return [75, -30];
+                if (name === "ARCTIC") return [0, 75];
+                return [0, 0];
+              };
+
+              return (
+                <Annotation
+                  key={`${name}-${idx}`}
+                  subject={getGeoPosition()}
+                  dx={0}
+                  dy={0}
+                >
+                  <text
+                    textAnchor="middle"
+                    style={{
+                      fontFamily: "var(--font-lemon-milk), system-ui",
+                      fontSize: `${14 / zoom}px`,
+                      fill: "#4A7C8C",
+                      fontWeight: 700,
+                      letterSpacing: "0.3em",
+                      opacity: 0.4,
+                      textTransform: "uppercase",
+                      pointerEvents: "none",
+                      filter: "drop-shadow(0 0 20px rgba(168, 216, 234, 0.5))",
+                    }}
+                  >
+                    {name}
+                  </text>
+                </Annotation>
+              );
+            })}
+
             <Geographies geography={geoUrlData as any}>
               {({ geographies }) =>
                 geographies.map((geo: any, index: number) => {
