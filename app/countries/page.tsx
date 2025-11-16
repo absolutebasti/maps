@@ -6,6 +6,14 @@ import { getWorldCountryList } from "@/lib/map";
 import { useAppStore } from "@/lib/state/store";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 const allCountries = getWorldCountryList();
 
@@ -15,10 +23,12 @@ export default function CountriesPage() {
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<FilterOption>("all");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [showClearDialog, setShowClearDialog] = useState(false);
 
   const countriesById = useAppStore((s) => s.countriesById);
   const markVisitedMany = useAppStore((s) => s.markVisitedMany);
   const toggleVisitedMany = useAppStore((s) => s.toggleVisitedMany);
+  const clearAllData = useAppStore((s) => s.clearAllData);
 
   const filteredCountries = useMemo(() => {
     const search = query.trim().toLowerCase();
@@ -91,6 +101,12 @@ export default function CountriesPage() {
     [countriesById]
   );
 
+  const handleClearAll = () => {
+    clearAllData();
+    setSelectedIds(new Set());
+    setShowClearDialog(false);
+  };
+
   return (
     <main className="min-h-dvh bg-background pb-12">
       <div className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-10">
@@ -101,9 +117,18 @@ export default function CountriesPage() {
               Search, filter, and bulk mark countries as visited or not visited.
             </p>
           </div>
-          <Link href="/" className="text-sm text-primary underline-offset-4 hover:underline">
-            ← Back to map
-          </Link>
+          <div className="flex items-center gap-3">
+            <Button 
+              variant="destructive" 
+              onClick={() => setShowClearDialog(true)}
+              disabled={totalVisited === 0}
+            >
+              Clear All Data
+            </Button>
+            <Link href="/" className="text-sm text-primary underline-offset-4 hover:underline">
+              ← Back to map
+            </Link>
+          </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -220,6 +245,31 @@ export default function CountriesPage() {
             )}
           </div>
         </div>
+
+        {/* Clear All Confirmation Dialog */}
+        <Dialog open={showClearDialog} onOpenChange={setShowClearDialog}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Clear All Data?</DialogTitle>
+              <DialogDescription>
+                This will remove all visited countries, notes, ratings, and tags. This action cannot be undone.
+                {totalVisited > 0 && (
+                  <span className="block mt-2 font-medium text-foreground">
+                    You will lose data for {totalVisited} visited {totalVisited === 1 ? "country" : "countries"}.
+                  </span>
+                )}
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setShowClearDialog(false)}>
+                Cancel
+              </Button>
+              <Button variant="destructive" onClick={handleClearAll}>
+                Clear Everything
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </div>
     </main>
   );

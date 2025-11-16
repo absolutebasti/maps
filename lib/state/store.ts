@@ -57,6 +57,7 @@ type AppState = {
   setUser: (user: AuthUser | undefined) => void;
   setHasSeenAuthModal: (seen: boolean) => void;
   logout: () => void;
+  clearAllData: () => void;
 };
 
 // Predefined tags that users can add to countries
@@ -208,7 +209,12 @@ export const useAppStore = create<AppState>((set) => ({
     // Clear local state
     localStorage.removeItem("mymap_auth");
     set({ user: undefined });
-  }
+  },
+  clearAllData: () =>
+    set({
+      countriesById: {},
+      selectedCountryId: undefined,
+    })
 }));
 
 
