@@ -25,17 +25,13 @@ Tracking the countries you've visited is more than just a hobby—it's a way to 
 
 Before diving into the methods, let's explore why tracking your visited countries is valuable:
 
-### 1. Visual Progress
-Seeing your progress on a map provides a sense of accomplishment and motivation. It's satisfying to watch your map fill up as you explore new destinations.
+**1. Visual Progress** - Seeing your progress on a map provides a sense of accomplishment and motivation. It's satisfying to watch your map fill up as you explore new destinations.
 
-### 2. Trip Planning
-By knowing which countries you've already visited, you can better plan future trips to unexplored regions. This helps you diversify your travel experiences.
+**2. Trip Planning** - By knowing which countries you've already visited, you can better plan future trips to unexplored regions. This helps you diversify your travel experiences.
 
-### 3. Memory Keeping
-A travel map serves as a visual diary of your adventures. Each marked country represents memories, experiences, and stories worth remembering.
+**3. Memory Keeping** - A travel map serves as a visual diary of your adventures. Each marked country represents memories, experiences, and stories worth remembering.
 
-### 4. Social Sharing
-Sharing your travel map with friends and family is a great way to showcase your adventures and inspire others to travel.
+**4. Social Sharing** - Sharing your travel map with friends and family is a great way to showcase your adventures and inspire others to travel.
 
 ## Methods for Tracking Visited Countries
 
