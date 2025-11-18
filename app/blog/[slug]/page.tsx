@@ -81,6 +81,13 @@ export default async function BlogPostPage({ params }: Props) {
           {/* Content */}
           <div className="prose prose-lg dark:prose-invert max-w-none">
             {post.content.split("\n\n").map((paragraph, i) => {
+              // Helper function to format text (bold and italic)
+              const formatText = (text: string) => {
+                return text
+                  .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+                  .replace(/\*(.+?)\*/g, "<em>$1</em>");
+              };
+
               // Handle headings
               if (paragraph.startsWith("# ")) {
                 return <h1 key={i} className="text-4xl font-bold mt-8 mb-4">{paragraph.replace(/^# /, "")}</h1>;
@@ -91,33 +98,33 @@ export default async function BlogPostPage({ params }: Props) {
               if (paragraph.startsWith("### ")) {
                 return <h3 key={i} className="text-2xl font-semibold mt-4 mb-2">{paragraph.replace(/^### /, "")}</h3>;
               }
-              // Handle lists
-              if (paragraph.includes("\n- ") || paragraph.includes("\n* ")) {
-                const items = paragraph.split(/\n[-*] /).filter(Boolean);
+
+              // Handle bulleted lists
+              if (paragraph.includes("\n- ") || paragraph.startsWith("- ")) {
+                const items = paragraph.split(/\n- /).filter(Boolean);
                 return (
                   <ul key={i} className="list-disc list-inside space-y-2 my-4">
                     {items.map((item, j) => (
-                      <li key={j} className="ml-4">{item.replace(/^\*\*/, "").replace(/\*\*$/, "")}</li>
+                      <li key={j} className="ml-4" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
                     ))}
                   </ul>
                 );
               }
+
               // Handle numbered lists
               if (/^\d+\./.test(paragraph)) {
                 const items = paragraph.split(/\n\d+\. /).filter(Boolean);
                 return (
                   <ol key={i} className="list-decimal list-inside space-y-2 my-4">
                     {items.map((item, j) => (
-                      <li key={j} className="ml-4">{item}</li>
+                      <li key={j} className="ml-4" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
                     ))}
                   </ol>
                 );
               }
+
               // Regular paragraphs
-              const formatted = paragraph
-                .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
-                .replace(/\*(.+?)\*/g, "<em>$1</em>");
-              return <p key={i} className="my-4 leading-7" dangerouslySetInnerHTML={{ __html: formatted }} />;
+              return <p key={i} className="my-4 leading-7" dangerouslySetInnerHTML={{ __html: formatText(paragraph) }} />;
             })}
           </div>
 

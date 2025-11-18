@@ -91,23 +91,27 @@ Don't just mark countries—add notes about:
 Update your map regularly, ideally right after each trip while memories are fresh.
 
 ### 4. Set Goals
+
 Use your tracking as motivation:
+
 - Set a goal for number of countries
 - Plan trips to unexplored regions
 - Challenge yourself to visit new continents
 
 ## Using MyMap for Tracking
 
-MyMap is a free, privacy-focused tool that makes tracking your visited countries easy:
+MyMap is a free, privacy-focused tool that makes tracking your visited countries easy.
 
-### Key Features:
+### Key Features
+
 - **195 Countries**: Track all UN member countries
 - **Interactive Map**: Click to mark countries as visited
 - **Rich Details**: Add notes, dates, and ratings
 - **Export Options**: Download your map as a high-quality PNG
 - **Privacy First**: All data stored locally on your device
 
-### Getting Started:
+### Getting Started
+
 1. Visit MyMap and start tracking immediately (no sign-up required)
 2. Click on countries you've visited to mark them
 3. Add notes and ratings for each country
@@ -116,13 +120,17 @@ MyMap is a free, privacy-focused tool that makes tracking your visited countries
 ## Tips for Accurate Tracking
 
 ### Define Your Rules
+
 Decide what counts as "visiting" a country:
+
 - Airport layovers: Some count them, others don't
 - Border crossings: Brief visits vs. extended stays
 - Territories: Count separately or as part of the parent country?
 
 ### Document Your Visits
+
 Keep records of:
+
 - Entry and exit dates
 - Cities or regions visited
 - Duration of stay
@@ -168,14 +176,16 @@ A well-organized bucket list helps you plan trips more efficiently, grouping nea
 
 Start by listing every destination you've ever wanted to visit. Don't hold back—this is your chance to dream big.
 
-### Questions to Ask Yourself:
+### Questions to Ask Yourself
+
 - Which countries have you always wanted to visit?
 - What natural wonders do you want to see?
 - Which cities are on your must-visit list?
 - What cultural experiences interest you?
 - Are there specific events or festivals you want to attend?
 
-### Sources of Inspiration:
+### Sources of Inspiration
+
 - Travel blogs and websites
 - Social media (Instagram, Pinterest)
 - Travel documentaries
@@ -211,13 +221,15 @@ Organize your destinations into categories to make planning easier:
 
 While it's great to dream big, setting realistic goals helps you actually achieve them.
 
-### Consider:
+### Consider
+
 - **Time**: How much vacation time do you have per year?
 - **Budget**: What's your travel budget?
 - **Lifestyle**: Can you work remotely or take extended trips?
 - **Responsibilities**: Family, work, and other commitments
 
-### Goal Examples:
+### Goal Examples
+
 - Visit 5 new countries per year
 - Explore one new continent every 2 years
 - Complete a specific region (e.g., all of Europe)
@@ -250,7 +262,8 @@ For each destination on your list, research:
 
 Not all destinations are created equal. Prioritize based on:
 
-### Factors to Consider:
+### Factors to Consider
+
 1. **Time Sensitivity**: Some destinations may change or become less accessible
 2. **Physical Ability**: Some trips require peak physical condition
 3. **Budget Windows**: Take advantage of good exchange rates or deals
@@ -294,7 +307,8 @@ Use a tool like MyMap to:
 
 Once you have your bucket list, start planning:
 
-### Planning Steps:
+### Planning Steps
+
 1. Choose your first destination from the list
 2. Research the best time to visit
 3. Set a budget and start saving
@@ -304,9 +318,10 @@ Once you have your bucket list, start planning:
 
 ## Step 9: Review and Update Regularly
 
-Your bucket list should be a living document:
+Your bucket list should be a living document.
 
-### Regular Reviews:
+### Regular Reviews
+
 - Add new destinations as you discover them
 - Remove destinations that no longer interest you
 - Adjust priorities based on changing circumstances
@@ -367,7 +382,8 @@ Starting your travel journey can be both exciting and overwhelming. Choosing the
 
 ## What Makes a Country Great for First-Time Travelers?
 
-### Key Factors:
+### Key Factors
+
 - **Safety**: Low crime rates and political stability
 - **Infrastructure**: Good transportation and tourist facilities
 - **Language**: English widely spoken or easy to navigate
@@ -378,144 +394,144 @@ Starting your travel journey can be both exciting and overwhelming. Choosing the
 ## Top Destinations for First-Time Travelers
 
 ### 1. Japan
-**Why it's great**: Japan combines safety, cleanliness, and fascinating culture with excellent infrastructure.
+**Why it's great** Japan combines safety, cleanliness, and fascinating culture with excellent infrastructure.
 
-**Highlights**:
+**Highlights**
 - Extremely safe with low crime rates
 - Efficient public transportation
 - Unique blend of traditional and modern culture
 - Delicious food
 - Helpful locals (even with language barriers)
 
-**Best for**: Travelers interested in culture, technology, and food
+**Best for** Travelers interested in culture, technology, and food
 
-**Tips**: Learn basic Japanese phrases, get a JR Pass for train travel, download translation apps
+**Tips** Learn basic Japanese phrases, get a JR Pass for train travel, download translation apps
 
 ### 2. Iceland
-**Why it's great**: Stunning natural beauty with excellent infrastructure and English widely spoken.
+**Why it's great** Stunning natural beauty with excellent infrastructure and English widely spoken.
 
-**Highlights**:
+**Highlights**
 - Safe and peaceful
 - English spoken everywhere
 - Incredible natural landscapes
 - Easy to navigate (small country, good roads)
 - Unique experiences (Northern Lights, hot springs)
 
-**Best for**: Nature lovers, photographers, adventure seekers
+**Best for** Nature lovers, photographers, adventure seekers
 
-**Tips**: Rent a car for flexibility, book accommodation in advance, pack for all weather
+**Tips** Rent a car for flexibility, book accommodation in advance, pack for all weather
 
 ### 3. New Zealand
-**Why it's great**: English-speaking, safe, and incredibly beautiful with diverse landscapes.
+**Why it's great** English-speaking, safe, and incredibly beautiful with diverse landscapes.
 
-**Highlights**:
+**Highlights**
 - English is the primary language
 - Very safe
 - Stunning natural beauty
 - Great for outdoor activities
 - Friendly locals
 
-**Best for**: Adventure travelers, nature enthusiasts, road trip lovers
+**Best for** Adventure travelers, nature enthusiasts, road trip lovers
 
-**Tips**: Consider a campervan for flexibility, book activities in advance during peak season
+**Tips** Consider a campervan for flexibility, book activities in advance during peak season
 
 ### 4. Portugal
-**Why it's great**: Affordable, safe, beautiful, and increasingly English-friendly.
+**Why it's great** Affordable, safe, beautiful, and increasingly English-friendly.
 
-**Highlights**:
+**Highlights**
 - Budget-friendly compared to Western Europe
 - Safe and welcoming
 - Beautiful cities and coastline
 - Delicious food and wine
 - Rich history and culture
 
-**Best for**: Budget travelers, foodies, history buffs
+**Best for** Budget travelers, foodies, history buffs
 
-**Tips**: Learn basic Portuguese phrases, explore beyond Lisbon and Porto, try local specialties
+**Tips** Learn basic Portuguese phrases, explore beyond Lisbon and Porto, try local specialties
 
 ### 5. Thailand
-**Why it's great**: Budget-friendly, tourist-friendly, and offers incredible value.
+**Why it's great** Budget-friendly, tourist-friendly, and offers incredible value.
 
-**Highlights**:
+**Highlights**
 - Very affordable
 - Well-established tourist infrastructure
 - Beautiful beaches and temples
 - Delicious and diverse food
 - Easy to travel around
 
-**Best for**: Budget travelers, beach lovers, food enthusiasts
+**Best for** Budget travelers, beach lovers, food enthusiasts
 
-**Tips**: Respect local customs, be cautious with street food initially, negotiate prices politely
+**Tips** Respect local customs, be cautious with street food initially, negotiate prices politely
 
 ### 6. Ireland
-**Why it's great**: English-speaking, safe, friendly, and easy to navigate.
+**Why it's great** English-speaking, safe, friendly, and easy to navigate.
 
-**Highlights**:
+**Highlights**
 - English is the primary language
 - Very safe
 - Friendly and welcoming culture
 - Beautiful landscapes
 - Rich history and culture
 
-**Best for**: First-time solo travelers, history enthusiasts, nature lovers
+**Best for** First-time solo travelers, history enthusiasts, nature lovers
 
-**Tips**: Rent a car for countryside exploration, book accommodation in advance, try local pubs
+**Tips** Rent a car for countryside exploration, book accommodation in advance, try local pubs
 
 ### 7. Costa Rica
-**Why it's great**: Safe, stable, and perfect for nature and adventure lovers.
+**Why it's great** Safe, stable, and perfect for nature and adventure lovers.
 
-**Highlights**:
+**Highlights**
 - Safest country in Central America
 - English widely spoken in tourist areas
 - Incredible biodiversity
 - Great for adventure activities
 - Pura vida lifestyle
 
-**Best for**: Nature lovers, adventure seekers, eco-tourists
+**Best for** Nature lovers, adventure seekers, eco-tourists
 
-**Tips**: Learn basic Spanish, book tours in advance, respect the environment
+**Tips** Learn basic Spanish, book tours in advance, respect the environment
 
 ### 8. Singapore
-**Why it's great**: Extremely safe, clean, and easy to navigate with English as an official language.
+**Why it's great** Extremely safe, clean, and easy to navigate with English as an official language.
 
-**Highlights**:
+**Highlights**
 - Very safe
 - English is an official language
 - Excellent public transportation
 - Diverse food scene
 - Clean and modern
 
-**Best for**: City lovers, foodies, travelers who want ease and comfort
+**Best for** City lovers, foodies, travelers who want ease and comfort
 
-**Tips**: Use public transport (very efficient), try hawker centers for affordable food, respect strict laws
+**Tips** Use public transport (very efficient), try hawker centers for affordable food, respect strict laws
 
 ### 9. Canada
-**Why it's great**: Safe, English/French speaking, and offers diverse experiences.
+**Why it's great** Safe, English/French speaking, and offers diverse experiences.
 
-**Highlights**:
+**Highlights**
 - Very safe
 - English and French widely spoken
 - Diverse landscapes and cities
 - Friendly locals
 - Good infrastructure
 
-**Best for**: Nature lovers, city explorers, outdoor enthusiasts
+**Best for** Nature lovers, city explorers, outdoor enthusiasts
 
-**Tips**: Plan according to seasons, consider distances (country is huge), try poutine and maple syrup
+**Tips** Plan according to seasons, consider distances (country is huge), try poutine and maple syrup
 
 ### 10. Australia
-**Why it's great**: English-speaking, safe, and offers diverse experiences from cities to outback.
+**Why it's great** English-speaking, safe, and offers diverse experiences from cities to outback.
 
-**Highlights**:
+**Highlights**
 - English is the primary language
 - Safe and stable
 - Diverse experiences
 - Friendly culture
 - Great for outdoor activities
 
-**Best for**: Adventure travelers, nature lovers, city explorers
+**Best for** Adventure travelers, nature lovers, city explorers
 
-**Tips**: Be aware of distances, respect wildlife, try local specialties
+**Tips** Be aware of distances, respect wildlife, try local specialties
 
 ## Regional Recommendations
 
@@ -622,7 +638,7 @@ Remember, the best first trip is one that excites you, feels manageable, and lea
 
 This is where it gets interesting—there's no universal definition. Different travelers have different rules:
 
-### Common Definitions:
+### Common Definitions
 
 **1. Set Foot**
 
@@ -658,14 +674,14 @@ There are 195 countries in the world according to the United Nations:
 - 193 UN member states
 - 2 observer states (Vatican City and Palestine)
 
-### But It's Complicated:
+### But It's Complicated
 
 Some territories and regions complicate the count:
 - **Dependencies**: Should French Polynesia count separately from France?
 - **Disputed Territories**: How do you count places like Taiwan or Kosovo?
 - **Special Cases**: What about places like Hong Kong or Greenland?
 
-### Common Counting Systems:
+### Common Counting Systems
 
 **UN Member States Only**  
 Count only the 193 UN member states.
@@ -679,21 +695,27 @@ Include territories and dependencies (can reach 250+).
 ## How to Count Your Countries
 
 ### Step 1: Define Your Rules
+
 Decide what counts for you:
+
 - Do airport layovers count?
 - What about brief border crossings?
 - How do you handle territories?
 
 ### Step 2: Make a List
+
 List every country you've visited according to your rules.
 
 ### Step 3: Use a Tracking Tool
+
 Tools like MyMap help you:
+
 - Visualize your progress
 - Keep accurate records
 - Track details for each country
 
 ### Step 4: Be Consistent
+
 Stick to your rules consistently to maintain accurate counts.
 
 ## Travel Statistics: What's Normal?
@@ -717,7 +739,7 @@ Stick to your rules consistently to maintain accurate counts.
 
 ## Setting Travel Goals
 
-### Realistic Goals by Timeframe:
+### Realistic Goals by Timeframe
 
 **1 Year**
 - **Moderate**: 2-5 new countries
@@ -775,13 +797,15 @@ The best approach often combines both:
 
 MyMap helps you track all 195 countries:
 
-### Features:
+### Features
+
 - **Visual Progress**: See your map fill up
 - **Statistics**: Track visited count and percentage
 - **Details**: Add notes and ratings for each country
 - **Goals**: Set and track travel goals
 
-### Benefits:
+### Benefits
+
 - Motivation to explore new countries
 - Planning assistance (see which regions you haven't explored)
 - Memory keeping (notes and ratings)
@@ -990,13 +1014,15 @@ Perfect for content creators:
 
 MyMap makes it easy to create display-worthy maps:
 
-### Export Options:
+### Export Options
+
 - **Print Quality** (3840x2560): Perfect for large prints
 - **4K** (3840x2160): High-resolution digital displays
 - **HD** (1920x1080): Standard digital displays
 - **Social Media** (1200x630): Perfect for online sharing
 
-### Features for Display:
+### Features for Display
+
 - Clean, professional appearance
 - Customizable visited country colors
 - High-quality rendering
@@ -1004,14 +1030,16 @@ MyMap makes it easy to create display-worthy maps:
 
 ## Inspiration from the Community
 
-### Popular Styles:
+### Popular Styles
+
 1. **Minimalist**: Clean, simple, focused on the map
 2. **Photo Collage**: Map surrounded by travel photos
 3. **Vintage**: Aged paper look with classic styling
 4. **Modern**: Bold colors and contemporary design
 5. **Themed**: Color-coded by experience or year
 
-### Creative Additions:
+### Creative Additions
+
 - Travel quotes around the map
 - Statistics and milestones
 - Personal travel goals
