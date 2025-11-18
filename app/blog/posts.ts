@@ -90,6 +90,7 @@ Don't just mark countries—add notes about:
 - Recommendations for others
 
 ### 3. Regular Updates
+
 Update your map regularly, ideally right after each trip while memories are fresh.
 
 ### 4. Set Goals
@@ -139,6 +140,7 @@ Keep records of:
 - Purpose of visit (tourism, work, etc.)
 
 ### Review Regularly
+
 Periodically review your map to ensure accuracy and add any countries you might have missed.
 
 ## Conclusion

@@ -26,7 +26,7 @@ export function DonationHint({ variant = "default", className }: Props) {
             size="sm"
             className="bg-green-600 hover:bg-green-700 text-white"
           >
-            ☕ Buy me a coffee
+            ☕ Buy us a coffee
           </Button>
         </div>
         <DonationDialog

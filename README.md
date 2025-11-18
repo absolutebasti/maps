@@ -172,7 +172,7 @@ Donations help us:
 - Maintain and update the service
 - Cover hosting and infrastructure costs
 
-You can support MyMap by clicking the "Buy me a coffee" button on the About, Features, or FAQ pages, or when using the Export and Share features.
+You can support MyMap by clicking the "Buy us a coffee" button on the About, Features, or FAQ pages, or when using the Export and Share features.
 
 ## 📄 License
 

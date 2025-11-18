@@ -125,7 +125,7 @@ export function DonationDialog({ open, onOpenChange, onContinue }: Props) {
               className="w-full bg-green-600 hover:bg-green-700 text-white"
               size="sm"
             >
-              ☕ Buy me a coffee (2€)
+              ☕ Buy us a coffee (2€)
             </Button>
           </div>
         </div>
