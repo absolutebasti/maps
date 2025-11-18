@@ -213,6 +213,16 @@ export default function HomePage() {
           MyMap makes it easy to keep a visual record of your global journey.
         </p>
       </div>
+
+      {/* Footer Navigation */}
+      <footer className="border-t bg-muted/20 py-3 mt-auto">
+        <nav className="mx-auto max-w-6xl px-4 flex flex-wrap gap-4 justify-center text-xs text-muted-foreground">
+          <Link href="/about" className="hover:text-foreground transition-colors">About</Link>
+          <Link href="/features" className="hover:text-foreground transition-colors">Features</Link>
+          <Link href="/faq" className="hover:text-foreground transition-colors">FAQ</Link>
+          <Link href="/blog" className="hover:text-foreground transition-colors">Blog</Link>
+        </nav>
+      </footer>
     </main>
     </>
   );
