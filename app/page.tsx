@@ -215,7 +215,7 @@ export default function HomePage() {
       </div>
 
       {/* Footer Navigation */}
-      <footer className="border-t bg-muted/20 py-3 mt-auto">
+      <footer className="border-t bg-muted/20 py-3 mt-auto" id="footer-nav">
         <nav className="mx-auto max-w-6xl px-4 flex flex-wrap gap-4 justify-center text-xs text-muted-foreground">
           <Link href="/about" className="hover:text-foreground transition-colors">About</Link>
           <Link href="/features" className="hover:text-foreground transition-colors">Features</Link>
