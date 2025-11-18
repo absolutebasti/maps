@@ -102,25 +102,35 @@ export default async function BlogPostPage({ params }: Props) {
                 return <h3 key={i} className="text-2xl font-semibold mt-4 mb-2">{paragraph.replace(/^### /, "")}</h3>;
               }
 
-              // Handle bulleted lists
-              if (paragraph.includes("\n- ") || paragraph.startsWith("- ")) {
-                const items = paragraph.split(/\n- /).filter(Boolean);
+              // Handle bulleted lists - check if it's a list block
+              const isBulletList = paragraph.trim().split("\n").every(line => line.trim().startsWith("- ") || line.trim() === "");
+              if (isBulletList && paragraph.trim().split("\n").some(line => line.trim().startsWith("- "))) {
+                const items = paragraph
+                  .split("\n")
+                  .map(line => line.trim())
+                  .filter(line => line.startsWith("- "))
+                  .map(line => line.replace(/^- /, ""));
                 return (
-                  <ul key={i} className="list-disc list-inside space-y-2 my-4">
+                  <ul key={i} className="list-disc list-inside space-y-2 my-4 ml-4">
                     {items.map((item, j) => (
-                      <li key={j} className="ml-4" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
+                      <li key={j} className="mb-1" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
                     ))}
                   </ul>
                 );
               }
 
-              // Handle numbered lists
-              if (/^\d+\./.test(paragraph)) {
-                const items = paragraph.split(/\n\d+\. /).filter(Boolean);
+              // Handle numbered lists - check if it's a numbered list block
+              const isNumberedList = paragraph.trim().split("\n").every(line => /^\d+\./.test(line.trim()) || line.trim() === "");
+              if (isNumberedList && paragraph.trim().split("\n").some(line => /^\d+\./.test(line.trim()))) {
+                const items = paragraph
+                  .split("\n")
+                  .map(line => line.trim())
+                  .filter(line => /^\d+\./.test(line))
+                  .map(line => line.replace(/^\d+\.\s*/, ""));
                 return (
-                  <ol key={i} className="list-decimal list-inside space-y-2 my-4">
+                  <ol key={i} className="list-decimal list-inside space-y-2 my-4 ml-4">
                     {items.map((item, j) => (
-                      <li key={j} className="ml-4" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
+                      <li key={j} className="mb-1" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
                     ))}
                   </ol>
                 );
