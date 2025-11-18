@@ -162,12 +162,12 @@ export function Legend() {
                   }}
                   className={cn(
                     "w-full flex items-center justify-between gap-2 px-2 py-1.5 rounded text-xs hover:bg-accent transition-colors text-left",
-                    visited && "bg-green-50 dark:bg-green-950/20"
+                    visited && "bg-green-50 dark:bg-green-950/40"
                   )}
                 >
                   <span className="truncate">{country.name}</span>
                   {visited && (
-                    <span className="text-green-600 dark:text-green-400 shrink-0">✓</span>
+                    <span className="text-green-600 dark:text-green-300 font-bold shrink-0 text-base">✓</span>
                   )}
                 </button>
               );

@@ -72,12 +72,21 @@ A professional, interactive web application for tracking and visualizing the cou
    npm install
    ```
 
-3. Run the development server:
+3. Set up environment variables (optional, for donation feature):
+   ```bash
+   cp .env.example .env.local
+   ```
+   Then edit `.env.local` and add your PayPal donation link:
+   ```
+   NEXT_PUBLIC_PAYPAL_DONATION_LINK=https://www.paypal.com/paypalme/yourusername
+   ```
+
+4. Run the development server:
    ```bash
    npm run dev
    ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser
+5. Open [http://localhost:3000](http://localhost:3000) in your browser
 
 ## Technology Stack
 

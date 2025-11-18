@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/toast";
+import { DonationDialog } from "./DonationDialog";
 
 type Props = {
   targetContainerId: string;
@@ -10,9 +11,10 @@ type Props = {
 
 export function ShareButton({ targetContainerId }: Props) {
   const [isSharing, setIsSharing] = useState(false);
+  const [donationOpen, setDonationOpen] = useState(false);
   const { toast } = useToast();
 
-  const handleShare = async () => {
+  const performShare = async () => {
     const container = document.getElementById(targetContainerId);
     if (!container) {
       toast({
@@ -139,10 +141,23 @@ export function ShareButton({ targetContainerId }: Props) {
     }
   };
 
+  const handleShare = () => {
+    // Show donation dialog first
+    setDonationOpen(true);
+  };
+
   return (
-    <Button variant="outline" size="sm" onClick={handleShare} disabled={isSharing} className="text-xs sm:text-sm px-2 sm:px-3">
-      {isSharing ? "Sharing..." : "Share"}
-    </Button>
+    <>
+      <Button variant="outline" size="sm" onClick={handleShare} disabled={isSharing} className="text-xs sm:text-sm px-2 sm:px-3">
+        {isSharing ? "Sharing..." : "Share"}
+      </Button>
+      
+      <DonationDialog
+        open={donationOpen}
+        onOpenChange={setDonationOpen}
+        onContinue={performShare}
+      />
+    </>
   );
 }
 

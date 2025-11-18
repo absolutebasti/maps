@@ -13,6 +13,7 @@ import {
 } from "./ui/dialog";
 import { exportSvgContainerToPng } from "./../lib/export/png";
 import { useToast } from "./ui/toast";
+import { DonationDialog } from "./DonationDialog";
 
 type Props = {
   targetContainerId: string;
@@ -27,6 +28,7 @@ const PRESETS = [
 
 export function ExportDialog({ targetContainerId }: Props) {
   const [open, setOpen] = useState(false);
+  const [donationOpen, setDonationOpen] = useState(false);
   const [widthPx, setWidthPx] = useState(3840);
   const [heightPx, setHeightPx] = useState(2560);
   const [isExporting, setIsExporting] = useState(false);
@@ -37,7 +39,7 @@ export function ExportDialog({ targetContainerId }: Props) {
     setHeightPx(preset.height);
   };
 
-  const exportPng = async () => {
+  const performExport = async () => {
     const container = document.getElementById(targetContainerId);
     if (!container) {
       toast({
@@ -71,6 +73,11 @@ export function ExportDialog({ targetContainerId }: Props) {
     } finally {
       setIsExporting(false);
     }
+  };
+
+  const handleExportClick = () => {
+    // Show donation dialog first
+    setDonationOpen(true);
   };
 
   return (
@@ -131,11 +138,17 @@ export function ExportDialog({ targetContainerId }: Props) {
           <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button onClick={exportPng} disabled={isExporting}>
+          <Button onClick={handleExportClick} disabled={isExporting}>
             {isExporting ? "Exporting..." : "Export"}
           </Button>
         </DialogFooter>
       </DialogContent>
+      
+      <DonationDialog
+        open={donationOpen}
+        onOpenChange={setDonationOpen}
+        onContinue={performExport}
+      />
     </Dialog>
   );
 }
