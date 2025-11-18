@@ -55,6 +55,11 @@ body {
   @apply bg-background text-foreground antialiased;
 }
 
+/* Touch-friendly interactions */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
 @media print {
   /* Basic print optimizations */
   .no-print {

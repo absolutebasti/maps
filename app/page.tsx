@@ -7,11 +7,44 @@ import { CountryDrawer } from "./../components/CountryDrawer";
 import { StatsBar } from "./../components/StatsBar";
 import { Legend } from "./../components/Legend";
 import { ExportDialog } from "./../components/ExportDialog";
+import { ShareButton } from "./../components/ShareButton";
 import { CountrySearch } from "./../components/CountrySearch";
+import { ThemeToggle } from "./../components/ThemeToggle";
+import { ImportButton } from "./../components/ImportButton";
+import { ExportJsonButton } from "./../components/ExportJsonButton";
 import { useAppStore } from "./../lib/state/store";
 import { cn } from "./../lib/utils";
+import { Sheet, SheetContent, SheetTrigger } from "./../components/ui/sheet";
+import { MobileCountryDrawer } from "./../components/MobileCountryDrawer";
+import { Onboarding } from "./../components/Onboarding";
+import { KeyboardShortcuts } from "./../components/KeyboardShortcuts";
+import { useState, useEffect } from "react";
 
 export default function HomePage() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const selectedId = useAppStore((s) => s.selectedCountryId);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Escape closes mobile menu or deselects country
+      if (e.key === "Escape") {
+        if (mobileMenuOpen) {
+          setMobileMenuOpen(false);
+        } else if (selectedId) {
+          useAppStore.getState().selectCountry(undefined);
+        }
+      }
+      // "?" shows keyboard shortcuts
+      if (e.key === "?" && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        // KeyboardShortcuts component handles this
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [mobileMenuOpen, selectedId]);
 
   return (
     <>
@@ -59,6 +92,12 @@ export default function HomePage() {
             My Visited Countries Map
           </h1>
           <div className="flex gap-2 items-center">
+            <KeyboardShortcuts />
+            <ThemeToggle />
+            <div className="hidden sm:flex gap-2 items-center">
+              <ImportButton />
+              <ExportJsonButton />
+            </div>
             <Link
               href="/countries"
               className={cn(
@@ -68,12 +107,63 @@ export default function HomePage() {
             >
               Manage countries
             </Link>
+            <ShareButton targetContainerId="map-container" />
             <ExportDialog targetContainerId="map-container" />
+            {/* Mobile menu button */}
+            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon" className="sm:hidden">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <line x1="3" y1="6" x2="21" y2="6" />
+                    <line x1="3" y1="12" x2="21" y2="12" />
+                    <line x1="3" y1="18" x2="21" y2="18" />
+                  </svg>
+                  <span className="sr-only">Menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-[85vw] sm:max-w-md overflow-y-auto">
+                <div className="space-y-6 mt-6">
+                  <div className="space-y-4">
+                    <StatsBar />
+                    <CountrySearch />
+                  </div>
+                  <CountryDrawer />
+                  <Legend />
+                  <div className="pt-4 border-t space-y-2">
+                    <div className="text-sm font-medium mb-2">Data Management</div>
+                    <div className="flex flex-col gap-2">
+                      <ImportButton />
+                      <ExportJsonButton />
+                    </div>
+                    <Link
+                      href="/countries"
+                      className={cn(
+                        buttonVariants({ variant: "outline" }),
+                        "w-full"
+                      )}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Manage countries
+                    </Link>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
       </header>
       <section className="flex-1 grid md:grid-cols-[1fr,360px]">
-        <div className="p-4 flex items-center justify-center min-h-[400px]">
+        <div className="p-2 sm:p-4 flex items-center justify-center min-h-[400px]">
           <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden">
             <MapView />
           </div>
@@ -89,6 +179,12 @@ export default function HomePage() {
           <Legend />
         </aside>
       </section>
+
+      {/* Mobile country drawer */}
+      <MobileCountryDrawer />
+
+      {/* Onboarding */}
+      <Onboarding />
 
       {/* Hidden SEO content */}
       <div className="sr-only">

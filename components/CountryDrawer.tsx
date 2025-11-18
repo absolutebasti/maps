@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useAppStore, PREDEFINED_TAGS } from "./../lib/state/store";
 import { Button } from "./ui/button";
 import { getCountryNameById } from "./../lib/map";
+import { useToast } from "./ui/toast";
 
 export function CountryDrawer() {
   const selectedId = useAppStore((s) => s.selectedCountryId);
@@ -16,6 +17,7 @@ export function CountryDrawer() {
   const setRating = useAppStore((s) => s.setRating);
   const addTagToCountry = useAppStore((s) => s.addTagToCountry);
   const removeTagFromCountry = useAppStore((s) => s.removeTagFromCountry);
+  const { toast } = useToast();
 
   const title = useMemo(() => {
     if (!selectedId) return "No selection";
@@ -36,7 +38,15 @@ export function CountryDrawer() {
         <h3 className="text-base font-medium">{title}</h3>
         <Button
           variant={country?.visited ? "secondary" : "default"}
-          onClick={() => toggleVisited(selectedId)}
+          onClick={() => {
+            toggleVisited(selectedId);
+            const newVisited = !country?.visited;
+            toast({
+              title: newVisited ? "Country marked as visited" : "Country unmarked",
+              description: `${title} ${newVisited ? "added to" : "removed from"} your visited list`,
+              variant: "success",
+            });
+          }}
         >
           {country?.visited ? "Visited" : "Mark visited"}
         </Button>
@@ -94,8 +104,18 @@ export function CountryDrawer() {
                 onClick={() => {
                   if (isActive) {
                     removeTagFromCountry(selectedId, tag.id);
+                    toast({
+                      title: "Tag removed",
+                      description: `${tag.name} removed from ${title}`,
+                      variant: "default",
+                    });
                   } else {
                     addTagToCountry(selectedId, tag.id);
+                    toast({
+                      title: "Tag added",
+                      description: `${tag.name} added to ${title}`,
+                      variant: "success",
+                    });
                   }
                 }}
                 className={`

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup, Annotation } from "react-simple-maps";
 import type { Feature } from "geojson";
 import { getWorldCountries, getCountryId, getCountryName, getWorldCountryList } from "./../lib/map";
@@ -100,6 +100,54 @@ export function MapView({ onSelectCountry }: Props) {
     const constrained = constrainCenter(position.coordinates, zoom);
     setCenter(constrained);
   };
+
+  // Get country centroid for zooming
+  const getCountryCentroid = (countryId: string): [number, number] | null => {
+    const feature = geoUrlData.features.find((f: any) => getCountryId(f) === countryId);
+    if (!feature) return null;
+    
+    try {
+      let centroid = geoCentroid(feature as any);
+      
+      // Manual adjustments for better placement
+      const adjustments: Record<string, [number, number]> = {
+        'FRA': [2, 46.5],
+        'FRANCE': [2, 46.5],
+        'USA': [-98, 38],
+        'RUS': [95, 60],
+        'CAN': [-95, 60],
+        'AUS': [133, -27],
+        'NZL': [174, -41],
+        'GBR': [-2, 54],
+        'NOR': [9, 61],
+        'DNK': [10, 56],
+        'NLD': [5.5, 52.2],
+        'PRT': [-8, 39.5],
+        'ESP': [-3.5, 40],
+        'ITA': [12.5, 42.5],
+        'CHL': [-71, -35],
+        'ECU': [-78.5, -1.5],
+        'CHN': [105, 35],
+        'CHINA': [105, 35],
+      };
+      
+      return adjustments[countryId] || centroid;
+    } catch {
+      return null;
+    }
+  };
+
+  // Zoom to selected country when it changes
+  useEffect(() => {
+    if (selectedId) {
+      const centroid = getCountryCentroid(selectedId);
+      if (centroid) {
+        // Smooth zoom to country
+        setZoom(2.5);
+        setCenter(constrainCenter(centroid, 2.5));
+      }
+    }
+  }, [selectedId, geoUrlData]);
 
   return (
     <div className="relative w-full h-full overflow-hidden">
@@ -359,14 +407,14 @@ export function MapView({ onSelectCountry }: Props) {
         </div>
       </div>
 
-      {/* Zoom controls */}
+      {/* Zoom controls - larger on mobile for touch */}
       <div className="absolute bottom-4 right-4 flex flex-col gap-2">
         <Button
           size="icon"
           variant="secondary"
           onClick={handleZoomIn}
           disabled={zoom >= 4}
-          className="shadow-lg"
+          className="shadow-lg h-10 w-10 sm:h-9 sm:w-9 touch-manipulation"
           aria-label="Zoom in"
         >
           <svg
@@ -389,7 +437,7 @@ export function MapView({ onSelectCountry }: Props) {
           variant="secondary"
           onClick={handleZoomOut}
           disabled={zoom <= 1}
-          className="shadow-lg"
+          className="shadow-lg h-10 w-10 sm:h-9 sm:w-9 touch-manipulation"
           aria-label="Zoom out"
         >
           <svg
