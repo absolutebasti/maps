@@ -26,13 +26,4 @@ export function loadFromLocalStorage(): PersistedState | undefined {
   }
 }
 
-export function exportJson(state: PersistedState): string {
-  return JSON.stringify(state, null, 2);
-}
-
-export function importJson(text: string): PersistedState {
-  const parsed = JSON.parse(text) as PersistedState;
-  return parsed;
-}
-
 
