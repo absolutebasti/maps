@@ -24,7 +24,7 @@ export default function BlogPage() {
           <div className="flex justify-start">
             <Link
               href="/"
-              className={cn(buttonVariants({ variant: "outline" }), "gap-2")}
+              className={cn(buttonVariants({ variant: "outline" }), "gap-2 touch-manipulation min-h-[44px]")}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -87,11 +87,31 @@ export default function BlogPage() {
           </div>
 
           {/* Footer Links */}
-          <nav className="flex flex-wrap gap-6 justify-center text-sm text-muted-foreground pt-8">
-            <Link href="/" className="hover:text-foreground">Home</Link>
-            <Link href="/about" className="hover:text-foreground">About</Link>
-            <Link href="/features" className="hover:text-foreground">Features</Link>
-            <Link href="/faq" className="hover:text-foreground">FAQ</Link>
+          <nav className="flex flex-wrap gap-2 sm:gap-6 justify-center pt-8">
+            <Link 
+              href="/" 
+              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              Home
+            </Link>
+            <Link 
+              href="/about" 
+              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              About
+            </Link>
+            <Link 
+              href="/features" 
+              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              Features
+            </Link>
+            <Link 
+              href="/faq" 
+              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              FAQ
+            </Link>
           </nav>
         </div>
       </main>

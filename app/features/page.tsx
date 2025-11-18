@@ -181,11 +181,31 @@ export default function FeaturesPage() {
           </section>
 
           {/* Footer Links */}
-          <nav className="flex flex-wrap gap-6 justify-center text-sm text-muted-foreground">
-            <Link href="/" className="hover:text-foreground">Home</Link>
-            <Link href="/about" className="hover:text-foreground">About</Link>
-            <Link href="/faq" className="hover:text-foreground">FAQ</Link>
-            <Link href="/blog" className="hover:text-foreground">Blog</Link>
+          <nav className="flex flex-wrap gap-2 sm:gap-6 justify-center">
+            <Link 
+              href="/" 
+              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              Home
+            </Link>
+            <Link 
+              href="/about" 
+              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              About
+            </Link>
+            <Link 
+              href="/faq" 
+              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              FAQ
+            </Link>
+            <Link 
+              href="/blog" 
+              className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              Blog
+            </Link>
           </nav>
         </div>
       </main>

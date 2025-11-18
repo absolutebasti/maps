@@ -52,7 +52,10 @@ export default async function BlogPostPage({ params }: Props) {
           {/* Header */}
           <header className="space-y-4">
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <Link href="/blog" className="hover:text-foreground">
+              <Link 
+                href="/blog" 
+                className="px-3 py-2 hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] flex items-center justify-center"
+              >
                 ← Back to Blog
               </Link>
             </div>
@@ -143,12 +146,37 @@ export default async function BlogPostPage({ params }: Props) {
               </Link>
             </div>
 
-            <nav className="flex flex-wrap gap-6 justify-center text-sm text-muted-foreground pt-8">
-              <Link href="/" className="hover:text-foreground">Home</Link>
-              <Link href="/blog" className="hover:text-foreground">Blog</Link>
-              <Link href="/about" className="hover:text-foreground">About</Link>
-              <Link href="/features" className="hover:text-foreground">Features</Link>
-              <Link href="/faq" className="hover:text-foreground">FAQ</Link>
+            <nav className="flex flex-wrap gap-2 sm:gap-6 justify-center pt-8">
+              <Link 
+                href="/" 
+                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              >
+                Home
+              </Link>
+              <Link 
+                href="/blog" 
+                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              >
+                Blog
+              </Link>
+              <Link 
+                href="/about" 
+                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              >
+                About
+              </Link>
+              <Link 
+                href="/features" 
+                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              >
+                Features
+              </Link>
+              <Link 
+                href="/faq" 
+                className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+              >
+                FAQ
+              </Link>
             </nav>
           </footer>
         </div>
