@@ -150,38 +150,17 @@ function findCountryInReference(name: string): string | null {
 export function getWorldCountryList() {
   if (cachedList) return cachedList;
   
-  // Start with the complete list of 195 countries from reference
+  // Use ONLY the 195 countries from the reference list
+  // This ensures we don't include territories, dependencies, or duplicates
   const referenceCountries = countriesReference.allCountries as string[];
   
-  // Merge: prioritize reference list (195 countries), but include any map-only countries
-  const allCountries = new Map<string, string>();
-  
-  // Add all 195 reference countries first
-  for (const countryName of referenceCountries) {
-    const id = slugifyName(countryName).toUpperCase();
-    allCountries.set(id, countryName);
-  }
-  
-  // Get countries from map topology and add any that aren't in reference
-  const features = getWorldCountries().features as CountryFeature[];
-  for (const feature of features) {
-    const mapName = getCountryName(feature).trim();
-    const matchedRefName = findCountryInReference(mapName);
-    
-    if (!matchedRefName) {
-      // This is a territory or country not in our reference list
-      // Use the map's ID system for these
-      const mapId = getCountryId(feature);
-      if (!allCountries.has(mapId)) {
-        allCountries.set(mapId, mapName);
-      }
-    }
-    // If matched, we already have it from the reference list above
-  }
-  
-  cachedList = Array.from(allCountries.entries())
-    .map(([id, name]) => ({ id, name }))
+  cachedList = referenceCountries
+    .map((countryName) => ({
+      id: slugifyName(countryName).toUpperCase(),
+      name: countryName,
+    }))
     .sort((a, b) => a.name.localeCompare(b.name));
+  
   return cachedList;
 }
 
