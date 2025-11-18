@@ -4,6 +4,7 @@ import { StorePersistence } from "./../components/StorePersistence";
 import { lemonMilk } from "./fonts";
 
 export const metadata = {
+  metadataBase: new URL("https://maps-production-d32c.up.railway.app"),
   title: "Create Your Visited Countries Map - Track Your Travel Journey | MyMap",
   description: "Free interactive world map to track and visualize countries you've visited. Mark visited countries, add notes, rate your trips, and create a beautiful travel map. Perfect for tracking your travel bucket list and sharing your adventures.",
   keywords: [
@@ -33,7 +34,7 @@ export const metadata = {
     siteName: "MyMap - Visited Countries Tracker",
     images: [
       {
-        url: "/og-image.png", // We'll create this
+        url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "MyMap - Create Your Visited Countries Map"

@@ -39,7 +39,7 @@ export default function HomePage() {
               "Add travel notes and ratings",
               "Tag countries with custom labels",
               "Export maps as PNG",
-              "Cloud sync across devices",
+              "Local data storage",
               "Free to use"
             ],
             "browserRequirements": "Requires JavaScript. Requires HTML5.",
@@ -108,7 +108,7 @@ export default function HomePage() {
           <li>Tag countries (Want to Visit, Lived Here, Favorite)</li>
           <li>Color customization for visited countries</li>
           <li>Export your map as PNG image</li>
-          <li>Cloud sync - access your map from any device</li>
+          <li>Local data storage in your browser</li>
           <li>Completely free to use</li>
         </ul>
         <h2>How It Works</h2>
