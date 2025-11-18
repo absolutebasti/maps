@@ -29,7 +29,6 @@ export function ExportDialog({ targetContainerId }: Props) {
   const [open, setOpen] = useState(false);
   const [widthPx, setWidthPx] = useState(3840);
   const [heightPx, setHeightPx] = useState(2560);
-  const [bg, setBg] = useState("#ffffff");
   const [isExporting, setIsExporting] = useState(false);
   const { toast } = useToast();
 
@@ -54,7 +53,7 @@ export function ExportDialog({ targetContainerId }: Props) {
       await exportSvgContainerToPng(container, {
         widthPx,
         heightPx,
-        backgroundColor: bg,
+        backgroundColor: "#ffffff",
         filename: "mymap.png"
       });
       toast({
@@ -83,7 +82,7 @@ export function ExportDialog({ targetContainerId }: Props) {
         <DialogHeader>
           <DialogTitle>Export Map as PNG</DialogTitle>
           <DialogDescription>
-            Choose dimensions and background color for your exported map.
+            Choose dimensions for your exported map.
           </DialogDescription>
         </DialogHeader>
         <div className="space-y-4 py-4">
@@ -126,15 +125,6 @@ export function ExportDialog({ targetContainerId }: Props) {
                 step={1}
               />
             </div>
-          </div>
-          <div className="space-y-2">
-            <label className="text-sm font-medium">Background Color</label>
-            <input
-              type="color"
-              className="h-10 w-full rounded-md border cursor-pointer"
-              value={bg}
-              onChange={(e) => setBg(e.target.value)}
-            />
           </div>
         </div>
         <DialogFooter>

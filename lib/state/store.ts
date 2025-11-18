@@ -61,7 +61,7 @@ export const useAppStore = create<AppState>((set) => ({
   countriesById: {},
   tagsById: PREDEFINED_TAGS.reduce((acc, tag) => ({ ...acc, [tag.id]: tag }), {}),
   settings: {
-    theme: "system",
+    theme: "light",
     showLegend: true,
     showLabels: false,
     visitedCountryColor: "#E8DCC4"

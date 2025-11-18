@@ -8,31 +8,32 @@ export function ThemeToggle() {
   const settings = useAppStore((s) => s.settings);
   const setState = useAppStore.setState;
 
-  const applyTheme = (theme: "light" | "dark" | "system") => {
+  const applyTheme = (theme: "light" | "dark") => {
     const root = document.documentElement;
-    const preferDark =
-      theme === "dark" ||
-      (theme === "system" &&
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
-    root.classList.toggle("dark", preferDark);
+    root.classList.toggle("dark", theme === "dark");
   };
 
   useEffect(() => {
-    applyTheme(settings.theme);
+    // If theme is "system", convert to "light" on first load
+    const currentTheme = settings.theme === "system" ? "light" : settings.theme;
+    applyTheme(currentTheme);
+    if (settings.theme === "system") {
+      setState((prev) => ({ ...prev, settings: { ...prev.settings, theme: "light" } }));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [settings.theme]);
 
   const cycle = () => {
-    const order: Array<"light" | "dark" | "system"> = ["light", "dark", "system"];
-    const idx = order.indexOf(settings.theme);
-    const next = order[(idx + 1) % order.length];
+    const currentTheme = settings.theme === "system" ? "light" : settings.theme;
+    const next = currentTheme === "light" ? "dark" : "light";
     setState((prev) => ({ ...prev, settings: { ...prev.settings, theme: next } }));
   };
 
+  const currentTheme = settings.theme === "system" ? "light" : settings.theme;
+
   return (
-    <Button variant="ghost" onClick={cycle} title={`Theme: ${settings.theme}`}>
-      {settings.theme === "light" ? "🌞" : settings.theme === "dark" ? "🌙" : "💻"}
+    <Button variant="ghost" onClick={cycle} title={`Theme: ${currentTheme}`}>
+      {currentTheme === "light" ? "🌞" : "🌙"}
     </Button>
   );
 }

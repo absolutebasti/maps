@@ -31,24 +31,27 @@ export function Onboarding() {
       content: (
         <div className="space-y-2 text-sm">
           <p>Get started by clicking on any country on the map to select it.</p>
+          <p className="font-medium mt-3">💡 Tip: On mobile, tap the menu icon (☰) to access search, country details, and all features!</p>
         </div>
       ),
     },
     {
       title: "Mark Countries as Visited",
-      description: "Click a country and use the 'Mark visited' button to add it to your list.",
+      description: "Click a country and use the buttons to mark it as visited or not visited.",
       content: (
         <div className="space-y-2 text-sm">
           <p>You can also add notes, dates, ratings, and tags to remember your travels.</p>
+          <p className="font-medium mt-3">💡 On mobile: The menu (☰) gives you access to search countries and manage your list.</p>
         </div>
       ),
     },
     {
       title: "Search & Explore",
-      description: "Use the search bar to quickly find any country.",
+      description: "Use the search to quickly find any country.",
       content: (
         <div className="space-y-2 text-sm">
           <p>The map will automatically zoom to countries you select from the search.</p>
+          <p className="font-medium mt-3">💡 On mobile: Tap the menu icon (☰) in the header to open the search and other tools.</p>
         </div>
       ),
     },
@@ -57,7 +60,8 @@ export function Onboarding() {
       description: "Export your map as a PNG image or share it with friends.",
       content: (
         <div className="space-y-2 text-sm">
-          <p>Use the Export PNG button for high-resolution images, or Share to quickly share your map.</p>
+          <p>Use the Export button for high-resolution images, or Share to quickly share your map.</p>
+          <p className="font-medium mt-3">💡 Remember: The menu icon (☰) on mobile contains all the features you need!</p>
         </div>
       ),
     },

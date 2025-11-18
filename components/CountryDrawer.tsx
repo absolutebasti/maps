@@ -32,24 +32,57 @@ export function CountryDrawer() {
     );
   }
 
+  const isVisited = country?.visited ?? false;
+
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="space-y-3">
         <h3 className="text-base font-medium">{title}</h3>
-        <Button
-          variant={country?.visited ? "secondary" : "default"}
-          onClick={() => {
-            toggleVisited(selectedId);
-            const newVisited = !country?.visited;
-            toast({
-              title: newVisited ? "Country marked as visited" : "Country unmarked",
-              description: `${title} ${newVisited ? "added to" : "removed from"} your visited list`,
-              variant: "success",
-            });
-          }}
-        >
-          {country?.visited ? "Visited" : "Mark visited"}
-        </Button>
+        {/* Visited Status - Segmented Control */}
+        <div className="flex gap-2">
+          <button
+            onClick={() => {
+              if (!isVisited) {
+                toggleVisited(selectedId);
+                toast({
+                  title: "Country marked as visited",
+                  description: `${title} added to your visited list`,
+                  variant: "success",
+                });
+              }
+            }}
+            className={`
+              flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all
+              ${isVisited
+                ? 'bg-green-600 text-white shadow-md'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80'
+              }
+            `}
+          >
+            ✓ Visited
+          </button>
+          <button
+            onClick={() => {
+              if (isVisited) {
+                toggleVisited(selectedId);
+                toast({
+                  title: "Country unmarked",
+                  description: `${title} removed from your visited list`,
+                  variant: "default",
+                });
+              }
+            }}
+            className={`
+              flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all
+              ${!isVisited
+                ? 'bg-gray-200 dark:bg-gray-700 text-foreground shadow-md'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80'
+              }
+            `}
+          >
+            Not Visited
+          </button>
+        </div>
       </div>
       <div className="space-y-2">
         <label className="text-sm font-medium">Note</label>
