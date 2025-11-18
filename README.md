@@ -156,6 +156,20 @@ This application is fully optimized for mobile devices. See [MOBILE_OPTIMIZATION
 - Performance optimization tips
 - Responsive design guidelines
 
+## Supporting MyMap
+
+MyMap is completely **free to use** with no hidden costs, subscriptions, or premium features. All features are available to everyone, always.
+
+If you find MyMap helpful and want to support its development, you can make a small donation. **Even 1€ shows us that you love our tool!** ☕
+
+Donations help us:
+- Keep MyMap free for everyone
+- Add new features and improvements
+- Maintain and update the service
+- Cover hosting and infrastructure costs
+
+You can support MyMap by clicking the "Buy me a coffee" button on the About, Features, or FAQ pages, or when using the Export and Share features.
+
 ## License
 
 MIT

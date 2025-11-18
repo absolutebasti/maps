@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { DonationHint } from "@/components/DonationHint";
 
 export const metadata: Metadata = {
   title: "FAQ - Frequently Asked Questions | MyMap",
@@ -145,6 +146,9 @@ export default function FAQPage() {
               </div>
             ))}
           </div>
+
+          {/* Donation Hint */}
+          <DonationHint variant="compact" />
 
           {/* Still Have Questions */}
           <section className="text-center space-y-6 p-8 rounded-lg border bg-muted/50">

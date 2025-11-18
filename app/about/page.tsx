@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { DonationHint } from "@/components/DonationHint";
 
 export const metadata: Metadata = {
   title: "About MyMap - Your Travel Journey Tracker | MyMap",
@@ -116,6 +117,9 @@ export default function AboutPage() {
               </ul>
             </div>
           </section>
+
+          {/* Donation Hint */}
+          <DonationHint variant="default" />
 
           {/* CTA Section */}
           <section className="text-center space-y-6 p-8 rounded-lg border bg-muted/50">
