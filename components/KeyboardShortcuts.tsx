@@ -37,13 +37,13 @@ export function KeyboardShortcuts() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="text-xs">
-          ?
+        <Button variant="outline" size="sm">
+          Help
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Keyboard Shortcuts</DialogTitle>
+          <DialogTitle>Help & Keyboard Shortcuts</DialogTitle>
           <DialogDescription>
             Use these shortcuts to navigate faster
           </DialogDescription>

@@ -10,8 +10,6 @@ import { ExportDialog } from "./../components/ExportDialog";
 import { ShareButton } from "./../components/ShareButton";
 import { CountrySearch } from "./../components/CountrySearch";
 import { ThemeToggle } from "./../components/ThemeToggle";
-import { ImportButton } from "./../components/ImportButton";
-import { ExportJsonButton } from "./../components/ExportJsonButton";
 import { useAppStore } from "./../lib/state/store";
 import { cn } from "./../lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "./../components/ui/sheet";
@@ -94,10 +92,6 @@ export default function HomePage() {
           <div className="flex gap-2 items-center">
             <KeyboardShortcuts />
             <ThemeToggle />
-            <div className="hidden sm:flex gap-2 items-center">
-              <ImportButton />
-              <ExportJsonButton />
-            </div>
             <Link
               href="/countries"
               className={cn(
@@ -139,12 +133,7 @@ export default function HomePage() {
                   </div>
                   <CountryDrawer />
                   <Legend />
-                  <div className="pt-4 border-t space-y-2">
-                    <div className="text-sm font-medium mb-2">Data Management</div>
-                    <div className="flex flex-col gap-2">
-                      <ImportButton />
-                      <ExportJsonButton />
-                    </div>
+                  <div className="pt-4 border-t">
                     <Link
                       href="/countries"
                       className={cn(
