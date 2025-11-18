@@ -43,15 +43,15 @@ export default function AboutPage() {
 
           {/* Mission Section */}
           <section className="space-y-4">
-            <h2 className="text-3xl font-bold">Our Mission</h2>
-            <div className="prose prose-lg dark:prose-invert max-w-none">
+            <h2 className="text-3xl font-bold">Our Mission 🎯</h2>
+            <div className="space-y-3 text-base leading-7">
               <p>
-                MyMap was created with a simple goal: to help travelers easily track and visualize 
-                the countries they've visited. We believe that every journey deserves to be remembered, 
+                MyMap was created with a simple goal: <strong>to help travelers easily track and visualize 
+                the countries they've visited</strong>. We believe that every journey deserves to be remembered, 
                 and every adventure should be celebrated.
               </p>
               <p>
-                Whether you're a digital nomad exploring the world, a backpacker on a gap year, or 
+                Whether you're a <strong>digital nomad</strong>, a <strong>backpacker</strong>, or 
                 someone who loves to travel during vacations, MyMap provides a beautiful and intuitive 
                 way to document your global adventures.
               </p>
@@ -60,21 +60,22 @@ export default function AboutPage() {
 
           {/* Story Section */}
           <section className="space-y-4">
-            <h2 className="text-3xl font-bold">Our Story</h2>
-            <div className="prose prose-lg dark:prose-invert max-w-none">
+            <h2 className="text-3xl font-bold">Our Story 📖</h2>
+            <div className="space-y-4 text-base leading-7">
               <p>
                 The idea for MyMap came from a simple frustration: existing travel tracking tools 
                 were either too complicated, required accounts, or didn't provide the visual experience 
-                we wanted. We wanted something that was:
+                we wanted.
               </p>
-              <ul>
+              <p className="font-medium">We wanted something that was:</p>
+              <ul className="space-y-2 ml-6 list-disc">
                 <li><strong>Free and accessible</strong> - No sign-ups, no subscriptions, no barriers</li>
                 <li><strong>Privacy-focused</strong> - Your data stays on your device</li>
                 <li><strong>Beautiful and intuitive</strong> - A joy to use, not a chore</li>
                 <li><strong>Feature-rich</strong> - Notes, ratings, tags, and high-quality exports</li>
               </ul>
               <p>
-                So we built MyMap to be exactly that: a free, privacy-first tool that helps you 
+                So we built MyMap to be exactly that: a <strong>free, privacy-first tool</strong> that helps you 
                 create a beautiful visual record of your travels without any hassle.
               </p>
             </div>
@@ -82,34 +83,42 @@ export default function AboutPage() {
 
           {/* Values Section */}
           <section className="space-y-4">
-            <h2 className="text-3xl font-bold">Our Values</h2>
-            <div className="grid gap-6 md:grid-cols-2">
-              <div className="space-y-2 p-6 rounded-lg border bg-card">
-                <h3 className="text-xl font-semibold">Privacy First</h3>
-                <p className="text-muted-foreground">
+            <h2 className="text-3xl font-bold">Our Values 💎</h2>
+            <div className="grid gap-4 md:grid-cols-2">
+              <div className="space-y-2 p-6 rounded-lg border bg-card hover:border-primary/50 transition-colors">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
+                  🔒 Privacy First
+                </h3>
+                <p className="text-muted-foreground text-sm leading-6">
                   All your data is stored locally in your browser. We don't collect, store, or 
-                  share any of your personal information. Your travel data belongs to you.
+                  share any of your personal information. <strong>Your travel data belongs to you.</strong>
                 </p>
               </div>
-              <div className="space-y-2 p-6 rounded-lg border bg-card">
-                <h3 className="text-xl font-semibold">Free Forever</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-2 p-6 rounded-lg border bg-card hover:border-primary/50 transition-colors">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
+                  🆓 Free Forever
+                </h3>
+                <p className="text-muted-foreground text-sm leading-6">
                   MyMap is completely free to use, with no hidden costs, subscriptions, or 
-                  premium features. We believe travel tracking should be accessible to everyone.
+                  premium features. <strong>Travel tracking should be accessible to everyone.</strong>
                 </p>
               </div>
-              <div className="space-y-2 p-6 rounded-lg border bg-card">
-                <h3 className="text-xl font-semibold">User Experience</h3>
-                <p className="text-muted-foreground">
+              <div className="space-y-2 p-6 rounded-lg border bg-card hover:border-primary/50 transition-colors">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
+                  ✨ User Experience
+                </h3>
+                <p className="text-muted-foreground text-sm leading-6">
                   We're committed to creating the best possible experience. Every feature is 
-                  designed with usability and beauty in mind, from mobile to desktop.
+                  designed with <strong>usability and beauty in mind</strong>, from mobile to desktop.
                 </p>
               </div>
-              <div className="space-y-2 p-6 rounded-lg border bg-card">
-                <h3 className="text-xl font-semibold">Continuous Improvement</h3>
-                <p className="text-muted-foreground">
-                  We're always working to improve MyMap based on user feedback. Your suggestions 
-                  help shape the future of the tool.
+              <div className="space-y-2 p-6 rounded-lg border bg-card hover:border-primary/50 transition-colors">
+                <h3 className="text-xl font-semibold flex items-center gap-2">
+                  🚀 Continuous Improvement
+                </h3>
+                <p className="text-muted-foreground text-sm leading-6">
+                  We're always working to improve MyMap based on user feedback. 
+                  <strong> Your suggestions help shape the future</strong> of the tool.
                 </p>
               </div>
             </div>
@@ -117,17 +126,57 @@ export default function AboutPage() {
 
           {/* Features Highlight */}
           <section className="space-y-4">
-            <h2 className="text-3xl font-bold">What Makes MyMap Special</h2>
-            <div className="prose prose-lg dark:prose-invert max-w-none">
-              <ul>
-                <li><strong>195 Countries</strong> - Track all UN member countries and territories</li>
-                <li><strong>Interactive Map</strong> - Beautiful, clickable world map with zoom and pan</li>
-                <li><strong>Rich Details</strong> - Add notes, visit dates, and ratings for each country</li>
-                <li><strong>Smart Tags</strong> - Organize countries with custom tags like "Want to Visit" or "Lived Here"</li>
-                <li><strong>High-Quality Exports</strong> - Export your map as PNG in various resolutions</li>
-                <li><strong>Mobile Optimized</strong> - Works beautifully on phones, tablets, and desktops</li>
-                <li><strong>No Account Required</strong> - Start tracking immediately, no sign-up needed</li>
-              </ul>
+            <h2 className="text-3xl font-bold">What Makes MyMap Special ⭐</h2>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className="flex items-start gap-3 p-4 rounded-lg border bg-card/50">
+                <span className="text-2xl">🌍</span>
+                <div>
+                  <h3 className="font-semibold mb-1">195 Countries</h3>
+                  <p className="text-sm text-muted-foreground">Track all UN member countries and territories</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-4 rounded-lg border bg-card/50">
+                <span className="text-2xl">🗺️</span>
+                <div>
+                  <h3 className="font-semibold mb-1">Interactive Map</h3>
+                  <p className="text-sm text-muted-foreground">Beautiful, clickable world map with zoom and pan</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-4 rounded-lg border bg-card/50">
+                <span className="text-2xl">📝</span>
+                <div>
+                  <h3 className="font-semibold mb-1">Rich Details</h3>
+                  <p className="text-sm text-muted-foreground">Add notes, visit dates, and ratings for each country</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-4 rounded-lg border bg-card/50">
+                <span className="text-2xl">🏷️</span>
+                <div>
+                  <h3 className="font-semibold mb-1">Smart Tags</h3>
+                  <p className="text-sm text-muted-foreground">Organize countries with custom tags like "Want to Visit"</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-4 rounded-lg border bg-card/50">
+                <span className="text-2xl">📤</span>
+                <div>
+                  <h3 className="font-semibold mb-1">High-Quality Exports</h3>
+                  <p className="text-sm text-muted-foreground">Export your map as PNG in various resolutions</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-4 rounded-lg border bg-card/50">
+                <span className="text-2xl">📱</span>
+                <div>
+                  <h3 className="font-semibold mb-1">Mobile Optimized</h3>
+                  <p className="text-sm text-muted-foreground">Works beautifully on phones, tablets, and desktops</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 p-4 rounded-lg border bg-card/50 sm:col-span-2">
+                <span className="text-2xl">⚡</span>
+                <div>
+                  <h3 className="font-semibold mb-1">No Account Required</h3>
+                  <p className="text-sm text-muted-foreground">Start tracking immediately, no sign-up needed</p>
+                </div>
+              </div>
             </div>
           </section>
 
