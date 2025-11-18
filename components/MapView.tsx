@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { ComposableMap, Geographies, Geography, ZoomableGroup, Annotation } from "react-simple-maps";
 import type { Feature } from "geojson";
 import { getWorldCountries, getCountryId, getCountryName, getWorldCountryList } from "./../lib/map";
@@ -38,6 +38,7 @@ export function MapView({ onSelectCountry }: Props) {
   } | null>(null);
   const [zoom, setZoom] = useState(1);
   const [center, setCenter] = useState<[number, number]>([0, 0]);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const geoUrlData = useMemo(() => {
     return getWorldCountries();
@@ -92,6 +93,37 @@ export function MapView({ onSelectCountry }: Props) {
       setZoom(newZoom);
       // Re-constrain center when zooming out
       setCenter(constrainCenter(center, newZoom));
+    }
+  };
+
+  // Handle wheel/trackpad zoom
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    // Only zoom if cursor is over the map
+    if (!mapContainerRef.current) return;
+    
+    // Prevent default scrolling
+    e.preventDefault();
+    
+    // Determine zoom direction based on wheel delta
+    // Negative deltaY = scroll up = zoom in
+    // Positive deltaY = scroll down = zoom out
+    const zoomSensitivity = 0.1; // Adjust this to control zoom speed
+    const zoomDelta = -e.deltaY * zoomSensitivity;
+    
+    if (zoomDelta > 0) {
+      // Zoom in
+      if (zoom < 4) {
+        const newZoom = Math.min(4, zoom + zoomDelta);
+        setZoom(newZoom);
+        setCenter(constrainCenter(center, newZoom));
+      }
+    } else {
+      // Zoom out
+      if (zoom > 1) {
+        const newZoom = Math.max(1, zoom + zoomDelta);
+        setZoom(newZoom);
+        setCenter(constrainCenter(center, newZoom));
+      }
     }
   };
 
@@ -150,7 +182,12 @@ export function MapView({ onSelectCountry }: Props) {
   }, [selectedId, geoUrlData]);
 
   return (
-    <div className="relative w-full h-full overflow-hidden">
+    <div 
+      ref={mapContainerRef}
+      className="relative w-full h-full overflow-hidden"
+      onWheel={handleWheel}
+      style={{ cursor: 'grab' }}
+    >
       {/* Ocean background with wave lines */}
       <div 
         className="absolute inset-0 w-full h-full" 
