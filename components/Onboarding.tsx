@@ -26,42 +26,58 @@ export function Onboarding() {
 
   const steps = [
     {
-      title: "Welcome to MyMap!",
-      description: "Track and visualize the countries you've visited on an interactive world map.",
+      title: "Welcome to MyMap! 🗺️",
+      description: "Track your travel journey on an interactive world map.",
       content: (
-        <div className="space-y-2 text-sm">
-          <p>Get started by clicking on any country on the map to select it.</p>
-          <p className="font-medium mt-3">💡 Tip: On mobile, tap the menu icon (☰) to access search, country details, and all features!</p>
+        <div className="space-y-3 text-sm">
+          <p>
+            <strong>Click any country</strong> on the map to get started.
+          </p>
+          <p className="text-muted-foreground text-xs">
+            💡 <strong>Mobile tip:</strong> Tap the menu (☰) for all features
+          </p>
         </div>
       ),
     },
     {
-      title: "Mark Countries as Visited",
-      description: "Click a country and use the buttons to mark it as visited or not visited.",
+      title: "Mark Countries as Visited ✨",
+      description: "Track your travels with one click.",
       content: (
-        <div className="space-y-2 text-sm">
-          <p>You can also add notes, dates, ratings, and tags to remember your travels.</p>
-          <p className="font-medium mt-3">💡 On mobile: The menu (☰) gives you access to search countries and manage your list.</p>
+        <div className="space-y-3 text-sm">
+          <p>
+            <strong>Mark countries as visited</strong> and add <strong>notes, dates, and ratings</strong> to remember your adventures.
+          </p>
+          <p className="text-muted-foreground text-xs">
+            💡 <strong>Mobile:</strong> Use the menu (☰) to access all features
+          </p>
         </div>
       ),
     },
     {
-      title: "Search & Explore",
-      description: "Use the search to quickly find any country.",
+      title: "Search & Explore 🔍",
+      description: "Find any country instantly.",
       content: (
-        <div className="space-y-2 text-sm">
-          <p>The map will automatically zoom to countries you select from the search.</p>
-          <p className="font-medium mt-3">💡 On mobile: Tap the menu icon (☰) in the header to open the search and other tools.</p>
+        <div className="space-y-3 text-sm">
+          <p>
+            <strong>Search for countries</strong> and the map will <strong>auto-zoom</strong> to your selection.
+          </p>
+          <p className="text-muted-foreground text-xs">
+            💡 <strong>Mobile:</strong> Open the menu (☰) to search
+          </p>
         </div>
       ),
     },
     {
-      title: "Export & Share",
-      description: "Export your map as a PNG image or share it with friends.",
+      title: "Export & Share 📤",
+      description: "Share your travel map with the world.",
       content: (
-        <div className="space-y-2 text-sm">
-          <p>Use the Export button for high-resolution images, or Share to quickly share your map.</p>
-          <p className="font-medium mt-3">💡 Remember: The menu icon (☰) on mobile contains all the features you need!</p>
+        <div className="space-y-3 text-sm">
+          <p>
+            <strong>Export high-resolution images</strong> or <strong>share instantly</strong> with friends and family.
+          </p>
+          <p className="text-muted-foreground text-xs">
+            💡 <strong>Mobile:</strong> All features available in the menu (☰)
+          </p>
         </div>
       ),
     },
@@ -90,27 +106,33 @@ export function Onboarding() {
 
   return (
     <Dialog open={show} onOpenChange={setShow}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{currentStep.title}</DialogTitle>
-          <DialogDescription>{currentStep.description}</DialogDescription>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader className="space-y-3">
+          <DialogTitle className="text-2xl font-bold text-center">
+            {currentStep.title}
+          </DialogTitle>
+          <DialogDescription className="text-center text-base">
+            {currentStep.description}
+          </DialogDescription>
         </DialogHeader>
-        <div className="py-4">{currentStep.content}</div>
-        <div className="flex items-center justify-center gap-2 py-2">
+        <div className="py-6 px-1">{currentStep.content}</div>
+        <div className="flex items-center justify-center gap-2 py-3">
           {steps.map((_, i) => (
             <div
               key={i}
-              className={`h-2 w-2 rounded-full ${
-                i === step ? "bg-primary" : "bg-muted"
+              className={`h-2 rounded-full transition-all ${
+                i === step 
+                  ? "bg-primary w-8" 
+                  : "bg-muted w-2"
               }`}
             />
           ))}
         </div>
-        <DialogFooter>
-          <Button variant="ghost" onClick={handleSkip}>
+        <DialogFooter className="gap-2 sm:gap-0">
+          <Button variant="ghost" onClick={handleSkip} className="flex-1 sm:flex-initial">
             Skip
           </Button>
-          <Button onClick={handleNext}>
+          <Button onClick={handleNext} className="flex-1 sm:flex-initial">
             {step === steps.length - 1 ? "Get Started" : "Next"}
           </Button>
         </DialogFooter>
