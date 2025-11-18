@@ -85,17 +85,18 @@ export default function HomePage() {
       />
       <main className="min-h-dvh flex flex-col">
       <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
-          <h1 className="text-2xl font-bold tracking-wide" style={{ fontFamily: "var(--font-lemon-milk)" }}>
-            My Visited Countries Map
+        <div className="mx-auto max-w-6xl px-2 sm:px-4 py-2 sm:py-4 flex items-center justify-between gap-2">
+          <h1 className="text-lg sm:text-2xl font-bold tracking-wide truncate flex-1 min-w-0" style={{ fontFamily: "var(--font-lemon-milk)" }}>
+            <span className="hidden sm:inline">My Visited Countries Map</span>
+            <span className="sm:hidden">MyMap</span>
           </h1>
-          <div className="flex gap-2 items-center">
+          <div className="flex gap-1 sm:gap-2 items-center shrink-0">
             <KeyboardShortcuts />
             <ThemeToggle />
             <Link
               href="/countries"
               className={cn(
-                buttonVariants({ variant: "outline" }),
+                buttonVariants({ variant: "outline", size: "sm" }),
                 "hidden sm:inline-flex"
               )}
             >
@@ -106,7 +107,7 @@ export default function HomePage() {
             {/* Mobile menu button */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="sm:hidden">
+                <Button variant="outline" size="icon" className="sm:hidden h-9 w-9">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="20"
@@ -152,8 +153,8 @@ export default function HomePage() {
         </div>
       </header>
       <section className="flex-1 grid md:grid-cols-[1fr,360px]">
-        <div className="p-2 sm:p-4 flex items-center justify-center min-h-[400px]">
-          <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden">
+        <div className="p-1 sm:p-2 md:p-4 flex items-center justify-center min-h-[400px]">
+          <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden touch-manipulation">
             <MapView />
           </div>
         </div>

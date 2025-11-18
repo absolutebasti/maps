@@ -140,7 +140,7 @@ export function ShareButton({ targetContainerId }: Props) {
   };
 
   return (
-    <Button variant="outline" onClick={handleShare} disabled={isSharing}>
+    <Button variant="outline" size="sm" onClick={handleShare} disabled={isSharing} className="text-xs sm:text-sm px-2 sm:px-3">
       {isSharing ? "Sharing..." : "Share"}
     </Button>
   );

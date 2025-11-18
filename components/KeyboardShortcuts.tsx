@@ -37,7 +37,7 @@ export function KeyboardShortcuts() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
+        <Button variant="outline" size="sm" className="text-xs sm:text-sm px-2 sm:px-3">
           Help
         </Button>
       </DialogTrigger>

@@ -1,19 +1,23 @@
 # MyMap — Visited Countries Tracker
 
-A professional, interactive web application for tracking and visualizing the countries you've visited around the world. Mark countries on an interactive world map, add personal notes and ratings, and export high-resolution maps for printing.
+A professional, interactive web application for tracking and visualizing the countries you've visited around the world. Mark countries on an interactive world map, add personal notes and ratings, and export high-resolution maps for printing. Fully optimized for mobile and desktop with a beautiful, responsive design.
 
 ## Features
 
 ### 🗺️ Interactive World Map
 - **Click to select**: Click any country on the map to open its details panel
+- **Auto-zoom**: Map automatically zooms and centers on selected countries
 - **Visual feedback**: Visited countries are highlighted in pastel beige, with hover and selection states
 - **Zoom & pan**: Navigate the map with smooth zoom controls (+/- buttons)
+- **Touch-friendly**: Optimized for mobile with larger touch targets and gesture support
 - **Real-time updates**: Map colors update instantly as you mark countries
 - **Ocean details**: Beautiful light blue oceans with wave patterns and labeled ocean names
 
 ### 🌍 Country Management
 - **Searchable dropdown**: Type to search and quickly find any country from a comprehensive list
+- **Auto-zoom on search**: Selecting a country from search automatically zooms the map to it
 - **Country details**: Add notes, visit dates, and ratings (1-5 stars) for each country
+- **Mobile drawer**: Beautiful bottom sheet on mobile for easy country detail editing
 - **Visit statistics**: Track your progress with real-time stats showing visited count and percentage
 - **Bulk management**: View and manage multiple countries at once from the dedicated management page
 - **Smart tooltips**: Hover over countries to see name, visited status, notes, and rating
@@ -29,11 +33,26 @@ A professional, interactive web application for tracking and visualizing the cou
 - **Country filtering**: Filter countries by visited/not visited status
 - **Search & filter**: Quickly find countries with the built-in search
 
-### 📤 High-Resolution Export
-- **PNG export**: Export your map as a high-resolution PNG image
+### 📤 Export & Share
+- **PNG export**: Export your map as a high-resolution PNG image with preset sizes (Print, Social Media, HD, 4K)
 - **Custom dimensions**: Set custom pixel dimensions for your specific needs
 - **Background color**: Choose the background color for your export
+- **Share functionality**: Share your map directly using Web Share API or copy to clipboard
 - **Professional quality**: Perfect for printing posters or sharing your travel map
+
+### 📱 Mobile Optimized
+- **Responsive design**: Fully optimized for mobile devices with touch-friendly controls
+- **Mobile drawer**: Bottom sheet for country details on mobile
+- **Adaptive UI**: Compact header and buttons on mobile, full-featured on desktop
+- **Touch gestures**: Optimized touch interactions with proper gesture handling
+- **Performance**: Fast loading and smooth interactions on mobile devices
+
+### 🎯 User Experience
+- **Onboarding**: Interactive tutorial for first-time users
+- **Toast notifications**: Real-time feedback for all actions (mark visited, add tags, etc.)
+- **Keyboard shortcuts**: Help modal with keyboard shortcuts (Ctrl/Cmd + ?)
+- **Theme toggle**: Switch between light and dark modes
+- **Help system**: Built-in help and keyboard shortcuts guide
 
 ## Getting Started
 
@@ -68,36 +87,65 @@ A professional, interactive web application for tracking and visualizing the cou
 - **State Management**: Zustand with localStorage persistence
 - **Maps**: react-simple-maps with TopoJSON world data
 - **Export**: Canvas-based PNG generation for high-resolution output
-- **UI Components**: Custom components inspired by shadcn/ui
+- **UI Components**: Custom components inspired by shadcn/ui (Dialog, Sheet, Popover)
+- **Mobile**: Responsive design with touch-optimized interactions
 
 ## Usage
 
-1. **Select a country**: Click on any country on the map to open its details panel
-2. **Mark as visited**: Click the "Mark visited" button in the details panel
-3. **Add details**: Add notes, visit dates, and ratings for each visited country
-4. **Add tags**: Assign predefined tags like "Want to Visit", "Lived Here", or "Favorite"
-5. **Search**: Use the search dropdown to quickly find and select any country
-6. **Export**: Click "Export PNG" to generate a high-resolution image of your map
-7. **Manage**: Visit the "Manage countries" page to view all countries and bulk operations
+### Getting Started
+1. **First visit**: Complete the interactive onboarding tutorial (shown once)
+2. **Select a country**: Click on any country on the map to open its details panel
+3. **Mark as visited**: Click the "Mark visited" button in the details panel
+4. **Add details**: Add notes, visit dates, and ratings for each visited country
+5. **Add tags**: Assign predefined tags like "Want to Visit", "Lived Here", or "Favorite"
+
+### Advanced Features
+- **Search**: Use the search dropdown to quickly find and select any country (map auto-zooms)
+- **Export**: Click "Export" to generate a high-resolution PNG image with custom dimensions
+- **Share**: Use the "Share" button to share your map via Web Share API or copy to clipboard
+- **Manage**: Visit the "Manage countries" page to view all countries and bulk operations
+- **Keyboard shortcuts**: Press `Ctrl/Cmd + ?` to view all available shortcuts
+- **Help**: Click the "Help" button for guidance and keyboard shortcuts
+
+### Mobile Usage
+- **Touch interactions**: Tap countries to select, use zoom buttons for navigation
+- **Mobile menu**: Tap the hamburger menu (☰) to access all features
+- **Country details**: Bottom sheet opens automatically when selecting a country
+- **Share**: Use native share functionality on mobile devices
 
 ## Project Structure
 
 ```
 MyMap/
-├── app/              # Next.js app router pages
-├── components/       # React components
-│   ├── MapView.tsx   # Interactive world map
+├── app/                    # Next.js app router pages
+│   ├── page.tsx           # Main map page
+│   ├── countries/         # Countries management page
+│   └── layout.tsx         # Root layout with providers
+├── components/            # React components
+│   ├── MapView.tsx        # Interactive world map
 │   ├── CountryDrawer.tsx  # Country details panel
+│   ├── MobileCountryDrawer.tsx  # Mobile bottom sheet
 │   ├── CountrySearch.tsx  # Searchable country dropdown
-│   ├── TagManager.tsx     # Tag creation and management
-│   └── ...
-├── lib/              # Utilities and business logic
-│   ├── map/          # Map data and utilities
-│   ├── state/        # Zustand store
-│   ├── export/       # PNG export functionality
-│   └── persist/      # LocalStorage persistence
-└── styles/           # Global styles
+│   ├── ShareButton.tsx    # Share functionality
+│   ├── ExportDialog.tsx   # Export PNG dialog
+│   ├── Onboarding.tsx     # First-time user tutorial
+│   ├── KeyboardShortcuts.tsx  # Help & shortcuts modal
+│   └── ui/                # Reusable UI components
+├── lib/                   # Utilities and business logic
+│   ├── map/               # Map data and utilities
+│   ├── state/             # Zustand store
+│   ├── export/            # PNG export functionality
+│   └── persist/           # LocalStorage persistence
+└── styles/                # Global styles
 ```
+
+## Mobile Optimization
+
+This application is fully optimized for mobile devices. See [MOBILE_OPTIMIZATION.md](./MOBILE_OPTIMIZATION.md) for detailed information about:
+- Mobile-specific features
+- Testing tools and recommendations
+- Performance optimization tips
+- Responsive design guidelines
 
 ## License
 

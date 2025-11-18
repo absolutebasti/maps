@@ -397,24 +397,24 @@ export function MapView({ onSelectCountry }: Props) {
         />
       )}
 
-      {/* Stats box - top right */}
-      <div className="absolute top-4 right-4 bg-black/90 text-white px-4 py-3 rounded-lg shadow-xl backdrop-blur-sm">
-        <div className="text-center space-y-1">
-          <div className="text-3xl font-bold">{stats.percentage}%</div>
-          <div className="text-xs text-gray-300">
-            {stats.visitedCount} / {stats.totalCountries} countries
+      {/* Stats box - top right, responsive sizing */}
+      <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-black/90 text-white px-2 py-1.5 sm:px-4 sm:py-3 rounded-lg shadow-xl backdrop-blur-sm">
+        <div className="text-center space-y-0.5 sm:space-y-1">
+          <div className="text-xl sm:text-3xl font-bold">{stats.percentage}%</div>
+          <div className="text-[10px] sm:text-xs text-gray-300 leading-tight">
+            {stats.visitedCount} / {stats.totalCountries}
           </div>
         </div>
       </div>
 
-      {/* Zoom controls - larger on mobile for touch */}
-      <div className="absolute bottom-4 right-4 flex flex-col gap-2">
+      {/* Zoom controls - larger on mobile for touch, better positioning */}
+      <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 flex flex-col gap-1.5 sm:gap-2">
         <Button
           size="icon"
           variant="secondary"
           onClick={handleZoomIn}
           disabled={zoom >= 4}
-          className="shadow-lg h-10 w-10 sm:h-9 sm:w-9 touch-manipulation"
+          className="shadow-lg h-11 w-11 sm:h-9 sm:w-9 touch-manipulation"
           aria-label="Zoom in"
         >
           <svg
@@ -437,7 +437,7 @@ export function MapView({ onSelectCountry }: Props) {
           variant="secondary"
           onClick={handleZoomOut}
           disabled={zoom <= 1}
-          className="shadow-lg h-10 w-10 sm:h-9 sm:w-9 touch-manipulation"
+          className="shadow-lg h-11 w-11 sm:h-9 sm:w-9 touch-manipulation"
           aria-label="Zoom out"
         >
           <svg

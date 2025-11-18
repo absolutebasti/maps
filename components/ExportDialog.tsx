@@ -77,7 +77,7 @@ export function ExportDialog({ targetContainerId }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>Export PNG</Button>
+        <Button size="sm" className="text-xs sm:text-sm px-2 sm:px-3">Export</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
