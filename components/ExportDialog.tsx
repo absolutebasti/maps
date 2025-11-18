@@ -97,7 +97,7 @@ export function ExportDialog({ targetContainerId }: Props) {
         onContinue={handleDonationContinue}
       />
       
-      <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Export Map as PNG</DialogTitle>

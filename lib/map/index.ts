@@ -1,6 +1,7 @@
 import type { Feature, FeatureCollection, Geometry } from "geojson";
 import { feature as topoToGeo } from "topojson-client";
 import world from "./world-topo.json";
+import countriesReference from "./countries-reference.json";
 
 type WorldTopology = typeof world;
 
@@ -61,6 +62,16 @@ export function getCountryId(country: CountryFeature): string {
 
   const props = (country.properties || {}) as Record<string, unknown>;
   const name = getCountryName(country);
+  
+  // First, try to match with reference list to get canonical ID
+  const matchedRefName = findCountryInReference(name);
+  if (matchedRefName) {
+    const refId = slugifyName(matchedRefName).toUpperCase();
+    featureIdCache.set(country, refId);
+    return refId;
+  }
+  
+  // Fallback to original logic for territories/unknown countries
   const slug = name ? slugifyName(name) : undefined;
 
   const candidates = [
@@ -107,17 +118,68 @@ export function getCountryName(country: CountryFeature): string {
   );
 }
 
-export function getWorldCountryList() {
-  if (cachedList) return cachedList;
-  const features = getWorldCountries().features as CountryFeature[];
-  const seen = new Map<string, string>();
-  for (const feature of features) {
-    const id = getCountryId(feature);
-    if (!seen.has(id)) {
-      seen.set(id, getCountryName(feature));
+function findCountryInReference(name: string): string | null {
+  const referenceCountries = countriesReference.allCountries as string[];
+  const nameVariants = countriesReference.nameVariants as Record<string, string[]>;
+  
+  const normalized = name.trim();
+  
+  // Direct match
+  if (referenceCountries.includes(normalized)) {
+    return normalized;
+  }
+  
+  // Check name variants
+  for (const [canonical, variants] of Object.entries(nameVariants)) {
+    if (variants.includes(normalized)) {
+      return canonical;
     }
   }
-  cachedList = Array.from(seen.entries())
+  
+  // Case-insensitive match
+  const lower = normalized.toLowerCase();
+  for (const refName of referenceCountries) {
+    if (refName.toLowerCase() === lower) {
+      return refName;
+    }
+  }
+  
+  return null;
+}
+
+export function getWorldCountryList() {
+  if (cachedList) return cachedList;
+  
+  // Start with the complete list of 195 countries from reference
+  const referenceCountries = countriesReference.allCountries as string[];
+  
+  // Merge: prioritize reference list (195 countries), but include any map-only countries
+  const allCountries = new Map<string, string>();
+  
+  // Add all 195 reference countries first
+  for (const countryName of referenceCountries) {
+    const id = slugifyName(countryName).toUpperCase();
+    allCountries.set(id, countryName);
+  }
+  
+  // Get countries from map topology and add any that aren't in reference
+  const features = getWorldCountries().features as CountryFeature[];
+  for (const feature of features) {
+    const mapName = getCountryName(feature).trim();
+    const matchedRefName = findCountryInReference(mapName);
+    
+    if (!matchedRefName) {
+      // This is a territory or country not in our reference list
+      // Use the map's ID system for these
+      const mapId = getCountryId(feature);
+      if (!allCountries.has(mapId)) {
+        allCountries.set(mapId, mapName);
+      }
+    }
+    // If matched, we already have it from the reference list above
+  }
+  
+  cachedList = Array.from(allCountries.entries())
     .map(([id, name]) => ({ id, name }))
     .sort((a, b) => a.name.localeCompare(b.name));
   return cachedList;
@@ -129,3 +191,4 @@ export function getCountryNameById(id: string) {
   }
   return cachedNameMap.get(id) ?? id;
 }
+
