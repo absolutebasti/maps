@@ -279,7 +279,8 @@ export function MapView({ onSelectCountry }: Props) {
                 // For multi-polygon geometries, centroid might not be inside the main landmass
                 // We'll use the centroid but add manual adjustments for common cases
                 const adjustments: Record<string, [number, number]> = {
-                  'FRA': [2.5, 47],      // France - center of mainland
+                  'FRA': [2, 46.5],      // France - center of mainland (adjusted)
+                  'FRANCE': [2, 46.5],   // Alternative name
                   'USA': [-98, 38],      // USA - center of mainland
                   'RUS': [95, 60],       // Russia - center
                   'CAN': [-95, 60],      // Canada - center
@@ -294,6 +295,8 @@ export function MapView({ onSelectCountry }: Props) {
                   'ITA': [12.5, 42.5],   // Italy - center
                   'CHL': [-71, -35],     // Chile - center
                   'ECU': [-78.5, -1.5],  // Ecuador - mainland
+                  'CHN': [105, 35],      // China - center
+                  'CHINA': [105, 35],    // China - alternative
                 };
                 
                 centroid = adjustments[countryId] || centroid;
