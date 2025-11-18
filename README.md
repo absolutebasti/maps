@@ -2,16 +2,15 @@
 
 A professional, interactive web application for tracking and visualizing the countries you've visited around the world. Mark countries on an interactive world map, add personal notes and ratings, and export high-resolution maps for printing. Fully optimized for mobile and desktop with a beautiful, responsive design.
 
-## Features
+## ✨ Features
 
 ### 🗺️ Interactive World Map
 - **Click to select**: Click any country on the map to open its details panel
 - **Auto-zoom**: Map automatically zooms and centers on selected countries
-- **Visual feedback**: Visited countries are highlighted in pastel beige, with hover and selection states
-- **Zoom & pan**: Navigate the map with smooth zoom controls (+/- buttons)
+- **Visual feedback**: Visited countries are highlighted with hover and selection states
+- **Zoom & pan**: Navigate the map with smooth zoom controls
 - **Touch-friendly**: Optimized for mobile with larger touch targets and gesture support
 - **Real-time updates**: Map colors update instantly as you mark countries
-- **Ocean details**: Beautiful light blue oceans with wave patterns and labeled ocean names
 
 ### 🌍 Country Management
 - **Searchable dropdown**: Type to search and quickly find any country from a comprehensive list
@@ -49,30 +48,30 @@ A professional, interactive web application for tracking and visualizing the cou
 
 ### 🎯 User Experience
 - **Onboarding**: Interactive tutorial for first-time users
-- **Toast notifications**: Real-time feedback for all actions (mark visited, add tags, etc.)
+- **Toast notifications**: Real-time feedback for all actions
 - **Keyboard shortcuts**: Help modal with keyboard shortcuts (Ctrl/Cmd + ?)
 - **Theme toggle**: Switch between light and dark modes
 - **Help system**: Built-in help and keyboard shortcuts guide
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js 18+ and npm
 
 ### Installation
 
-1. Clone the repository:
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/absolutebasti/maps.git
    cd maps
    ```
 
-2. Install dependencies:
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-3. Set up environment variables (optional, for donation feature):
+3. **Set up environment variables (optional, for donation feature):**
    ```bash
    cp .env.example .env.local
    ```
@@ -81,14 +80,14 @@ A professional, interactive web application for tracking and visualizing the cou
    NEXT_PUBLIC_PAYPAL_DONATION_LINK=https://www.paypal.com/paypalme/yourusername
    ```
 
-4. Run the development server:
+4. **Run the development server:**
    ```bash
    npm run dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser
+5. **Open [http://localhost:3000](http://localhost:3000) in your browser**
 
-## Technology Stack
+## 🛠️ Technology Stack
 
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
@@ -99,7 +98,7 @@ A professional, interactive web application for tracking and visualizing the cou
 - **UI Components**: Custom components inspired by shadcn/ui (Dialog, Sheet, Popover)
 - **Mobile**: Responsive design with touch-optimized interactions
 
-## Usage
+## 📖 Usage
 
 ### Getting Started
 1. **First visit**: Complete the interactive onboarding tutorial (shown once)
@@ -122,12 +121,16 @@ A professional, interactive web application for tracking and visualizing the cou
 - **Country details**: Bottom sheet opens automatically when selecting a country
 - **Share**: Use native share functionality on mobile devices
 
-## Project Structure
+## 📁 Project Structure
 
 ```
 MyMap/
 ├── app/                    # Next.js app router pages
 │   ├── page.tsx           # Main map page
+│   ├── about/             # About page
+│   ├── blog/              # Blog pages
+│   ├── faq/               # FAQ page
+│   ├── features/          # Features page
 │   ├── countries/         # Countries management page
 │   └── layout.tsx         # Root layout with providers
 ├── components/            # React components
@@ -137,6 +140,7 @@ MyMap/
 │   ├── CountrySearch.tsx  # Searchable country dropdown
 │   ├── ShareButton.tsx    # Share functionality
 │   ├── ExportDialog.tsx   # Export PNG dialog
+│   ├── DonationHint.tsx   # Donation support component
 │   ├── Onboarding.tsx     # First-time user tutorial
 │   ├── KeyboardShortcuts.tsx  # Help & shortcuts modal
 │   └── ui/                # Reusable UI components
@@ -148,7 +152,7 @@ MyMap/
 └── styles/                # Global styles
 ```
 
-## Mobile Optimization
+## 📱 Mobile Optimization
 
 This application is fully optimized for mobile devices. See [MOBILE_OPTIMIZATION.md](./MOBILE_OPTIMIZATION.md) for detailed information about:
 - Mobile-specific features
@@ -156,7 +160,7 @@ This application is fully optimized for mobile devices. See [MOBILE_OPTIMIZATION
 - Performance optimization tips
 - Responsive design guidelines
 
-## Supporting MyMap
+## 💝 Supporting MyMap
 
 MyMap is completely **free to use** with no hidden costs, subscriptions, or premium features. All features are available to everyone, always.
 
@@ -170,8 +174,6 @@ Donations help us:
 
 You can support MyMap by clicking the "Buy me a coffee" button on the About, Features, or FAQ pages, or when using the Export and Share features.
 
-## License
+## 📄 License
 
 MIT
-
-
