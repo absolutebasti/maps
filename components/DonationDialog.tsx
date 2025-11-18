@@ -28,9 +28,17 @@ export function DonationDialog({ open, onOpenChange, onContinue }: Props) {
     // Open PayPal in new tab
     const paypalLink = process.env.NEXT_PUBLIC_PAYPAL_DONATION_LINK;
     
+    // Debug: Log environment variable status
+    console.log("PayPal link check:", {
+      hasLink: !!paypalLink,
+      linkValue: paypalLink ? "***configured***" : "undefined",
+      allEnvVars: Object.keys(process.env).filter(k => k.includes("PAYPAL"))
+    });
+    
     if (!paypalLink) {
       console.error("PayPal donation link not configured. Please set NEXT_PUBLIC_PAYPAL_DONATION_LINK in your .env.local file");
-      alert("PayPal link not configured. Please contact the developer.");
+      console.error("Make sure to restart your dev server after creating/updating .env.local");
+      alert("PayPal link not configured. Please restart your dev server (stop and run 'npm run dev' again).");
       onOpenChange(false);
       onContinue();
       return;

@@ -75,16 +75,29 @@ export function ExportDialog({ targetContainerId }: Props) {
     }
   };
 
-  const handleExportClick = () => {
-    // Show donation dialog first
+  const handleExportButtonClick = () => {
+    // Show donation dialog first, then open export dialog after
     setDonationOpen(true);
   };
 
+  const handleDonationContinue = () => {
+    // After donation dialog closes, open the export dialog
+    setOpen(true);
+  };
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button size="sm" className="text-xs sm:text-sm px-2 sm:px-3">Export</Button>
-      </DialogTrigger>
+    <>
+      <Button size="sm" className="text-xs sm:text-sm px-2 sm:px-3" onClick={handleExportButtonClick}>
+        Export
+      </Button>
+      
+      <DonationDialog
+        open={donationOpen}
+        onOpenChange={setDonationOpen}
+        onContinue={handleDonationContinue}
+      />
+      
+      <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Export Map as PNG</DialogTitle>
@@ -138,18 +151,13 @@ export function ExportDialog({ targetContainerId }: Props) {
           <Button variant="outline" onClick={() => setOpen(false)}>
             Cancel
           </Button>
-          <Button onClick={handleExportClick} disabled={isExporting}>
+          <Button onClick={performExport} disabled={isExporting}>
             {isExporting ? "Exporting..." : "Export"}
           </Button>
         </DialogFooter>
       </DialogContent>
-      
-      <DonationDialog
-        open={donationOpen}
-        onOpenChange={setDonationOpen}
-        onContinue={performExport}
-      />
     </Dialog>
+    </>
   );
 }
 
