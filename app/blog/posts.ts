@@ -41,14 +41,16 @@ Sharing your travel map with friends and family is a great way to showcase your 
 
 ### Digital Tools
 
-#### Online Travel Trackers
+**Online Travel Trackers**
+
 Digital tools like MyMap offer several advantages:
 - **Accessibility**: Access your map from any device
 - **Rich Details**: Add notes, dates, and ratings for each country
 - **Easy Sharing**: Export and share your map with others
 - **No Physical Space**: No need to store a physical map
 
-#### Mobile Apps
+**Mobile Apps**
+
 Many mobile apps allow you to track countries on the go:
 - Sync across devices
 - Offline access
@@ -57,14 +59,16 @@ Many mobile apps allow you to track countries on the go:
 
 ### Physical Maps
 
-#### Scratch Maps
+**Scratch Maps**
+
 Physical scratch maps are popular for their tactile experience:
 - Beautiful wall decoration
 - Satisfying to scratch off countries
 - Great conversation starter
 - Permanent display
 
-#### Push Pin Maps
+**Push Pin Maps**
+
 Traditional push pin maps offer:
 - Classic aesthetic
 - Customizable pins
@@ -620,29 +624,33 @@ This is where it gets interesting—there's no universal definition. Different t
 
 ### Common Definitions:
 
-#### 1. Set Foot
+**1. Set Foot**
+
 The simplest definition: you've visited if you've physically set foot in the country, even if just for a few hours.
 
-**Pros**: Clear and objective
-**Cons**: Doesn't reflect meaningful experiences
+*Pros*: Clear and objective  
+*Cons*: Doesn't reflect meaningful experiences
 
-#### 2. Overnight Stay
+**2. Overnight Stay**
+
 You must have spent at least one night in the country.
 
-**Pros**: Ensures some meaningful time spent
-**Cons**: Excludes day trips from border regions
+*Pros*: Ensures some meaningful time spent  
+*Cons*: Excludes day trips from border regions
 
-#### 3. Meaningful Experience
+**3. Meaningful Experience**
+
 You've had a genuine experience—seen something, done something, or spent meaningful time.
 
-**Pros**: Reflects actual travel experiences
-**Cons**: Subjective and hard to define
+*Pros*: Reflects actual travel experiences  
+*Cons*: Subjective and hard to define
 
-#### 4. Airport Layovers
+**4. Airport Layovers**
+
 Some count airport layovers, others don't.
 
-**Pros**: You were technically in the country
-**Cons**: No real experience of the country
+*Pros*: You were technically in the country  
+*Cons*: No real experience of the country
 
 ## The 195 Countries Question
 
@@ -659,13 +667,13 @@ Some territories and regions complicate the count:
 
 ### Common Counting Systems:
 
-#### UN Member States Only
+**UN Member States Only**  
 Count only the 193 UN member states.
 
-#### Plus Observer States
+**Plus Observer States**  
 Include Vatican City and Palestine (195 total).
 
-#### Plus Territories
+**Plus Territories**  
 Include territories and dependencies (can reach 250+).
 
 ## How to Count Your Countries
@@ -711,17 +719,17 @@ Stick to your rules consistently to maintain accurate counts.
 
 ### Realistic Goals by Timeframe:
 
-#### 1 Year
+**1 Year**
 - **Moderate**: 2-5 new countries
 - **Ambitious**: 5-10 new countries
 - **Extreme**: 10-20+ new countries
 
-#### 5 Years
+**5 Years**
 - **Moderate**: 10-25 new countries
 - **Ambitious**: 25-50 new countries
 - **Extreme**: 50-100+ new countries
 
-#### Lifetime
+**Lifetime**
 - **Moderate**: 30-60 countries
 - **Ambitious**: 60-100 countries
 - **Extreme**: 100-195 countries
