@@ -6,7 +6,6 @@ import { Button } from "./ui/button";
 import { getCountryNameById } from "./../lib/map";
 import { useToast } from "./ui/toast";
 import { analytics } from "./../lib/analytics";
-import { CopyShareLinkButton } from "./CopyShareLinkButton";
 
 export function CountryDrawer() {
   const selectedId = useAppStore((s) => s.selectedCountryId);
@@ -93,8 +92,6 @@ export function CountryDrawer() {
             </span>
           )}
         </button>
-        {/* Share link button for this country */}
-        <CopyShareLinkButton countryId={selectedId} variant="outline" size="sm" />
       </div>
       <div className="space-y-2">
         <label className="text-sm font-medium">Note</label>
