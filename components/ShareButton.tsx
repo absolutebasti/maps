@@ -5,6 +5,7 @@ import { Button } from "./ui/button";
 import { useToast } from "./ui/toast";
 import { DonationDialog } from "./DonationDialog";
 import { analytics } from "./../lib/analytics";
+import { getShareableUrl } from "./../lib/share-utils";
 
 type Props = {
   targetContainerId: string;
@@ -68,46 +69,61 @@ export function ShareButton({ targetContainerId }: Props) {
         }
 
         try {
-          // Track share event
-          analytics.shareClicked();
+          // Get shareable URL with UTM parameters
+          const shareUrl = getShareableUrl("web_share");
+          const shareText = `Check out my travel map! ${shareUrl}`;
+          
           // Try Web Share API
           if (navigator.share) {
             const file = new File([blob], "mymap.png", { type: "image/png" });
             if (navigator.canShare && navigator.canShare({ files: [file] })) {
+              // Note: Some browsers don't support url parameter with files
+              // We include the URL in the text instead
               await navigator.share({
                 title: "My Visited Countries Map",
-                text: "Check out my travel map!",
+                text: shareText,
                 files: [file],
               });
+              // Track share event with method and UTM parameters
+              analytics.shareClicked("web_share_api", "web_share", "social", "map_share");
               toast({
                 title: "Shared successfully",
                 description: "Your map has been shared",
                 variant: "success",
               });
             } else {
-              // Fallback: copy to clipboard
-              await navigator.clipboard.write([
-                new ClipboardItem({ "image/png": blob })
-              ]);
-              toast({
-                title: "Copied to clipboard",
-                description: "Map image copied to clipboard",
-                variant: "success",
-              });
+              // Fallback: copy URL to clipboard (image sharing not supported)
+              try {
+                await navigator.clipboard.writeText(shareText);
+                // Track share event
+                analytics.shareClicked("clipboard_url", "clipboard", "social", "map_share");
+                toast({
+                  title: "Link copied to clipboard",
+                  description: "Share link with UTM parameters copied. You can paste it anywhere!",
+                  variant: "success",
+                });
+              } catch {
+                // If clipboard fails, show URL to user
+                analytics.shareClicked("clipboard_failed", "clipboard", "social", "map_share");
+                toast({
+                  title: "Share link",
+                  description: `Copy this link: ${shareUrl}`,
+                  variant: "default",
+                });
+              }
             }
           } else {
-            // Fallback: copy to clipboard
+            // Fallback: try to copy URL to clipboard, then offer image download
             try {
-              await navigator.clipboard.write([
-                new ClipboardItem({ "image/png": blob })
-              ]);
+              await navigator.clipboard.writeText(shareText);
+              // Track share event
+              analytics.shareClicked("clipboard_url", "clipboard", "social", "map_share");
               toast({
-                title: "Copied to clipboard",
-                description: "Map image copied to clipboard",
+                title: "Link copied to clipboard",
+                description: "Share link with UTM parameters copied! Downloading image...",
                 variant: "success",
               });
-            } catch {
-              // Final fallback: download
+              // Also download the image
               const downloadUrl = URL.createObjectURL(blob);
               const a = document.createElement("a");
               a.href = downloadUrl;
@@ -116,9 +132,21 @@ export function ShareButton({ targetContainerId }: Props) {
               a.click();
               a.remove();
               URL.revokeObjectURL(downloadUrl);
+            } catch {
+              // Final fallback: download image and show URL
+              const downloadUrl = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = downloadUrl;
+              a.download = "mymap-share.png";
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+              URL.revokeObjectURL(downloadUrl);
+              // Track share event
+              analytics.shareClicked("download", "download", "social", "map_share");
               toast({
                 title: "Downloaded",
-                description: "Map image downloaded. You can share it manually.",
+                description: `Map image downloaded. Share this link: ${shareUrl}`,
                 variant: "default",
               });
             }

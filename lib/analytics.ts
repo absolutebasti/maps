@@ -39,6 +39,10 @@ type EventParams = {
   rating?: number;
   search_query?: string;
   page_path?: string;
+  share_method?: string;
+  share_source?: string;
+  share_medium?: string;
+  share_campaign?: string;
 };
 
 /**
@@ -106,8 +110,13 @@ export const analytics = {
     });
   },
 
-  shareClicked: () => {
-    trackEvent("share_clicked");
+  shareClicked: (method?: string, source?: string, medium?: string, campaign?: string) => {
+    trackEvent("share_clicked", {
+      share_method: method,
+      share_source: source,
+      share_medium: medium,
+      share_campaign: campaign,
+    });
   },
 
   blogPostViewed: (slug: string, title: string) => {
