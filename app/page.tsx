@@ -8,6 +8,7 @@ import { StatsBar } from "./../components/StatsBar";
 import { Legend } from "./../components/Legend";
 import { ExportDialog } from "./../components/ExportDialog";
 import { ShareButton } from "./../components/ShareButton";
+import { CopyShareLinkButton } from "./../components/CopyShareLinkButton";
 import { CountrySearch } from "./../components/CountrySearch";
 import { ThemeToggle } from "./../components/ThemeToggle";
 import { useAppStore } from "./../lib/state/store";
@@ -102,6 +103,7 @@ export default function HomePage() {
             >
               Manage countries
             </Link>
+            <CopyShareLinkButton />
             <ShareButton targetContainerId="map-container" />
             <ExportDialog targetContainerId="map-container" />
             {/* Mobile menu button */}

@@ -6,6 +6,8 @@ import { useToast } from "./ui/toast";
 import { DonationDialog } from "./DonationDialog";
 import { analytics } from "./../lib/analytics";
 import { getShareableUrl } from "./../lib/share-utils";
+import { useAppStore } from "./../lib/state/store";
+import { createShareableState, generateShareUrl } from "./../lib/share/encode";
 
 type Props = {
   targetContainerId: string;
@@ -15,6 +17,9 @@ export function ShareButton({ targetContainerId }: Props) {
   const [isSharing, setIsSharing] = useState(false);
   const [donationOpen, setDonationOpen] = useState(false);
   const { toast } = useToast();
+  const countriesById = useAppStore((s) => s.countriesById);
+  const selectedCountryId = useAppStore((s) => s.selectedCountryId);
+  const visitedCountryColor = useAppStore((s) => s.settings.visitedCountryColor);
 
   const performShare = async () => {
     const container = document.getElementById(targetContainerId);
@@ -69,8 +74,16 @@ export function ShareButton({ targetContainerId }: Props) {
         }
 
         try {
-          // Get shareable URL with UTM parameters
-          const shareUrl = getShareableUrl("web_share");
+          // Create shareable state from current map
+          const shareableState = createShareableState(
+            countriesById,
+            selectedCountryId,
+            visitedCountryColor
+          );
+          
+          // Generate shareable URL with encoded map state
+          const baseUrl = typeof window !== "undefined" ? window.location.origin : "https://maps-production-d32c.up.railway.app";
+          const shareUrl = generateShareUrl(baseUrl, shareableState, "web_share");
           const shareText = `Check out my travel map! ${shareUrl}`;
           
           // Try Web Share API
