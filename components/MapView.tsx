@@ -445,7 +445,7 @@ export function MapView({ onSelectCountry }: Props) {
       </div>
 
       {/* Zoom controls - larger on mobile for touch, better positioning */}
-      <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 flex flex-col gap-1.5 sm:gap-2">
+      <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 flex flex-col gap-2 sm:gap-2 z-10">
         <Button
           size="icon"
           variant="secondary"

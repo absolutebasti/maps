@@ -104,7 +104,7 @@ export function Legend() {
           placeholder="Search countries…"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="w-full rounded-md border bg-background px-3 py-3 sm:py-2 text-base sm:text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring touch-manipulation min-h-[44px]"
         />
 
         {/* Filter buttons */}
@@ -112,7 +112,7 @@ export function Legend() {
           <button
             onClick={() => setFilterVisited(null)}
             className={cn(
-              "flex-1 rounded-md px-3 py-2 text-xs font-medium transition-colors",
+              "flex-1 rounded-md px-3 py-3 sm:py-2 text-sm sm:text-xs font-medium transition-colors touch-manipulation min-h-[44px]",
               filterVisited === null
                 ? "bg-primary text-primary-foreground"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
@@ -123,7 +123,7 @@ export function Legend() {
           <button
             onClick={() => setFilterVisited(true)}
             className={cn(
-              "flex-1 rounded-md px-3 py-2 text-xs font-medium transition-colors",
+              "flex-1 rounded-md px-3 py-3 sm:py-2 text-sm sm:text-xs font-medium transition-colors touch-manipulation min-h-[44px]",
               filterVisited === true
                 ? "bg-green-600 text-white"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
@@ -134,7 +134,7 @@ export function Legend() {
           <button
             onClick={() => setFilterVisited(false)}
             className={cn(
-              "flex-1 rounded-md px-3 py-2 text-xs font-medium transition-colors",
+              "flex-1 rounded-md px-3 py-3 sm:py-2 text-sm sm:text-xs font-medium transition-colors touch-manipulation min-h-[44px]",
               filterVisited === false
                 ? "bg-red-600 text-white"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
@@ -161,7 +161,7 @@ export function Legend() {
                     toggleVisited(country.id);
                   }}
                   className={cn(
-                    "w-full flex items-center justify-between gap-2 px-2 py-1.5 rounded text-xs hover:bg-accent transition-colors text-left",
+                    "w-full flex items-center justify-between gap-2 px-3 sm:px-2 py-3 sm:py-1.5 rounded text-sm sm:text-xs hover:bg-accent transition-colors text-left touch-manipulation min-h-[44px]",
                     visited && "bg-green-50 dark:bg-green-950/40"
                   )}
                 >

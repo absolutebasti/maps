@@ -137,7 +137,7 @@ export default function CountriesPage() {
             placeholder="Search countries…"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            className="w-full flex-1 min-w-[220px] rounded-md border bg-background px-3 py-2 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring md:max-w-sm"
+            className="w-full flex-1 min-w-[220px] rounded-md border bg-background px-3 py-3 sm:py-2 text-base sm:text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring md:max-w-sm touch-manipulation min-h-[44px]"
           />
           <div className="flex gap-2">
             <Button
@@ -220,13 +220,13 @@ export default function CountriesPage() {
                   <label
                     key={country.id}
                     className={cn(
-                      "flex cursor-pointer items-center gap-4 px-4 py-3 text-sm transition-colors hover:bg-accent hover:text-accent-foreground",
+                      "flex cursor-pointer items-center gap-4 px-4 py-4 sm:py-3 text-base sm:text-sm transition-colors hover:bg-accent hover:text-accent-foreground touch-manipulation min-h-[56px] sm:min-h-[48px]",
                       checked && "bg-accent/70"
                     )}
                   >
                     <input
                       type="checkbox"
-                      className="h-4 w-4 rounded border border-input"
+                      className="h-5 w-5 sm:h-4 sm:w-4 rounded border border-input touch-manipulation"
                       checked={checked}
                       onChange={() => handleToggle(country.id)}
                     />

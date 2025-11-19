@@ -60,6 +60,37 @@ body {
   touch-action: manipulation;
 }
 
+/* Safe area insets for notched devices (iPhone X+) */
+@supports (padding: max(0px)) {
+  body {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  header {
+    padding-top: max(0.5rem, env(safe-area-inset-top));
+  }
+}
+
+/* Mobile-optimized text sizes */
+@media (max-width: 640px) {
+  /* Ensure minimum readable font sizes */
+  body {
+    font-size: 16px; /* Prevents iOS zoom on input focus */
+  }
+  
+  /* Larger touch targets for mobile */
+  button, a, input, select, textarea {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better spacing on mobile */
+  .space-y-6 > * + * {
+    margin-top: 1.5rem;
+  }
+}
+
 @media print {
   /* Basic print optimizations */
   .no-print {

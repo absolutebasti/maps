@@ -44,7 +44,7 @@ export function CountrySearch() {
             role="combobox"
             aria-expanded={open}
             aria-label="Select a country"
-            className="w-full justify-between rounded-lg border bg-background px-3 py-2 text-left text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50"
+            className="w-full justify-between rounded-lg border bg-background px-3 py-3 sm:py-2 text-left text-base sm:text-sm shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 touch-manipulation min-h-[44px]"
           >
             <span className={cn(!selectedName && "text-muted-foreground")}>
               {selectedName || "Select a country..."}
@@ -71,7 +71,7 @@ export function CountrySearch() {
           withOverlay
         >
           <Command>
-            <CommandInput placeholder="Type to search..." className="h-10" />
+            <CommandInput placeholder="Type to search..." className="h-12 sm:h-10 text-base sm:text-sm" />
             <CommandList>
               <CommandEmpty>No countries found.</CommandEmpty>
               <CommandGroup>
@@ -88,7 +88,7 @@ export function CountrySearch() {
                         setOpen(false);
                       }}
                       className={cn(
-                        "flex items-center justify-between gap-2 cursor-pointer",
+                        "flex items-center justify-between gap-2 cursor-pointer py-3 sm:py-2 min-h-[44px] touch-manipulation",
                         isSelected && "bg-accent"
                       )}
                     >

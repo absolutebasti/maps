@@ -118,26 +118,26 @@ export default function HomePage() {
             <ExportDialog targetContainerId="map-container" />
             {/* Mobile menu button */}
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="outline" size="icon" className="sm:hidden h-9 w-9">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <line x1="3" y1="6" x2="21" y2="6" />
-                    <line x1="3" y1="12" x2="21" y2="12" />
-                    <line x1="3" y1="18" x2="21" y2="18" />
-                  </svg>
-                  <span className="sr-only">Menu</span>
-                </Button>
-              </SheetTrigger>
+                <SheetTrigger asChild>
+                    <Button variant="outline" size="icon" className="sm:hidden h-11 w-11 touch-manipulation">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <line x1="3" y1="6" x2="21" y2="6" />
+                        <line x1="3" y1="12" x2="21" y2="12" />
+                        <line x1="3" y1="18" x2="21" y2="18" />
+                      </svg>
+                      <span className="sr-only">Menu</span>
+                    </Button>
+                  </SheetTrigger>
               <SheetContent side="right" className="w-[85vw] sm:max-w-md overflow-y-auto">
                 <div className="space-y-6 mt-6">
                   <div className="space-y-4">

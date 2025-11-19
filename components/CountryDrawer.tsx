@@ -99,7 +99,7 @@ export function CountryDrawer() {
       <div className="space-y-2">
         <label className="text-sm font-medium">Note</label>
         <textarea
-          className="w-full min-h-24 text-sm rounded-md border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-ring"
+          className="w-full min-h-24 text-base sm:text-sm rounded-md border bg-background px-3 sm:px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-ring touch-manipulation"
           placeholder="Add your memories, highlights, or places visited..."
           value={country?.note ?? ""}
           onChange={(e) => {
@@ -116,7 +116,7 @@ export function CountryDrawer() {
           <label className="text-sm font-medium">Visited date</label>
           <input
             type="date"
-            className="w-full text-sm rounded-md border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-ring"
+            className="w-full text-base sm:text-sm rounded-md border bg-background px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-ring touch-manipulation min-h-[44px]"
             value={country?.visitedAt ?? ""}
             onChange={(e) => setVisitedAt(selectedId, e.target.value || undefined)}
           />
@@ -124,7 +124,7 @@ export function CountryDrawer() {
         <div className="space-y-2">
           <label className="text-sm font-medium">Rating</label>
           <select
-            className="w-full text-sm rounded-md border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-ring"
+            className="w-full text-base sm:text-sm rounded-md border bg-background px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-ring touch-manipulation min-h-[44px]"
             value={country?.rating ?? ""}
             onChange={(e) => {
               const rating = e.target.value ? Number(e.target.value) : undefined;
