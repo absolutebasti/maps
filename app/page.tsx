@@ -17,7 +17,6 @@ import { Sheet, SheetContent, SheetTrigger } from "./../components/ui/sheet";
 import { MobileCountryDrawer } from "./../components/MobileCountryDrawer";
 import { Onboarding } from "./../components/Onboarding";
 import { KeyboardShortcuts } from "./../components/KeyboardShortcuts";
-import { SocialProof } from "./../components/SocialProof";
 import { recordVisit } from "./../lib/supabase/stats";
 import { useState, useEffect } from "react";
 
@@ -165,11 +164,6 @@ export default function HomePage() {
           </div>
         </div>
       </header>
-      
-      {/* Social Proof */}
-      <div className="mx-auto max-w-6xl px-4 py-3 sm:py-4">
-        <SocialProof />
-      </div>
 
       <section className="flex-1 grid md:grid-cols-[1fr,360px]">
         <div className="p-1 sm:p-2 md:p-4 flex items-center justify-center min-h-[400px]">

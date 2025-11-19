@@ -56,39 +56,13 @@ export function SocialProof() {
   };
 
   return (
-    <div className="bg-muted/30 border rounded-lg p-4 sm:p-6 text-center space-y-3">
+    <div className="inline-flex items-center gap-2 text-sm text-muted-foreground">
       {isLoading ? (
-        <div className="flex items-center justify-center gap-2 text-muted-foreground">
-          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-          <span className="text-sm">Loading stats...</span>
-        </div>
+        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-primary"></div>
       ) : (
         <>
-          <div className="space-y-2">
-            <p className="text-lg sm:text-xl font-semibold text-foreground">
-              <span className="text-primary font-bold">{formatNumber(stats.today)}</span>{" "}
-              travelers using MyMap today
-            </p>
-            {(stats.totalCountries > 0 || stats.totalExports > 0 || stats.totalShares > 0) && (
-              <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-sm text-muted-foreground">
-                {stats.totalCountries > 0 && (
-                  <span>
-                    <span className="font-medium text-foreground">{formatNumber(stats.totalCountries)}</span> countries marked
-                  </span>
-                )}
-                {stats.totalExports > 0 && (
-                  <span>
-                    <span className="font-medium text-foreground">{formatNumber(stats.totalExports)}</span> maps exported
-                  </span>
-                )}
-                {stats.totalShares > 0 && (
-                  <span>
-                    <span className="font-medium text-foreground">{formatNumber(stats.totalShares)}</span> shares
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
+          <span className="text-primary font-semibold">{formatNumber(stats.today)}</span>
+          <span>travelers today</span>
         </>
       )}
     </div>

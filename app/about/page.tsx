@@ -3,6 +3,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { DonationHint } from "@/components/DonationHint";
+import { SocialProof } from "@/components/SocialProof";
 
 export const metadata: Metadata = {
   title: "About MyMap - Your Travel Journey Tracker | MyMap",
@@ -39,6 +40,9 @@ export default function AboutPage() {
             <p className="text-xl text-muted-foreground">
               Helping travelers document and visualize their journey around the world
             </p>
+            <div className="flex items-center justify-center pt-2">
+              <SocialProof />
+            </div>
           </div>
 
           {/* Mission Section */}

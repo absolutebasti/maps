@@ -3,6 +3,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { DonationHint } from "@/components/DonationHint";
+import { SocialProof } from "@/components/SocialProof";
 
 export const metadata: Metadata = {
   title: "Features - Track Visited Countries with MyMap | MyMap",
@@ -101,6 +102,9 @@ export default function FeaturesPage() {
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Everything you need to track, visualize, and share your travel journey around the world
             </p>
+            <div className="flex items-center justify-center pt-2">
+              <SocialProof />
+            </div>
           </div>
 
           {/* Features Grid */}
