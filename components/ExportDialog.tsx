@@ -15,6 +15,7 @@ import { exportSvgContainerToPng } from "./../lib/export/png";
 import { useToast } from "./ui/toast";
 import { DonationDialog } from "./DonationDialog";
 import { analytics } from "./../lib/analytics";
+import { recordEvent } from "./../lib/supabase/stats";
 
 type Props = {
   targetContainerId: string;
@@ -61,6 +62,8 @@ export function ExportDialog({ targetContainerId }: Props) {
       });
       // Track export event
       analytics.mapExported("PNG", widthPx, heightPx);
+      // Track in Supabase stats
+      recordEvent('map_exported');
       toast({
         title: "Export successful",
         description: "Your map has been downloaded",

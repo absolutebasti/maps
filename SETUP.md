@@ -90,3 +90,25 @@ When deploying to production (e.g., Railway, Vercel), add the environment variab
 5. Click **Save** for each variable
 6. Redeploy your application
 
+### Supabase (For Social Proof & Stats)
+
+To enable visitor tracking and social proof features:
+
+1. **Create a Supabase project:**
+   - Go to: https://supabase.com
+   - Create a new project (or use existing)
+   - Follow the detailed setup guide in `SUPABASE_SETUP.md`
+
+2. **Add to `.env.local` file:**
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key-here
+   SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
+   ```
+
+3. **For production (Railway):**
+   - Add the same environment variables in Railway dashboard
+   - See `SUPABASE_SETUP.md` for complete setup instructions including database schema
+
+**Note:** The `SUPABASE_SERVICE_ROLE_KEY` should NOT be prefixed with `NEXT_PUBLIC_` as it's only used server-side. Keep it secret!
+

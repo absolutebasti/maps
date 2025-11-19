@@ -8,6 +8,7 @@ import { analytics } from "./../lib/analytics";
 import { getShareableUrl } from "./../lib/share-utils";
 import { useAppStore } from "./../lib/state/store";
 import { createShareableState, generateShareUrl } from "./../lib/share/encode";
+import { recordEvent } from "./../lib/supabase/stats";
 
 type Props = {
   targetContainerId: string;
@@ -99,6 +100,8 @@ export function ShareButton({ targetContainerId }: Props) {
               });
               // Track share event with method and UTM parameters
               analytics.shareClicked("web_share_api", "web_share", "social", "map_share");
+              // Track in Supabase stats
+              recordEvent('share_clicked');
               toast({
                 title: "Shared successfully",
                 description: "Your map has been shared",
@@ -110,6 +113,8 @@ export function ShareButton({ targetContainerId }: Props) {
                 await navigator.clipboard.writeText(shareText);
                 // Track share event
                 analytics.shareClicked("clipboard_url", "clipboard", "social", "map_share");
+                // Track in Supabase stats
+                recordEvent('share_clicked');
                 toast({
                   title: "Link copied to clipboard",
                   description: "Share link with UTM parameters copied. You can paste it anywhere!",
@@ -118,6 +123,8 @@ export function ShareButton({ targetContainerId }: Props) {
               } catch {
                 // If clipboard fails, show URL to user
                 analytics.shareClicked("clipboard_failed", "clipboard", "social", "map_share");
+                // Track in Supabase stats (still counts as a share attempt)
+                recordEvent('share_clicked');
                 toast({
                   title: "Share link",
                   description: `Copy this link: ${shareUrl}`,
@@ -131,6 +138,8 @@ export function ShareButton({ targetContainerId }: Props) {
               await navigator.clipboard.writeText(shareText);
               // Track share event
               analytics.shareClicked("clipboard_url", "clipboard", "social", "map_share");
+              // Track in Supabase stats
+              recordEvent('share_clicked');
               toast({
                 title: "Link copied to clipboard",
                 description: "Share link with UTM parameters copied! Downloading image...",
@@ -157,6 +166,8 @@ export function ShareButton({ targetContainerId }: Props) {
               URL.revokeObjectURL(downloadUrl);
               // Track share event
               analytics.shareClicked("download", "download", "social", "map_share");
+              // Track in Supabase stats
+              recordEvent('share_clicked');
               toast({
                 title: "Downloaded",
                 description: `Map image downloaded. Share this link: ${shareUrl}`,

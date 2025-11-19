@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { getCountryNameById } from "./../lib/map";
 import { useToast } from "./ui/toast";
 import { analytics } from "./../lib/analytics";
+import { recordEvent } from "./../lib/supabase/stats";
 
 export function CountryDrawer() {
   const selectedId = useAppStore((s) => s.selectedCountryId);
@@ -48,6 +49,8 @@ export function CountryDrawer() {
               analytics.countryUnmarked(title, selectedId);
             } else {
               analytics.countryMarkedVisited(title, selectedId);
+              // Track in Supabase stats
+              recordEvent('country_marked');
             }
             toast({
               title: isVisited ? "Country unmarked" : "Country marked as visited",
