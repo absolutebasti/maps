@@ -19,6 +19,8 @@ type EventName =
   | "blog_post_viewed"
   | "onboarding_completed"
   | "onboarding_skipped"
+  | "onboarding_step_viewed"
+  | "onboarding_step_back"
   | "country_note_added"
   | "country_rated"
   | "tag_added"
@@ -43,6 +45,11 @@ type EventParams = {
   share_source?: string;
   share_medium?: string;
   share_campaign?: string;
+  step?: number;
+  total_steps?: number;
+  progress_percentage?: number;
+  time_spent_seconds?: number;
+  completion_rate?: string;
 };
 
 /**
@@ -130,8 +137,28 @@ export const analytics = {
     trackEvent("onboarding_completed");
   },
 
-  onboardingSkipped: () => {
-    trackEvent("onboarding_skipped");
+  onboardingSkipped: (step?: number, totalSteps?: number, timeSpent?: number) => {
+    trackEvent("onboarding_skipped", {
+      step,
+      total_steps: totalSteps,
+      time_spent_seconds: timeSpent,
+    });
+  },
+
+  onboardingStepViewed: (step: number, totalSteps: number) => {
+    trackEvent("onboarding_step_viewed", {
+      step,
+      total_steps: totalSteps,
+      progress_percentage: Math.round((step / totalSteps) * 100),
+    });
+  },
+
+  onboardingStepBack: (step: number, totalSteps: number) => {
+    trackEvent("onboarding_step_back", {
+      step,
+      total_steps: totalSteps,
+      progress_percentage: Math.round((step / totalSteps) * 100),
+    });
   },
 
   countryNoteAdded: (countryName: string, countryId: string) => {
