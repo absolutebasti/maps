@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
+import { analytics } from "./../lib/analytics";
 
 const ONBOARDING_KEY = "mymap.onboarding.completed";
 
@@ -92,10 +93,12 @@ export function Onboarding() {
   };
 
   const handleSkip = () => {
+    analytics.onboardingSkipped();
     handleComplete();
   };
 
   const handleComplete = () => {
+    analytics.onboardingCompleted();
     localStorage.setItem(ONBOARDING_KEY, "true");
     setShow(false);
   };

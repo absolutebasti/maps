@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { BlogPostTracker } from "@/components/BlogPostTracker";
 import Link from "next/link";
 import { getBlogPost, getBlogPosts } from "../posts";
 
@@ -47,6 +48,7 @@ export default async function BlogPostPage({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-background">
+      <BlogPostTracker slug={slug} title={post.title} />
       <article className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="space-y-8">
           {/* Header */}

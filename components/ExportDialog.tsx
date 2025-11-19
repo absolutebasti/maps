@@ -14,6 +14,7 @@ import {
 import { exportSvgContainerToPng } from "./../lib/export/png";
 import { useToast } from "./ui/toast";
 import { DonationDialog } from "./DonationDialog";
+import { analytics } from "./../lib/analytics";
 
 type Props = {
   targetContainerId: string;
@@ -58,6 +59,8 @@ export function ExportDialog({ targetContainerId }: Props) {
         backgroundColor: "#ffffff",
         filename: "mymap.png"
       });
+      // Track export event
+      analytics.mapExported("PNG", widthPx, heightPx);
       toast({
         title: "Export successful",
         description: "Your map has been downloaded",

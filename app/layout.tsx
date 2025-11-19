@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { StorePersistence } from "./../components/StorePersistence";
 import { ToastProvider } from "./../components/ui/toast";
 import { lemonMilk } from "./fonts";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata = {
   metadataBase: new URL("https://maps-production-d32c.up.railway.app"),
@@ -70,6 +71,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const ga4Id = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID;
+
   return (
     <html lang="en" suppressHydrationWarning className={lemonMilk.variable}>
       <head>
@@ -82,6 +85,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <StorePersistence />
           {children}
         </ToastProvider>
+        {ga4Id && <GoogleAnalytics gaId={ga4Id} />}
       </body>
     </html>
   );

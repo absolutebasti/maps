@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/toast";
 import { DonationDialog } from "./DonationDialog";
+import { analytics } from "./../lib/analytics";
 
 type Props = {
   targetContainerId: string;
@@ -67,6 +68,8 @@ export function ShareButton({ targetContainerId }: Props) {
         }
 
         try {
+          // Track share event
+          analytics.shareClicked();
           // Try Web Share API
           if (navigator.share) {
             const file = new File([blob], "mymap.png", { type: "image/png" });

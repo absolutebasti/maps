@@ -2,6 +2,26 @@
 
 ## Environment Variables
 
+### Google Analytics 4 (GA4)
+
+To enable analytics tracking, you need to set up Google Analytics:
+
+1. **Create a Google Analytics 4 property:**
+   - Go to: https://analytics.google.com
+   - Create a new GA4 property (or use existing)
+   - Get your Measurement ID (format: `G-XXXXXXXXXX`)
+
+2. **Add to `.env.local` file:**
+   ```
+   NEXT_PUBLIC_GA4_MEASUREMENT_ID=G-XXXXXXXXXX
+   ```
+
+3. **For production (Railway/Vercel):**
+   - Add the same environment variable in your hosting platform
+   - The analytics will automatically start tracking once deployed
+
+**Note:** Analytics only works when the `NEXT_PUBLIC_GA4_MEASUREMENT_ID` is set. In development, events are logged to the console for debugging.
+
 ### PayPal Donation Link
 
 To enable the donation feature, you need to set up your PayPal donation link:
@@ -35,25 +55,38 @@ When deploying to production (e.g., Railway, Vercel), add the environment variab
 2. Select your MyMap project
 3. Click on your service (the app you deployed)
 4. Go to the **Variables** tab (or **Settings** → **Variables**)
-5. Click **+ New Variable**
-6. Add:
+5. Click **+ New Variable** for each variable:
+
+   **Google Analytics:**
+   - **Name**: `NEXT_PUBLIC_GA4_MEASUREMENT_ID`
+   - **Value**: `G-XXXXXXXXXX` (your GA4 Measurement ID)
+
+   **PayPal Donation:**
    - **Name**: `NEXT_PUBLIC_PAYPAL_DONATION_LINK`
    - **Value**: `https://www.paypal.com/paypalme/yourusername` (replace with your actual PayPal link)
-7. Click **Add** or **Save**
-8. Railway will automatically redeploy your app with the new environment variable
 
-**Note**: After adding the variable, wait for Railway to finish redeploying (you'll see the deployment status in the dashboard). The PayPal donation feature will work once the deployment completes.
+6. Click **Add** or **Save** for each variable
+7. Railway will automatically redeploy your app with the new environment variables
+
+**Note**: After adding variables, wait for Railway to finish redeploying (you'll see the deployment status in the dashboard). Features will work once the deployment completes.
 
 ### Vercel
 
 1. Go to your Vercel dashboard
 2. Select your project
 3. Go to **Settings** → **Environment Variables**
-4. Click **Add New**
-5. Add:
+4. Click **Add New** for each variable:
+
+   **Google Analytics:**
+   - **Key**: `NEXT_PUBLIC_GA4_MEASUREMENT_ID`
+   - **Value**: `G-XXXXXXXXXX` (your GA4 Measurement ID)
+   - **Environment**: Select all (Production, Preview, Development)
+
+   **PayPal Donation:**
    - **Key**: `NEXT_PUBLIC_PAYPAL_DONATION_LINK`
    - **Value**: `https://www.paypal.com/paypalme/yourusername`
    - **Environment**: Select all (Production, Preview, Development)
-6. Click **Save**
-7. Redeploy your application
+
+5. Click **Save** for each variable
+6. Redeploy your application
 

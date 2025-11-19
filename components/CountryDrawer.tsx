@@ -5,6 +5,7 @@ import { useAppStore, PREDEFINED_TAGS } from "./../lib/state/store";
 import { Button } from "./ui/button";
 import { getCountryNameById } from "./../lib/map";
 import { useToast } from "./ui/toast";
+import { analytics } from "./../lib/analytics";
 
 export function CountryDrawer() {
   const selectedId = useAppStore((s) => s.selectedCountryId);
@@ -42,6 +43,12 @@ export function CountryDrawer() {
         <button
           onClick={() => {
             toggleVisited(selectedId);
+            // Track analytics event
+            if (isVisited) {
+              analytics.countryUnmarked(title, selectedId);
+            } else {
+              analytics.countryMarkedVisited(title, selectedId);
+            }
             toast({
               title: isVisited ? "Country unmarked" : "Country marked as visited",
               description: isVisited 
@@ -92,7 +99,13 @@ export function CountryDrawer() {
           className="w-full min-h-24 text-sm rounded-md border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-ring"
           placeholder="Add your memories, highlights, or places visited..."
           value={country?.note ?? ""}
-          onChange={(e) => setNote(selectedId, e.target.value)}
+          onChange={(e) => {
+            setNote(selectedId, e.target.value);
+            // Track note addition/editing (only if note is not empty)
+            if (e.target.value.trim() && (!country?.note || country.note.trim() === "")) {
+              analytics.countryNoteAdded(title, selectedId);
+            }
+          }}
         />
       </div>
       <div className="grid grid-cols-2 gap-3">
@@ -110,12 +123,14 @@ export function CountryDrawer() {
           <select
             className="w-full text-sm rounded-md border bg-background px-3 py-2 outline-none focus:ring-2 focus:ring-ring"
             value={country?.rating ?? ""}
-            onChange={(e) =>
-              setRating(
-                selectedId,
-                e.target.value ? Number(e.target.value) : undefined
-              )
-            }
+            onChange={(e) => {
+              const rating = e.target.value ? Number(e.target.value) : undefined;
+              setRating(selectedId, rating);
+              // Track rating
+              if (rating) {
+                analytics.countryRated(title, selectedId, rating);
+              }
+            }}
           >
             <option value="">—</option>
             <option value="1">1</option>
@@ -146,6 +161,8 @@ export function CountryDrawer() {
                     });
                   } else {
                     addTagToCountry(selectedId, tag.id);
+                    // Track tag addition
+                    analytics.tagAdded(tag.name, title, selectedId);
                     toast({
                       title: "Tag added",
                       description: `${tag.name} added to ${title}`,
