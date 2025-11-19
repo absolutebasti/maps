@@ -38,51 +38,53 @@ export function CountryDrawer() {
     <div className="space-y-6">
       <div className="space-y-3">
         <h3 className="text-base font-medium">{title}</h3>
-        {/* Visited Status - Segmented Control */}
-        <div className="flex gap-2">
-          <button
-            onClick={() => {
-              if (!isVisited) {
-                toggleVisited(selectedId);
-                toast({
-                  title: "Country marked as visited",
-                  description: `${title} added to your visited list`,
-                  variant: "success",
-                });
-              }
-            }}
-            className={`
-              flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all
-              ${isVisited
-                ? 'bg-green-600 text-white shadow-md'
-                : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              }
-            `}
-          >
-            ✓ Visited
-          </button>
-          <button
-            onClick={() => {
-              if (isVisited) {
-                toggleVisited(selectedId);
-                toast({
-                  title: "Country unmarked",
-                  description: `${title} removed from your visited list`,
-                  variant: "default",
-                });
-              }
-            }}
-            className={`
-              flex-1 px-4 py-2.5 rounded-lg text-sm font-medium transition-all
-              ${!isVisited
-                ? 'bg-gray-200 dark:bg-gray-700 text-foreground shadow-md'
-                : 'bg-muted text-muted-foreground hover:bg-muted/80'
-              }
-            `}
-          >
-            Not Visited
-          </button>
-        </div>
+        {/* Visited Status - Single Toggle Button */}
+        <button
+          onClick={() => {
+            toggleVisited(selectedId);
+            toast({
+              title: isVisited ? "Country unmarked" : "Country marked as visited",
+              description: isVisited 
+                ? `${title} removed from your visited list`
+                : `${title} added to your visited list`,
+              variant: isVisited ? "default" : "success",
+            });
+          }}
+          className={`
+            w-full px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200
+            flex items-center justify-between gap-3 min-h-[48px] touch-manipulation
+            focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+            ${isVisited
+              ? 'bg-green-600 text-white shadow-md hover:bg-green-700 active:bg-green-800'
+              : 'bg-muted text-foreground hover:bg-muted/80 border-2 border-dashed border-muted-foreground/30 hover:border-muted-foreground/50'
+            }
+          `}
+          aria-label={isVisited ? `Unmark ${title} as visited` : `Mark ${title} as visited`}
+          aria-pressed={isVisited}
+        >
+          <div className="flex items-center gap-2">
+            {isVisited ? (
+              <span className="text-xl" aria-hidden="true">✓</span>
+            ) : (
+              <span className="text-xl opacity-50" aria-hidden="true">○</span>
+            )}
+            <div className="text-left">
+              <div className="font-medium">
+                {isVisited ? "Marked as Visited" : "Mark as Visited"}
+              </div>
+              {isVisited && (
+                <div className="text-xs opacity-90 font-normal">
+                  Tap to remove from visited list
+                </div>
+              )}
+            </div>
+          </div>
+          {isVisited && (
+            <span className="text-xs opacity-80 hidden sm:inline" aria-hidden="true">
+              Tap to unmark
+            </span>
+          )}
+        </button>
       </div>
       <div className="space-y-2">
         <label className="text-sm font-medium">Note</label>
