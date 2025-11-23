@@ -28,8 +28,20 @@ export function CountryDrawer() {
 
   if (!selectedId) {
     return (
-      <div className="text-sm text-muted-foreground">
-        Click a country on the map to select it.
+      <div className="text-center py-8 space-y-4">
+        <div className="text-5xl mb-2">🗺️</div>
+        <div className="space-y-2">
+          <h3 className="text-base font-semibold">No Country Selected</h3>
+          <p className="text-sm text-muted-foreground">
+            Click on any country on the map to view and edit its details
+          </p>
+        </div>
+        <div className="pt-4 space-y-2 text-xs text-muted-foreground">
+          <p className="flex items-center justify-center gap-2">
+            <span className="text-base">💡</span>
+            <span>Use the search bar to quickly find a country</span>
+          </p>
+        </div>
       </div>
     );
   }
@@ -54,7 +66,7 @@ export function CountryDrawer() {
             }
             toast({
               title: isVisited ? "Country unmarked" : "Country marked as visited",
-              description: isVisited 
+              description: isVisited
                 ? `${title} removed from your visited list`
                 : `${title} added to your visited list`,
               variant: isVisited ? "default" : "success",
@@ -144,7 +156,7 @@ export function CountryDrawer() {
           </select>
         </div>
       </div>
-      
+
       {/* Tags Section */}
       <div className="space-y-3">
         <label className="text-sm font-medium">Tags</label>
@@ -176,8 +188,8 @@ export function CountryDrawer() {
                 className={`
                   flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium
                   transition-all duration-200 border-2
-                  ${isActive 
-                    ? 'bg-opacity-100 border-opacity-100 scale-105' 
+                  ${isActive
+                    ? 'bg-opacity-100 border-opacity-100 scale-105'
                     : 'bg-opacity-0 border-opacity-30 hover:border-opacity-60'
                   }
                 `}
