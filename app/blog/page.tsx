@@ -27,7 +27,7 @@ export default function BlogPage() {
               className={cn(buttonVariants({ variant: "outline" }), "gap-2 touch-manipulation min-h-[44px]")}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
+                <path d="M19 12H5M12 19l-7-7 7-7" />
               </svg>
               Back to Map
             </Link>
@@ -44,43 +44,60 @@ export default function BlogPage() {
           </div>
 
           {/* Blog Posts */}
-          <div className="space-y-8">
+          <div className="space-y-6">
             {posts.map((post) => (
               <article
                 key={post.slug}
-                className="p-6 rounded-lg border bg-card hover:border-primary/50 transition-colors"
+                className="group p-6 rounded-xl border-2 bg-card hover:border-primary/50 hover:shadow-lg transition-all duration-300"
               >
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <time dateTime={post.date}>{post.date}</time>
+                    <time dateTime={post.date} className="font-medium">
+                      {new Date(post.date).toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric"
+                      })}
+                    </time>
                     <span>•</span>
-                    <span>{post.readTime} min read</span>
+                    <span className="flex items-center gap-1">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                      </svg>
+                      {post.readTime} min read
+                    </span>
                   </div>
-                  <h2 className="text-2xl font-bold">
+                  <h2 className="text-2xl font-bold leading-tight">
                     <Link
                       href={`/blog/${post.slug}`}
-                      className="hover:text-primary transition-colors"
+                      className="hover:text-primary transition-colors group-hover:underline decoration-2 underline-offset-4"
                     >
                       {post.title}
                     </Link>
                   </h2>
-                  <p className="text-muted-foreground">{post.excerpt}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {post.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-xs px-2 py-1 rounded-full bg-muted text-muted-foreground"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                  <p className="text-muted-foreground leading-relaxed">{post.excerpt}</p>
+                  <div className="flex items-center justify-between pt-2">
+                    <div className="flex flex-wrap gap-2">
+                      {post.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary font-medium border border-primary/20"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <Link
+                      href={`/blog/${post.slug}`}
+                      className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:gap-2 transition-all"
+                    >
+                      Read more
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7" />
+                      </svg>
+                    </Link>
                   </div>
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="inline-block text-sm font-medium text-primary hover:underline"
-                  >
-                    Read more →
-                  </Link>
                 </div>
               </article>
             ))}
@@ -88,26 +105,26 @@ export default function BlogPage() {
 
           {/* Footer Links */}
           <nav className="flex flex-wrap gap-2 sm:gap-6 justify-center pt-8">
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               Home
             </Link>
-            <Link 
-              href="/about" 
+            <Link
+              href="/about"
               className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               About
             </Link>
-            <Link 
-              href="/features" 
+            <Link
+              href="/features"
               className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               Features
             </Link>
-            <Link 
-              href="/faq" 
+            <Link
+              href="/faq"
               className="px-4 py-2 text-sm text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               FAQ
