@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
 import crypto from 'crypto';
+import {
+  isRateLimited,
+  getClientIP,
+  isValidSessionId,
+  isValidPagePath,
+  isValidUserAgent,
+  logError
+} from '@/lib/api/security';
 
 /**
  * Hash IP address for privacy
@@ -13,7 +21,16 @@ function hashIP(ip: string | null): string | null {
 /**
  * GET /api/stats - Get today's statistics
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // Rate limiting
+  const ip = getClientIP(request);
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      { status: 429 }
+    );
+  }
+
   if (!supabaseAdmin) {
     return NextResponse.json(
       { error: 'Supabase not configured' },
@@ -31,7 +48,7 @@ export async function GET() {
       .single();
 
     if (error && error.code !== 'PGRST116') { // PGRST116 = not found
-      console.error('Error fetching stats:', error);
+      logError('Error fetching stats:', error);
       return NextResponse.json(
         { error: 'Failed to fetch stats' },
         { status: 500 }
@@ -46,7 +63,7 @@ export async function GET() {
       shares_clicked: data?.shares_clicked || 0,
     });
   } catch (error) {
-    console.error('Error in GET /api/stats:', error);
+    logError('Error in GET /api/stats:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -58,6 +75,15 @@ export async function GET() {
  * POST /api/stats - Record a new visit
  */
 export async function POST(request: NextRequest) {
+  // Rate limiting
+  const ip = getClientIP(request);
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      { status: 429 }
+    );
+  }
+
   if (!supabaseAdmin) {
     return NextResponse.json(
       { error: 'Supabase not configured' },
@@ -69,10 +95,29 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { session_id, page_path, user_agent } = body;
 
+    // Input validation
+    if (!isValidSessionId(session_id)) {
+      return NextResponse.json(
+        { error: 'Invalid session_id' },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidPagePath(page_path)) {
+      return NextResponse.json(
+        { error: 'Invalid page_path' },
+        { status: 400 }
+      );
+    }
+
+    if (!isValidUserAgent(user_agent)) {
+      return NextResponse.json(
+        { error: 'Invalid user_agent' },
+        { status: 400 }
+      );
+    }
+
     // Get client IP and hash it
-    const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
-      request.headers.get('x-real-ip') ||
-      'unknown';
     const ip_hash = hashIP(ip);
 
     // Insert visit record
@@ -87,7 +132,7 @@ export async function POST(request: NextRequest) {
       });
 
     if (visitError) {
-      console.error('Error inserting visit:', visitError);
+      logError('Error inserting visit:', visitError);
       // Continue anyway - don't fail the request
     }
 

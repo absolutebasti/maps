@@ -83,6 +83,7 @@ export function CountryEditDialog() {
                             className="w-full min-h-20 text-sm rounded-md border-2 border-gray-300 bg-white text-gray-900 px-3 py-2 outline-none focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400"
                             placeholder="Add notes about your trip..."
                             value={country?.note ?? ""}
+                            maxLength={2000}
                             onChange={(e) => {
                                 setNote(editingId, e.target.value);
                                 if (e.target.value.trim() && (!country?.note || country.note.trim() === "")) {

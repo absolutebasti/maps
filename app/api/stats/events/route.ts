@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { isRateLimited, getClientIP, isValidEventType, logError } from '@/lib/api/security';
 
 /**
  * POST /api/stats/events - Record a user action event
  */
 export async function POST(request: NextRequest) {
+  // Rate limiting
+  const ip = getClientIP(request);
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      { status: 429 }
+    );
+  }
+
   if (!supabaseAdmin) {
     return NextResponse.json(
       { error: 'Supabase not configured' },
@@ -16,7 +26,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { event } = body;
 
-    if (!event || !['country_marked', 'map_exported', 'share_clicked'].includes(event)) {
+    // Input validation
+    if (!isValidEventType(event)) {
       return NextResponse.json(
         { error: 'Invalid event type' },
         { status: 400 }
@@ -82,11 +93,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error in POST /api/stats/events:', error);
+    logError('Error in POST /api/stats/events:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     );
   }
 }
-

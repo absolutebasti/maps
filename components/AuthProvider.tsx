@@ -73,9 +73,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const mergedData = mergeData(cloudData, localData);
 
             // Update the store with merged data
-            const store = useAppStore.getState();
-
-            // We need to set the store state directly
             useAppStore.setState({
                 countriesById: mergedData.countriesById,
                 tagsById: mergedData.tagsById,

@@ -98,6 +98,7 @@ export function CountryDrawer() {
           className="w-full min-h-24 text-base sm:text-sm rounded-md border-2 border-gray-300 bg-white text-gray-900 px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400 touch-manipulation"
           placeholder="Add your memories, highlights, or places visited..."
           value={country?.note ?? ""}
+          maxLength={2000}
           onChange={(e) => {
             setNote(selectedId, e.target.value);
             // Track note addition/editing (only if note is not empty)
