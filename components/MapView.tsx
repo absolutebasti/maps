@@ -44,14 +44,18 @@ export function MapView({ onSelectCountry }: Props) {
     return getWorldCountries();
   }, []);
 
-  // Constrain center coordinates to prevent panning too far
+  // Constrain center coordinates - HARD LIMITS to prevent panning outside map
   const constrainCenter = (coordinates: [number, number], zoomLevel: number): [number, number] => {
+    // At zoom 1, lock to center (no panning allowed)
+    if (zoomLevel <= 1) {
+      return [0, 0];
+    }
+
     const [lon, lat] = coordinates;
-    // Tighter constraints - limit panning based on zoom level
-    // At zoom 1: max 60° lon, 30° lat (keeps map mostly centered)
-    // At higher zoom: allows more panning to explore details
-    const maxLon = Math.min(60, 120 / zoomLevel);
-    const maxLat = Math.min(30, 60 / zoomLevel);
+    // Only allow minimal panning at higher zoom levels
+    // The higher the zoom, the more you can pan to explore details
+    const maxLon = Math.min(40, 80 / zoomLevel);
+    const maxLat = Math.min(20, 40 / zoomLevel);
 
     return [
       Math.max(-maxLon, Math.min(maxLon, lon)),
@@ -186,9 +190,9 @@ export function MapView({ onSelectCountry }: Props) {
   return (
     <div
       ref={mapContainerRef}
-      className="relative w-full h-full overflow-hidden"
+      className="relative w-full h-full overflow-hidden border-4 border-gray-800 rounded-lg"
       onWheel={handleWheel}
-      style={{ cursor: 'grab' }}
+      style={{ cursor: zoom > 1 ? 'grab' : 'default' }}
     >
       {/* Ocean background with wave lines */}
       <div
