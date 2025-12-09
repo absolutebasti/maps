@@ -109,9 +109,9 @@ export function CountryDrawer() {
         </button>
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-medium">Note</label>
+        <label className="text-sm font-medium text-foreground">Note</label>
         <textarea
-          className="w-full min-h-24 text-base sm:text-sm rounded-md border bg-background px-3 sm:px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-ring touch-manipulation"
+          className="w-full min-h-24 text-base sm:text-sm rounded-md border-2 border-gray-300 bg-white text-gray-900 px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400 touch-manipulation"
           placeholder="Add your memories, highlights, or places visited..."
           value={country?.note ?? ""}
           onChange={(e) => {
@@ -125,18 +125,18 @@ export function CountryDrawer() {
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Visited date</label>
+          <label className="text-sm font-medium text-foreground">Visited date</label>
           <input
             type="date"
-            className="w-full text-base sm:text-sm rounded-md border bg-background px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-ring touch-manipulation min-h-[44px]"
+            className="w-full text-base sm:text-sm rounded-md border-2 border-gray-300 bg-white text-gray-900 px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-primary focus:border-primary touch-manipulation min-h-[44px]"
             value={country?.visitedAt ?? ""}
             onChange={(e) => setVisitedAt(selectedId, e.target.value || undefined)}
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Rating</label>
+          <label className="text-sm font-medium text-foreground">Rating</label>
           <select
-            className="w-full text-base sm:text-sm rounded-md border bg-background px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-ring touch-manipulation min-h-[44px]"
+            className="w-full text-base sm:text-sm rounded-md border-2 border-gray-300 bg-white text-gray-900 px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-primary focus:border-primary touch-manipulation min-h-[44px] cursor-pointer"
             value={country?.rating ?? ""}
             onChange={(e) => {
               const rating = e.target.value ? Number(e.target.value) : undefined;
@@ -147,12 +147,12 @@ export function CountryDrawer() {
               }
             }}
           >
-            <option value="">—</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="">Select rating</option>
+            <option value="1">⭐ 1 Star</option>
+            <option value="2">⭐⭐ 2 Stars</option>
+            <option value="3">⭐⭐⭐ 3 Stars</option>
+            <option value="4">⭐⭐⭐⭐ 4 Stars</option>
+            <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
           </select>
         </div>
       </div>
