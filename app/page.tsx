@@ -73,8 +73,8 @@ export default function HomePage() {
             },
             "description": "Free interactive world map to track and visualize countries you've visited. Mark visited countries, add notes, rate your trips, and create a beautiful travel map.",
             "operatingSystem": "Web Browser",
-            "url": "https://maps-production-d32c.up.railway.app",
-            "screenshot": "https://maps-production-d32c.up.railway.app/og-image.png",
+            "url": typeof window !== "undefined" ? window.location.origin : "https://maps-production-d32c.up.railway.app",
+            "screenshot": `${typeof window !== "undefined" ? window.location.origin : "https://maps-production-d32c.up.railway.app"}/og-image.png`,
             "featureList": [
               "Track visited countries",
               "Interactive world map",
@@ -95,168 +95,168 @@ export default function HomePage() {
         }}
       />
       <main className="min-h-dvh flex flex-col">
-      <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="mx-auto max-w-6xl px-2 sm:px-4 py-2 sm:py-4 flex items-center justify-between gap-2">
-          <h1 className="text-lg sm:text-2xl font-bold tracking-wide truncate flex-1 min-w-0" style={{ fontFamily: "var(--font-lemon-milk)" }}>
-            <span className="hidden sm:inline">My Visited Countries Map</span>
-            <span className="sm:hidden">MyMap</span>
-          </h1>
-          <div className="flex gap-1 sm:gap-2 items-center shrink-0">
-            <KeyboardShortcuts />
-            <ThemeToggle />
-            <Link
-              href="/countries"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "sm" }),
-                "hidden sm:inline-flex"
-              )}
-            >
-              Manage countries
-            </Link>
-            <CopyShareLinkButton />
-            <ShareButton targetContainerId="map-container" />
-            <ExportDialog targetContainerId="map-container" />
-            {/* Mobile menu button */}
-            <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+        <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="mx-auto max-w-6xl px-2 sm:px-4 py-2 sm:py-4 flex items-center justify-between gap-2">
+            <h1 className="text-lg sm:text-2xl font-bold tracking-wide truncate flex-1 min-w-0" style={{ fontFamily: "var(--font-lemon-milk)" }}>
+              <span className="hidden sm:inline">My Visited Countries Map</span>
+              <span className="sm:hidden">MyMap</span>
+            </h1>
+            <div className="flex gap-1 sm:gap-2 items-center shrink-0">
+              <KeyboardShortcuts />
+              <ThemeToggle />
+              <Link
+                href="/countries"
+                className={cn(
+                  buttonVariants({ variant: "outline", size: "sm" }),
+                  "hidden sm:inline-flex"
+                )}
+              >
+                Manage countries
+              </Link>
+              <CopyShareLinkButton />
+              <ShareButton targetContainerId="map-container" />
+              <ExportDialog targetContainerId="map-container" />
+              {/* Mobile menu button */}
+              <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
-                    <Button variant="outline" size="icon" className="sm:hidden h-11 w-11 touch-manipulation">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <line x1="3" y1="6" x2="21" y2="6" />
-                        <line x1="3" y1="12" x2="21" y2="12" />
-                        <line x1="3" y1="18" x2="21" y2="18" />
-                      </svg>
-                      <span className="sr-only">Menu</span>
-                    </Button>
-                  </SheetTrigger>
-              <SheetContent side="right" className="w-[85vw] sm:max-w-md overflow-y-auto">
-                <div className="space-y-6 mt-6">
-                  <div className="space-y-4">
-                    <StatsBar />
-                    <CountrySearch />
-                  </div>
-                  <CountryDrawer />
-                  <Legend />
-                  <div className="pt-4 border-t">
-                    <Link
-                      href="/countries"
-                      className={cn(
-                        buttonVariants({ variant: "outline" }),
-                        "w-full"
-                      )}
-                      onClick={() => setMobileMenuOpen(false)}
+                  <Button variant="outline" size="icon" className="sm:hidden h-11 w-11 touch-manipulation">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
                     >
-                      Manage countries
-                    </Link>
+                      <line x1="3" y1="6" x2="21" y2="6" />
+                      <line x1="3" y1="12" x2="21" y2="12" />
+                      <line x1="3" y1="18" x2="21" y2="18" />
+                    </svg>
+                    <span className="sr-only">Menu</span>
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="right" className="w-[85vw] sm:max-w-md overflow-y-auto">
+                  <div className="space-y-6 mt-6">
+                    <div className="space-y-4">
+                      <StatsBar />
+                      <CountrySearch />
+                    </div>
+                    <CountryDrawer />
+                    <Legend />
+                    <div className="pt-4 border-t">
+                      <Link
+                        href="/countries"
+                        className={cn(
+                          buttonVariants({ variant: "outline" }),
+                          "w-full"
+                        )}
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        Manage countries
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              </SheetContent>
-            </Sheet>
-          </div>
-        </div>
-      </header>
-
-      <section className="flex-1 grid md:grid-cols-[1fr,360px]">
-        <div className="p-1 sm:p-2 md:p-4 flex items-center justify-center min-h-[400px]">
-          <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden touch-manipulation">
-            <MapView />
-          </div>
-        </div>
-        <aside className="border-l p-4 hidden md:block space-y-6">
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <StatsBar />
+                </SheetContent>
+              </Sheet>
             </div>
-            <CountrySearch />
           </div>
-          <CountryDrawer />
-          <Legend />
-        </aside>
-      </section>
+        </header>
 
-      {/* Mobile country drawer */}
-      <MobileCountryDrawer />
+        <section className="flex-1 grid md:grid-cols-[1fr,360px]">
+          <div className="p-1 sm:p-2 md:p-4 flex items-center justify-center min-h-[400px]">
+            <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden touch-manipulation">
+              <MapView />
+            </div>
+          </div>
+          <aside className="border-l p-4 hidden md:block space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <StatsBar />
+              </div>
+              <CountrySearch />
+            </div>
+            <CountryDrawer />
+            <Legend />
+          </aside>
+        </section>
 
-      {/* Onboarding */}
-      <Onboarding />
+        {/* Mobile country drawer */}
+        <MobileCountryDrawer />
 
-      {/* Hidden SEO content */}
-      <div className="sr-only">
-        <h1>Create Your Visited Countries Map - Track Your Travel Journey</h1>
-        <p>
-          MyMap is a free online tool to create and visualize your visited countries map.
-          Track which countries you've been to, mark them on an interactive world map,
-          add travel notes, rate your experiences, and share your travel adventures.
-          Perfect for travel enthusiasts, digital nomads, and anyone who wants to
-          visualize their travel bucket list and journey around the world.
-        </p>
-        <h2>Features</h2>
-        <ul>
-          <li>Interactive world map with all countries</li>
-          <li>Mark countries as visited with one click</li>
-          <li>Add travel notes, dates, and ratings for each country</li>
-          <li>Tag countries (Want to Visit, Lived Here, Favorite)</li>
-          <li>Color customization for visited countries</li>
-          <li>Export your map as PNG image</li>
-          <li>Local data storage in your browser</li>
-          <li>Completely free to use</li>
-        </ul>
-        <h2>How It Works</h2>
-        <ol>
-          <li>Click on any country on the map to mark it as visited</li>
-          <li>Add notes about your trip, visited cities, and memories</li>
-          <li>Rate your experience from 1 to 5 stars</li>
-          <li>Add tags like "Want to Visit" or "Lived Here"</li>
-          <li>Export and share your travel map with friends</li>
-        </ol>
-        <h2>Why Track Your Visited Countries?</h2>
-        <p>
-          Tracking your visited countries helps you visualize your travel experiences,
-          plan future trips, and share your adventures with friends and family.
-          Whether you're a backpacker, digital nomad, or casual traveler,
-          MyMap makes it easy to keep a visual record of your global journey.
-        </p>
-      </div>
+        {/* Onboarding */}
+        <Onboarding />
 
-      {/* Footer Navigation */}
-      <footer className="border-t bg-muted/20 py-4 mt-auto relative z-10" id="footer-nav">
-        <nav className="mx-auto max-w-6xl px-4 flex flex-wrap gap-2 sm:gap-4 justify-center">
-          <Link 
-            href="/about" 
-            className="px-4 py-2 text-sm sm:text-xs text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
-          >
-            About
-          </Link>
-          <Link 
-            href="/features" 
-            className="px-4 py-2 text-sm sm:text-xs text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
-          >
-            Features
-          </Link>
-          <Link 
-            href="/faq" 
-            className="px-4 py-2 text-sm sm:text-xs text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
-          >
-            FAQ
-          </Link>
-          <Link 
-            href="/blog" 
-            className="px-4 py-2 text-sm sm:text-xs text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
-          >
-            Blog
-          </Link>
-        </nav>
-      </footer>
-    </main>
+        {/* Hidden SEO content */}
+        <div className="sr-only">
+          <h1>Create Your Visited Countries Map - Track Your Travel Journey</h1>
+          <p>
+            MyMap is a free online tool to create and visualize your visited countries map.
+            Track which countries you've been to, mark them on an interactive world map,
+            add travel notes, rate your experiences, and share your travel adventures.
+            Perfect for travel enthusiasts, digital nomads, and anyone who wants to
+            visualize their travel bucket list and journey around the world.
+          </p>
+          <h2>Features</h2>
+          <ul>
+            <li>Interactive world map with all countries</li>
+            <li>Mark countries as visited with one click</li>
+            <li>Add travel notes, dates, and ratings for each country</li>
+            <li>Tag countries (Want to Visit, Lived Here, Favorite)</li>
+            <li>Color customization for visited countries</li>
+            <li>Export your map as PNG image</li>
+            <li>Local data storage in your browser</li>
+            <li>Completely free to use</li>
+          </ul>
+          <h2>How It Works</h2>
+          <ol>
+            <li>Click on any country on the map to mark it as visited</li>
+            <li>Add notes about your trip, visited cities, and memories</li>
+            <li>Rate your experience from 1 to 5 stars</li>
+            <li>Add tags like "Want to Visit" or "Lived Here"</li>
+            <li>Export and share your travel map with friends</li>
+          </ol>
+          <h2>Why Track Your Visited Countries?</h2>
+          <p>
+            Tracking your visited countries helps you visualize your travel experiences,
+            plan future trips, and share your adventures with friends and family.
+            Whether you're a backpacker, digital nomad, or casual traveler,
+            MyMap makes it easy to keep a visual record of your global journey.
+          </p>
+        </div>
+
+        {/* Footer Navigation */}
+        <footer className="border-t bg-muted/20 py-4 mt-auto relative z-10" id="footer-nav">
+          <nav className="mx-auto max-w-6xl px-4 flex flex-wrap gap-2 sm:gap-4 justify-center">
+            <Link
+              href="/about"
+              className="px-4 py-2 text-sm sm:text-xs text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              About
+            </Link>
+            <Link
+              href="/features"
+              className="px-4 py-2 text-sm sm:text-xs text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              Features
+            </Link>
+            <Link
+              href="/faq"
+              className="px-4 py-2 text-sm sm:text-xs text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              FAQ
+            </Link>
+            <Link
+              href="/blog"
+              className="px-4 py-2 text-sm sm:text-xs text-muted-foreground hover:text-foreground transition-colors touch-manipulation rounded-md hover:bg-muted/50 min-h-[44px] min-w-[44px] flex items-center justify-center"
+            >
+              Blog
+            </Link>
+          </nav>
+        </footer>
+      </main>
     </>
   );
 }

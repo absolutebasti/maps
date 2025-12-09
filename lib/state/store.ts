@@ -69,7 +69,7 @@ export const useAppStore = create<AppState>((set) => ({
   selectCountry: (id, opts) =>
     set((s) => {
       const updates: Partial<AppState> = { selectedCountryId: id };
-      
+
       // Auto-mark as visited if requested
       if (opts?.autoMark && id) {
         const existing = s.countriesById[id] || { id, visited: false, tags: [] };
@@ -78,10 +78,7 @@ export const useAppStore = create<AppState>((set) => ({
           updates.countriesById = { ...s.countriesById, [id]: next };
         }
       }
-      
-      // TODO: Center map on country if opts?.centerOn is true
-      // This will be implemented when we add zoom-to-country functionality
-      
+
       return updates;
     }),
   toggleVisited: (id) =>

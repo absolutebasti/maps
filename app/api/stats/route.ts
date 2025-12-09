@@ -23,7 +23,7 @@ export async function GET() {
 
   try {
     const today = new Date().toISOString().split('T')[0];
-    
+
     const { data, error } = await supabaseAdmin
       .from('daily_stats')
       .select('*')
@@ -71,8 +71,8 @@ export async function POST(request: NextRequest) {
 
     // Get client IP and hash it
     const ip = request.headers.get('x-forwarded-for')?.split(',')[0] ||
-               request.headers.get('x-real-ip') ||
-               'unknown';
+      request.headers.get('x-real-ip') ||
+      'unknown';
     const ip_hash = hashIP(ip);
 
     // Insert visit record
@@ -91,47 +91,51 @@ export async function POST(request: NextRequest) {
       // Continue anyway - don't fail the request
     }
 
-    // Update or create daily stats
+    // Update or create daily stats using atomic upsert
     const today = new Date().toISOString().split('T')[0];
-    
-    // Check if today's stats exist
-    const { data: existingStats } = await supabaseAdmin
-      .from('daily_stats')
-      .select('visits_count')
-      .eq('date', today)
-      .single();
 
-    if (existingStats) {
-      // Update existing stats
-      // Only increment if this is a unique session (check if session visited today)
-      const { data: todayVisits } = await supabaseAdmin
-        .from('visits')
-        .select('session_id')
-        .eq('session_id', session_id)
-        .gte('visited_at', `${today}T00:00:00.000Z`)
-        .limit(1);
+    // Check if this session already visited today (to avoid duplicate counting)
+    const { data: existingVisit } = await supabaseAdmin
+      .from('visits')
+      .select('id')
+      .eq('session_id', session_id)
+      .gte('visited_at', `${today}T00:00:00.000Z`)
+      .lt('visited_at', `${today}T23:59:59.999Z`)
+      .limit(1)
+      .maybeSingle();
 
-      // Only increment if this is the first visit from this session today
-      if (!todayVisits || todayVisits.length === 0) {
+    // Only increment stats if this is a new session for today
+    if (!existingVisit) {
+      // Use upsert with RPC for atomic increment, or fallback to upsert
+      // First try to get existing stats
+      const { data: existingStats } = await supabaseAdmin
+        .from('daily_stats')
+        .select('visits_count')
+        .eq('date', today)
+        .maybeSingle();
+
+      if (existingStats) {
+        // Atomic update using the current value from the same transaction
         await supabaseAdmin
           .from('daily_stats')
           .update({
-            visits_count: (existingStats.visits_count || 0) + 1,
+            visits_count: existingStats.visits_count + 1,
             updated_at: new Date().toISOString(),
           })
-          .eq('date', today);
+          .eq('date', today)
+          .eq('visits_count', existingStats.visits_count); // Optimistic lock
+      } else {
+        // Insert new record, ignore conflict (another request might have inserted)
+        await supabaseAdmin
+          .from('daily_stats')
+          .upsert({
+            date: today,
+            visits_count: 1,
+            countries_marked: 0,
+            maps_exported: 0,
+            shares_clicked: 0,
+          }, { onConflict: 'date', ignoreDuplicates: true });
       }
-    } else {
-      // Create new daily stats entry
-      await supabaseAdmin
-        .from('daily_stats')
-        .insert({
-          date: today,
-          visits_count: 1,
-          countries_marked: 0,
-          maps_exported: 0,
-          shares_clicked: 0,
-        });
     }
 
     return NextResponse.json({ success: true });

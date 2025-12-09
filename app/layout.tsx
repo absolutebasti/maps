@@ -5,8 +5,10 @@ import { ToastProvider } from "./../components/ui/toast";
 import { lemonMilk } from "./fonts";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://maps-production-d32c.up.railway.app";
+
 export const metadata = {
-  metadataBase: new URL("https://maps-production-d32c.up.railway.app"),
+  metadataBase: new URL(siteUrl),
   title: "Create Your Visited Countries Map - Track Your Travel Journey | MyMap",
   description: "Free interactive world map to track and visualize countries you've visited. Mark visited countries, add notes, rate your trips, and create a beautiful travel map. Perfect for tracking your travel bucket list and sharing your adventures.",
   keywords: [
@@ -32,7 +34,7 @@ export const metadata = {
   openGraph: {
     title: "Create Your Visited Countries Map - Track Your Travel Journey",
     description: "Free interactive world map to track countries you've visited. Mark visited countries, add notes, and visualize your travel adventures.",
-    url: "https://maps-production-d32c.up.railway.app",
+    url: siteUrl,
     siteName: "MyMap - Visited Countries Tracker",
     images: [
       {
@@ -76,7 +78,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className={lemonMilk.variable}>
       <head>
-        <link rel="canonical" href="https://maps-production-d32c.up.railway.app" />
+        <link rel="canonical" href={siteUrl} />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#A8D8EA" />
       </head>
