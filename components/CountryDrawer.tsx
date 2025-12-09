@@ -27,23 +27,7 @@ export function CountryDrawer() {
   }, [selectedId]);
 
   if (!selectedId) {
-    return (
-      <div className="text-center py-8 space-y-4">
-        <div className="text-5xl mb-2">🗺️</div>
-        <div className="space-y-2">
-          <h3 className="text-base font-semibold">No Country Selected</h3>
-          <p className="text-sm text-muted-foreground">
-            Click on any country on the map to view and edit its details
-          </p>
-        </div>
-        <div className="pt-4 space-y-2 text-xs text-muted-foreground">
-          <p className="flex items-center justify-center gap-2">
-            <span className="text-base">💡</span>
-            <span>Use the search bar to quickly find a country</span>
-          </p>
-        </div>
-      </div>
-    );
+    return null; // Don't show anything when no country is selected
   }
 
   const isVisited = country?.visited ?? false;
