@@ -21,11 +21,13 @@ import { AuthDialog } from "./../components/AuthDialog";
 import { UserMenu } from "./../components/UserMenu";
 import { useAuth } from "./../components/AuthProvider";
 import { recordVisit } from "./../lib/supabase/stats";
-import { useState, useEffect } from "react";
+import { MobileBottomNav } from "./../components/MobileBottomNav";
+import { useState, useEffect, useRef } from "react";
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
+  const searchButtonRef = useRef<HTMLButtonElement>(null);
   const selectedId = useAppStore((s) => s.selectedCountryId);
   const { user, syncStatus, refreshAuth } = useAuth();
 
@@ -168,7 +170,41 @@ export default function HomePage() {
                     </div>
                     <CountryDrawer />
                     <Legend />
-                    <div className="pt-4 border-t">
+                    {/* Auth section for mobile */}
+                    <div className="pt-4 border-t space-y-3">
+                      {user ? (
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-sm">
+                            <span className="text-muted-foreground">
+                              {syncStatus === "syncing" ? "🔄" : "☁️"}
+                            </span>
+                            <span className="truncate max-w-[180px]">{user.email}</span>
+                          </div>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={async () => {
+                              const { signOut } = await import("./../lib/supabase/auth");
+                              await signOut();
+                              refreshAuth();
+                              setMobileMenuOpen(false);
+                            }}
+                          >
+                            Logout
+                          </Button>
+                        </div>
+                      ) : (
+                        <Button
+                          variant="default"
+                          className="w-full"
+                          onClick={() => {
+                            setAuthDialogOpen(true);
+                            setMobileMenuOpen(false);
+                          }}
+                        >
+                          Login / Sign Up
+                        </Button>
+                      )}
                       <Link
                         href="/countries"
                         className={cn(
@@ -285,6 +321,15 @@ export default function HomePage() {
             </Link>
           </nav>
         </footer>
+
+        {/* Mobile Bottom Navigation */}
+        <MobileBottomNav
+          onMenuClick={() => setMobileMenuOpen(true)}
+          onSearchClick={() => setMobileMenuOpen(true)}
+        />
+
+        {/* Bottom padding for mobile nav */}
+        <div className="h-14 sm:hidden" />
       </main>
     </>
   );
