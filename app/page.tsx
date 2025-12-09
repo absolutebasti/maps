@@ -17,12 +17,17 @@ import { Sheet, SheetContent, SheetTrigger } from "./../components/ui/sheet";
 import { CountryEditDialog } from "./../components/CountryEditDialog";
 import { Onboarding } from "./../components/Onboarding";
 import { KeyboardShortcuts } from "./../components/KeyboardShortcuts";
+import { AuthDialog } from "./../components/AuthDialog";
+import { UserMenu } from "./../components/UserMenu";
+import { useAuth } from "./../components/AuthProvider";
 import { recordVisit } from "./../lib/supabase/stats";
 import { useState, useEffect } from "react";
 
 export default function HomePage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const selectedId = useAppStore((s) => s.selectedCountryId);
+  const { user, syncStatus, refreshAuth } = useAuth();
 
   // Keyboard shortcuts
   useEffect(() => {
@@ -116,6 +121,23 @@ export default function HomePage() {
               <CopyShareLinkButton />
               <ShareButton targetContainerId="map-container" />
               <ExportDialog targetContainerId="map-container" />
+              {/* Auth UI */}
+              {user ? (
+                <UserMenu
+                  user={user}
+                  onSignOut={refreshAuth}
+                  syncStatus={syncStatus}
+                />
+              ) : (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setAuthDialogOpen(true)}
+                  className="hidden sm:inline-flex"
+                >
+                  Login
+                </Button>
+              )}
               {/* Mobile menu button */}
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
                 <SheetTrigger asChild>
@@ -188,6 +210,13 @@ export default function HomePage() {
 
         {/* Onboarding */}
         <Onboarding />
+
+        {/* Auth Dialog */}
+        <AuthDialog
+          open={authDialogOpen}
+          onOpenChange={setAuthDialogOpen}
+          onSuccess={refreshAuth}
+        />
 
         {/* Hidden SEO content */}
         <div className="sr-only">

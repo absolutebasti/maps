@@ -2,6 +2,7 @@ import "./../styles/globals.css";
 import type { ReactNode } from "react";
 import { StorePersistence } from "./../components/StorePersistence";
 import { ToastProvider } from "./../components/ui/toast";
+import { AuthProvider } from "./../components/AuthProvider";
 import { lemonMilk } from "./fonts";
 import { GoogleAnalytics } from "@next/third-parties/google";
 
@@ -83,10 +84,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="theme-color" content="#A8D8EA" />
       </head>
       <body>
-        <ToastProvider>
-          <StorePersistence />
-          {children}
-        </ToastProvider>
+        <AuthProvider>
+          <ToastProvider>
+            <StorePersistence />
+            {children}
+          </ToastProvider>
+        </AuthProvider>
         {ga4Id && <GoogleAnalytics gaId={ga4Id} />}
       </body>
     </html>
