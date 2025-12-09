@@ -73,14 +73,8 @@ export function MapView({ onSelectCountry }: Props) {
   const handleClick = (feature: Feature) => {
     const id = getCountryId(feature as any);
 
-    // If clicking the same country, deselect it
-    if (selectedId === id) {
-      selectCountry(undefined);
-      return;
-    }
-
-    // Otherwise, just select the new country (don't auto-mark as visited)
-    selectCountry(id);
+    // Toggle visited status on click
+    useAppStore.getState().toggleVisited(id);
     onSelectCountry?.(id);
   };
 

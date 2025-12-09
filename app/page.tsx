@@ -14,7 +14,7 @@ import { ThemeToggle } from "./../components/ThemeToggle";
 import { useAppStore } from "./../lib/state/store";
 import { cn } from "./../lib/utils";
 import { Sheet, SheetContent, SheetTrigger } from "./../components/ui/sheet";
-import { MobileCountryDrawer } from "./../components/MobileCountryDrawer";
+import { CountryEditDialog } from "./../components/CountryEditDialog";
 import { Onboarding } from "./../components/Onboarding";
 import { KeyboardShortcuts } from "./../components/KeyboardShortcuts";
 import { recordVisit } from "./../lib/supabase/stats";
@@ -183,8 +183,8 @@ export default function HomePage() {
           </aside>
         </section>
 
-        {/* Mobile country drawer */}
-        <MobileCountryDrawer />
+        {/* Country Edit Dialog (centered modal) */}
+        <CountryEditDialog />
 
         {/* Onboarding */}
         <Onboarding />

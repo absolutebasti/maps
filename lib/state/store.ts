@@ -30,11 +30,14 @@ type SelectCountryOptions = {
 
 type AppState = {
   selectedCountryId?: string;
+  editingCountryId?: string; // Country being edited in the dialog
   countriesById: Record<string, CountryData>;
   tagsById: Record<string, TagData>;
   settings: Settings;
   // actions
   selectCountry: (id?: string, opts?: SelectCountryOptions) => void;
+  openEditDialog: (id: string) => void;
+  closeEditDialog: () => void;
   toggleVisited: (id: string) => void;
   markVisitedMany: (ids: string[], visited: boolean) => void;
   toggleVisitedMany: (ids: string[]) => void;
@@ -49,6 +52,7 @@ type AppState = {
   clearAllData: () => void;
 };
 
+
 // Predefined tags that users can add to countries
 export const PREDEFINED_TAGS: TagData[] = [
   { id: "want-to-visit", name: "Want to Visit", emoji: "😍", color: "#F87171" },
@@ -58,6 +62,7 @@ export const PREDEFINED_TAGS: TagData[] = [
 
 export const useAppStore = create<AppState>((set) => ({
   selectedCountryId: undefined,
+  editingCountryId: undefined,
   countriesById: {},
   tagsById: PREDEFINED_TAGS.reduce((acc, tag) => ({ ...acc, [tag.id]: tag }), {}),
   settings: {
@@ -81,6 +86,8 @@ export const useAppStore = create<AppState>((set) => ({
 
       return updates;
     }),
+  openEditDialog: (id) => set({ editingCountryId: id }),
+  closeEditDialog: () => set({ editingCountryId: undefined }),
   toggleVisited: (id) =>
     set((s) => {
       const existing = s.countriesById[id] || {
