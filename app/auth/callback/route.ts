@@ -6,13 +6,12 @@ export async function GET(request: NextRequest) {
     const code = requestUrl.searchParams.get("code");
     const token_hash = requestUrl.searchParams.get("token_hash");
     const type = requestUrl.searchParams.get("type");
+    const next = requestUrl.searchParams.get("next");
     const origin = requestUrl.origin;
 
     // Create Supabase client for auth
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    let isEmailConfirmation = false;
 
     // Handle PKCE flow (code exchange)
     if (code && supabaseUrl && supabaseAnonKey) {
@@ -21,7 +20,9 @@ export async function GET(request: NextRequest) {
         try {
             const { error } = await supabase.auth.exchangeCodeForSession(code);
             if (!error) {
-                isEmailConfirmation = true;
+                // Successfully exchanged code - this is email confirmation
+                // Always show the success page for new signups
+                return NextResponse.redirect(`${origin}/auth/confirm`);
             }
         } catch (error) {
             console.error("Error exchanging code for session:", error);
@@ -35,19 +36,24 @@ export async function GET(request: NextRequest) {
         try {
             const { error } = await supabase.auth.verifyOtp({
                 token_hash,
-                type: "email",
+                type: type as "email" | "signup" | "recovery" | "email_change" || "email",
             });
             if (!error) {
-                isEmailConfirmation = true;
+                return NextResponse.redirect(`${origin}/auth/confirm`);
             }
         } catch (error) {
             console.error("Error verifying token:", error);
         }
     }
 
-    // Check if this is a signup/email confirmation by type or by successful verification
-    if (isEmailConfirmation || type === "signup" || type === "email" || type === "email_change") {
+    // Check type parameter for email confirmations
+    if (type === "signup" || type === "email" || type === "email_change" || type === "magiclink") {
         return NextResponse.redirect(`${origin}/auth/confirm`);
+    }
+
+    // If there's a next parameter, redirect there
+    if (next) {
+        return NextResponse.redirect(`${origin}${next}`);
     }
 
     // For other auth flows, redirect to home
