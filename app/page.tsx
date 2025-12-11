@@ -221,6 +221,17 @@ export default function HomePage() {
         </header>
 
         <section className="flex-1 grid md:grid-cols-[1fr,360px]">
+          {/* Showcase Banner */}
+          <div className="col-span-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 py-3 px-4 text-center border-b border-slate-700">
+            <p className="text-sm sm:text-base tracking-[0.2em] uppercase font-mono text-slate-300">
+              <span className="text-emerald-400 font-bold">Fackelmann</span>
+              <span className="mx-2 text-slate-500">×</span>
+              <span className="text-cyan-400 font-bold">Antigravity</span>
+              <span className="mx-3 text-slate-600">|</span>
+              <span className="text-white">5min</span>
+              <span className="ml-2 text-amber-400 font-semibold">&quot;Programming&quot;</span>
+            </p>
+          </div>
           <div className="p-1 sm:p-2 md:p-4 flex items-center justify-center min-h-[400px]">
             <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden touch-manipulation">
               <MapView />
