@@ -8,35 +8,6 @@ export type ExportOptions = {
 function serializeSvg(svg: SVGSVGElement): string {
   const clone = svg.cloneNode(true) as SVGSVGElement;
   clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
-
-  // Get SVG dimensions
-  const width = parseInt(clone.getAttribute('width') || '960');
-  const height = parseInt(clone.getAttribute('height') || '640');
-
-  // Find ALL groups with transforms and reset them to default (centered, zoom 1)
-  // react-simple-maps creates nested <g> elements for zoom/pan
-  const allGroups = clone.querySelectorAll('g[transform]');
-
-  allGroups.forEach((group, index) => {
-    const currentTransform = group.getAttribute('transform') || '';
-
-    // The first transform group (index 0) is typically the ZoomableGroup
-    // Reset it to default centered position with scale 1
-    if (index === 0 && (currentTransform.includes('translate') || currentTransform.includes('scale'))) {
-      group.setAttribute('transform', `translate(${width / 2}, ${height / 2}) scale(1)`);
-    }
-    // For other nested groups, if they have zoom-related transforms, reset them
-    else if (currentTransform.includes('scale(') && !currentTransform.includes('scale(1)')) {
-      // Extract just the translate part if present, reset scale to 1
-      const translateMatch = currentTransform.match(/translate\([^)]+\)/);
-      if (translateMatch) {
-        group.setAttribute('transform', translateMatch[0] + ' scale(1)');
-      } else {
-        group.setAttribute('transform', 'scale(1)');
-      }
-    }
-  });
-
   const svgData = new XMLSerializer().serializeToString(clone);
   return svgData;
 }
@@ -56,7 +27,6 @@ export async function exportSvgContainerToPng(
 
   try {
     const img = new Image();
-    // Important for drawing SVG onto canvas
     img.decoding = "async";
     img.loading = "eager";
     const loadPromise = new Promise<void>((resolve, reject) => {
@@ -73,11 +43,9 @@ export async function exportSvgContainerToPng(
     if (!ctx) {
       throw new Error("Canvas not supported.");
     }
-    // background
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, widthPx, heightPx);
 
-    // draw with cover behavior maintaining aspect ratio
     const aspectSvg = (img.width || 1) / (img.height || 1);
     const aspectOut = widthPx / heightPx;
     let drawW = widthPx;
@@ -85,7 +53,6 @@ export async function exportSvgContainerToPng(
     let dx = 0;
     let dy = 0;
     if (aspectSvg > aspectOut) {
-      // wider than output
       drawH = heightPx;
       drawW = Math.round(heightPx * aspectSvg);
       dx = Math.round((widthPx - drawW) / 2);

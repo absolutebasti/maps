@@ -120,14 +120,6 @@ export function ShareExportMenu({ targetContainerId }: Props) {
         }
 
         setIsExporting(true);
-
-        // Save current map view and reset to default for export
-        const currentMapView = useAppStore.getState().mapView;
-        useAppStore.getState().resetMapView();
-
-        // Wait for React to re-render with reset view
-        await new Promise(resolve => setTimeout(resolve, 100));
-
         try {
             await exportSvgContainerToPng(container, {
                 widthPx,
@@ -150,8 +142,6 @@ export function ShareExportMenu({ targetContainerId }: Props) {
                 variant: "error",
             });
         } finally {
-            // Restore original map view
-            useAppStore.getState().setMapView(currentMapView);
             setIsExporting(false);
         }
     };
