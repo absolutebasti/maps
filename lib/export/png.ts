@@ -9,18 +9,33 @@ function serializeSvg(svg: SVGSVGElement): string {
   const clone = svg.cloneNode(true) as SVGSVGElement;
   clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
 
-  // Reset any zoom/pan transforms to show the full map
-  // Find the ZoomableGroup's <g> element and reset its transform
-  const zoomGroup = clone.querySelector('g[transform]');
-  if (zoomGroup) {
-    // Get the original viewBox dimensions
-    const width = parseInt(clone.getAttribute('width') || '960');
-    const height = parseInt(clone.getAttribute('height') || '640');
+  // Get SVG dimensions
+  const width = parseInt(clone.getAttribute('width') || '960');
+  const height = parseInt(clone.getAttribute('height') || '640');
 
-    // Reset to default: centered, zoom 1
-    // The translate should center the map, scale should be 1
-    zoomGroup.setAttribute('transform', `translate(${width / 2}, ${height / 2}) scale(1)`);
-  }
+  // Find ALL groups with transforms and reset them to default (centered, zoom 1)
+  // react-simple-maps creates nested <g> elements for zoom/pan
+  const allGroups = clone.querySelectorAll('g[transform]');
+
+  allGroups.forEach((group, index) => {
+    const currentTransform = group.getAttribute('transform') || '';
+
+    // The first transform group (index 0) is typically the ZoomableGroup
+    // Reset it to default centered position with scale 1
+    if (index === 0 && (currentTransform.includes('translate') || currentTransform.includes('scale'))) {
+      group.setAttribute('transform', `translate(${width / 2}, ${height / 2}) scale(1)`);
+    }
+    // For other nested groups, if they have zoom-related transforms, reset them
+    else if (currentTransform.includes('scale(') && !currentTransform.includes('scale(1)')) {
+      // Extract just the translate part if present, reset scale to 1
+      const translateMatch = currentTransform.match(/translate\([^)]+\)/);
+      if (translateMatch) {
+        group.setAttribute('transform', translateMatch[0] + ' scale(1)');
+      } else {
+        group.setAttribute('transform', 'scale(1)');
+      }
+    }
+  });
 
   const svgData = new XMLSerializer().serializeToString(clone);
   return svgData;
