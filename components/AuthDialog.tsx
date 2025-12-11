@@ -17,7 +17,7 @@ type AuthDialogProps = {
     onSuccess: () => void;
 };
 
-export function AuthDialog({ onOpenChange, onSuccess }: AuthDialogProps & { open: boolean }) {
+export function AuthDialog({ open, onOpenChange, onSuccess }: AuthDialogProps) {
     const [mode, setMode] = useState<"login" | "signup">("login");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -74,7 +74,7 @@ export function AuthDialog({ onOpenChange, onSuccess }: AuthDialogProps & { open
     };
 
     return (
-        <Dialog open={true} onOpenChange={onOpenChange}>
+        <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
                     <DialogTitle className="text-xl">
@@ -149,10 +149,10 @@ export function AuthDialog({ onOpenChange, onSuccess }: AuthDialogProps & { open
 
                     {message && (
                         <div className={`text-sm p-3 rounded-md flex items-start gap-2 ${message.type === "error"
-                                ? "text-red-700 bg-red-50 border border-red-200"
-                                : message.type === "success"
-                                    ? "text-green-700 bg-green-50 border border-green-200"
-                                    : "text-blue-700 bg-blue-50 border border-blue-200"
+                            ? "text-red-700 bg-red-50 border border-red-200"
+                            : message.type === "success"
+                                ? "text-green-700 bg-green-50 border border-green-200"
+                                : "text-blue-700 bg-blue-50 border border-blue-200"
                             }`}>
                             <span className="shrink-0">
                                 {message.type === "error" ? "⚠️" : message.type === "success" ? "✅" : "ℹ️"}
