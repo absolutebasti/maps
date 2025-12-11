@@ -6,9 +6,7 @@ import { MapView } from "./../components/MapView";
 import { CountryDrawer } from "./../components/CountryDrawer";
 import { StatsBar } from "./../components/StatsBar";
 import { Legend } from "./../components/Legend";
-import { ExportDialog } from "./../components/ExportDialog";
-import { ShareButton } from "./../components/ShareButton";
-import { CopyShareLinkButton } from "./../components/CopyShareLinkButton";
+import { ShareExportMenu } from "./../components/ShareExportMenu";
 import { CountrySearch } from "./../components/CountrySearch";
 import { ThemeToggle } from "./../components/ThemeToggle";
 import { useAppStore } from "./../lib/state/store";
@@ -104,8 +102,9 @@ export default function HomePage() {
       <main className="min-h-dvh flex flex-col">
         <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="mx-auto max-w-6xl px-2 sm:px-4 py-2 sm:py-4 flex items-center justify-between gap-2">
-            <h1 className="text-lg sm:text-2xl font-bold tracking-wide truncate flex-1 min-w-0" style={{ fontFamily: "var(--font-lemon-milk)" }}>
-              <span className="hidden sm:inline">My Visited Countries Map</span>
+            <h1 className="text-lg sm:text-2xl font-bold tracking-wide truncate" style={{ fontFamily: "var(--font-lemon-milk)" }}>
+              <span className="hidden md:inline">My Visited Countries</span>
+              <span className="hidden sm:inline md:hidden">Visited Countries</span>
               <span className="sm:hidden">MyMap</span>
             </h1>
             <div className="flex gap-1 sm:gap-2 items-center shrink-0">
@@ -115,14 +114,12 @@ export default function HomePage() {
                 href="/countries"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "sm" }),
-                  "hidden sm:inline-flex"
+                  "hidden lg:inline-flex"
                 )}
               >
-                Manage countries
+                Manage
               </Link>
-              <CopyShareLinkButton />
-              <ShareButton targetContainerId="map-container" />
-              <ExportDialog targetContainerId="map-container" />
+              <ShareExportMenu targetContainerId="map-container" />
               {/* Auth UI */}
               {user ? (
                 <UserMenu
