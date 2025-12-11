@@ -25,7 +25,6 @@ export function Legend() {
   const [showColorPicker, setShowColorPicker] = useState(false);
   const countriesById = useAppStore((s) => s.countriesById);
   const toggleVisited = useAppStore((s) => s.toggleVisited);
-  const selectCountry = useAppStore((s) => s.selectCountry);
   const visitedCountryColor = useAppStore((s) => s.settings.visitedCountryColor);
   const setVisitedCountryColor = useAppStore((s) => s.setVisitedCountryColor);
 
@@ -35,13 +34,13 @@ export function Legend() {
     const search = searchQuery.trim().toLowerCase();
     return allCountries.filter((country) => {
       const visited = Boolean(countriesById[country.id]?.visited);
-      
+
       // Filter by visited status
       if (filterVisited !== null && visited !== filterVisited) return false;
-      
+
       // Filter by search query
       if (search && !country.name.toLowerCase().includes(search)) return false;
-      
+
       return true;
     });
   }, [searchQuery, filterVisited, countriesById, allCountries]);
@@ -96,12 +95,12 @@ export function Legend() {
 
       {/* Country List Section */}
       <div className="space-y-3 pt-3 border-t">
-        <h4 className="text-sm font-medium">All Countries</h4>
-        
+        <h4 className="text-sm font-medium">Your Travel Progress</h4>
+
         {/* Search bar */}
         <input
           type="search"
-          placeholder="Search countries…"
+          placeholder="Find any country..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full rounded-md border bg-background px-3 py-3 sm:py-2 text-base sm:text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring touch-manipulation min-h-[44px]"
@@ -136,11 +135,11 @@ export function Legend() {
             className={cn(
               "flex-1 rounded-md px-3 py-3 sm:py-2 text-sm sm:text-xs font-medium transition-colors touch-manipulation min-h-[44px]",
               filterVisited === false
-                ? "bg-red-600 text-white"
+                ? "bg-blue-600 text-white"
                 : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
             )}
           >
-            Not visited
+            Bucket List
           </button>
         </div>
 
@@ -148,28 +147,51 @@ export function Legend() {
         <div className="max-h-[300px] overflow-y-auto space-y-1 pr-2">
           {filteredCountries.length === 0 ? (
             <div className="text-xs text-muted-foreground text-center py-4">
-              No countries found
+              No matches found. Try a different search!
             </div>
           ) : (
             filteredCountries.map((country) => {
               const visited = Boolean(countriesById[country.id]?.visited);
+              const openEditDialog = useAppStore.getState().openEditDialog;
               return (
-                <button
+                <div
                   key={country.id}
-                  onClick={() => {
-                    selectCountry(country.id);
-                    toggleVisited(country.id);
-                  }}
                   className={cn(
-                    "w-full flex items-center justify-between gap-2 px-3 sm:px-2 py-3 sm:py-1.5 rounded text-sm sm:text-xs hover:bg-accent transition-colors text-left touch-manipulation min-h-[44px]",
+                    "flex items-center gap-1 rounded transition-colors",
                     visited && "bg-green-50 dark:bg-green-950/40"
                   )}
                 >
-                  <span className="truncate">{country.name}</span>
-                  {visited && (
-                    <span className="text-green-600 dark:text-green-300 font-bold shrink-0 text-base">✓</span>
-                  )}
-                </button>
+                  <button
+                    onClick={() => toggleVisited(country.id)}
+                    className="flex-1 flex items-center justify-between gap-2 px-3 sm:px-2 py-3 sm:py-1.5 text-sm sm:text-xs hover:bg-accent transition-colors text-left touch-manipulation min-h-[44px]"
+                  >
+                    <span className="truncate">{country.name}</span>
+                    {visited && (
+                      <span className="text-green-600 dark:text-green-300 font-bold shrink-0 text-base">✓</span>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => openEditDialog(country.id)}
+                    className="p-2 hover:bg-accent rounded transition-colors touch-manipulation"
+                    title={`Edit ${country.name}`}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                      <path d="m15 5 4 4" />
+                    </svg>
+                  </button>
+                </div>
               );
             })
           )}

@@ -93,18 +93,62 @@ export default async function BlogPostPage({ params }: Props) {
                   .replace(/\*(.+?)\*/g, "<em>$1</em>");
               };
 
-              // Handle headings
-              if (paragraph.startsWith("# ")) {
-                return <h1 key={i} className="text-4xl font-bold mt-8 mb-4">{paragraph.replace(/^# /, "")}</h1>;
-              }
-              if (paragraph.startsWith("## ")) {
-                return <h2 key={i} className="text-3xl font-bold mt-6 mb-3">{paragraph.replace(/^## /, "")}</h2>;
-              }
-              if (paragraph.startsWith("### ")) {
-                return <h3 key={i} className="text-2xl font-semibold mt-4 mb-2">{paragraph.replace(/^### /, "")}</h3>;
+              // Handle callout boxes (> [!TYPE])
+              if (paragraph.trim().startsWith("> [!")) {
+                const lines = paragraph.trim().split("\n");
+                const firstLine = lines[0];
+                const typeMatch = firstLine.match(/> \[!(\w+)\]/);
+                
+                if (typeMatch) {
+                  const type = typeMatch[1];
+                  const content = lines.slice(1).map(line => line.replace(/^> /, "")).join("\n");
+                  
+                  const calloutStyles = {
+                    TIP: "bg-blue-50 dark:bg-blue-950/30 border-blue-200 dark:border-blue-800",
+                    IMPORTANT: "bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800",
+                    NOTE: "bg-gray-50 dark:bg-gray-900/30 border-gray-200 dark:border-gray-700",
+                    WARNING: "bg-amber-50 dark:bg-amber-950/30 border-amber-200 dark:border-amber-800",
+                  };
+                  
+                  const calloutIcons = {
+                    TIP: "💡",
+                    IMPORTANT: "⚠️",
+                    NOTE: "📝",
+                    WARNING: "⚡",
+                  };
+                  
+                  const style = calloutStyles[type as keyof typeof calloutStyles] || calloutStyles.NOTE;
+                  const icon = calloutIcons[type as keyof typeof calloutIcons] || "ℹ️";
+                  
+                  return (
+                    <div key={i} className={`my-6 p-4 rounded-lg border-2 ${style}`}>
+                      <div className="flex gap-3">
+                        <div className="text-2xl flex-shrink-0">{icon}</div>
+                        <div className="flex-1">
+                          <div className="font-semibold mb-2 text-base">{type}</div>
+                          <div className="text-sm leading-relaxed" dangerouslySetInnerHTML={{ __html: formatText(content) }} />
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
               }
 
-              // Handle bulleted lists - check if it's a list block
+              // Handle headings with improved spacing
+              if (paragraph.startsWith("# ")) {
+                return <h1 key={i} className="text-4xl font-bold mt-12 mb-6 first:mt-0">{paragraph.replace(/^# /, "")}</h1>;
+              }
+              if (paragraph.startsWith("## ")) {
+                return <h2 key={i} className="text-3xl font-bold mt-10 mb-4 border-b pb-2">{paragraph.replace(/^## /, "")}</h2>;
+              }
+              if (paragraph.startsWith("### ")) {
+                return <h3 key={i} className="text-2xl font-semibold mt-8 mb-3">{paragraph.replace(/^### /, "")}</h3>;
+              }
+              if (paragraph.startsWith("#### ")) {
+                return <h4 key={i} className="text-xl font-semibold mt-6 mb-2">{paragraph.replace(/^#### /, "")}</h4>;
+              }
+
+              // Handle bulleted lists with improved styling
               const isBulletList = paragraph.trim().split("\n").every(line => line.trim().startsWith("- ") || line.trim() === "");
               if (isBulletList && paragraph.trim().split("\n").some(line => line.trim().startsWith("- "))) {
                 const items = paragraph
@@ -113,15 +157,15 @@ export default async function BlogPostPage({ params }: Props) {
                   .filter(line => line.startsWith("- "))
                   .map(line => line.replace(/^- /, ""));
                 return (
-                  <ul key={i} className="list-disc list-inside space-y-2 my-4 ml-4">
+                  <ul key={i} className="space-y-2 my-5 ml-6">
                     {items.map((item, j) => (
-                      <li key={j} className="mb-1" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
+                      <li key={j} className="relative pl-2 before:content-['•'] before:absolute before:left-[-1rem] before:text-primary before:font-bold" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
                     ))}
                   </ul>
                 );
               }
 
-              // Handle numbered lists - check if it's a numbered list block
+              // Handle numbered lists with improved styling
               const isNumberedList = paragraph.trim().split("\n").every(line => /^\d+\./.test(line.trim()) || line.trim() === "");
               if (isNumberedList && paragraph.trim().split("\n").some(line => /^\d+\./.test(line.trim()))) {
                 const items = paragraph
@@ -130,16 +174,35 @@ export default async function BlogPostPage({ params }: Props) {
                   .filter(line => /^\d+\./.test(line))
                   .map(line => line.replace(/^\d+\.\s*/, ""));
                 return (
-                  <ol key={i} className="list-decimal list-inside space-y-2 my-4 ml-4">
+                  <ol key={i} className="list-decimal list-inside space-y-2 my-5 ml-6">
                     {items.map((item, j) => (
-                      <li key={j} className="mb-1" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
+                      <li key={j} className="mb-1 pl-2" dangerouslySetInnerHTML={{ __html: formatText(item) }} />
                     ))}
                   </ol>
                 );
               }
 
-              // Regular paragraphs
-              return <p key={i} className="my-4 leading-7" dangerouslySetInnerHTML={{ __html: formatText(paragraph) }} />;
+              // Handle blockquotes
+              if (paragraph.trim().startsWith("> ") && !paragraph.trim().startsWith("> [!")) {
+                const content = paragraph.split("\n").map(line => line.replace(/^> /, "")).join(" ");
+                return (
+                  <blockquote key={i} className="my-6 pl-4 border-l-4 border-primary italic text-muted-foreground">
+                    <p dangerouslySetInnerHTML={{ __html: formatText(content) }} />
+                  </blockquote>
+                );
+              }
+
+              // Handle horizontal rules
+              if (paragraph.trim() === "---" || paragraph.trim() === "***") {
+                return <hr key={i} className="my-8 border-t-2 border-muted" />;
+              }
+
+              // Regular paragraphs with improved spacing
+              if (paragraph.trim()) {
+                return <p key={i} className="my-5 leading-relaxed text-foreground/90" dangerouslySetInnerHTML={{ __html: formatText(paragraph) }} />;
+              }
+
+              return null;
             })}
           </div>
 

@@ -8,7 +8,6 @@ import { useAppStore } from "@/lib/state/store";
 import { MapView } from "@/components/MapView";
 import { StatsBar } from "@/components/StatsBar";
 import { CountryDrawer } from "@/components/CountryDrawer";
-import { MobileCountryDrawer } from "@/components/MobileCountryDrawer";
 import { Legend } from "@/components/Legend";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ExportDialog } from "@/components/ExportDialog";
@@ -161,9 +160,8 @@ export default function ShareMapPage() {
           <KeyboardShortcuts />
         </div>
 
-        {/* Country Drawers */}
+        {/* Country Drawer */}
         <CountryDrawer />
-        <MobileCountryDrawer />
 
         {/* Footer */}
         <footer className="border-t bg-muted/20 py-4 mt-auto relative z-10">

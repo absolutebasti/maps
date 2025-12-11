@@ -24,17 +24,17 @@ export function DonationDialog({ open, onOpenChange, onContinue }: Props) {
     // Increment donation count
     const count = parseInt(localStorage.getItem(DONATION_COUNT_KEY) || "0", 10);
     localStorage.setItem(DONATION_COUNT_KEY, String(count + 1));
-    
+
     // Open PayPal in new tab
     const paypalLink = process.env.NEXT_PUBLIC_PAYPAL_DONATION_LINK;
-    
+
     // Debug: Log environment variable status
     console.log("PayPal link check:", {
       hasLink: !!paypalLink,
       linkValue: paypalLink ? "***configured***" : "undefined",
       allEnvVars: Object.keys(process.env).filter(k => k.includes("PAYPAL"))
     });
-    
+
     if (!paypalLink) {
       console.error("PayPal donation link not configured. Please set NEXT_PUBLIC_PAYPAL_DONATION_LINK in your .env.local file");
       console.error("Make sure to restart your dev server after creating/updating .env.local");
@@ -43,15 +43,15 @@ export function DonationDialog({ open, onOpenChange, onContinue }: Props) {
       onContinue();
       return;
     }
-    
+
     // Build the final PayPal link
     let finalLink = paypalLink;
-    
+
     // Handle different PayPal link formats
     if (amount) {
       // Extract username from various PayPal link formats
       let username = "";
-      
+
       // Format 1: https://paypal.me/username
       if (paypalLink.includes("paypal.me/")) {
         username = paypalLink.split("paypal.me/")[1]?.split("/")[0]?.split("?")[0] || "";
@@ -80,7 +80,7 @@ export function DonationDialog({ open, onOpenChange, onContinue }: Props) {
         }
       }
     }
-    
+
     // Open PayPal in new tab
     try {
       const paypalWindow = window.open(finalLink, "_blank", "noopener,noreferrer");
@@ -92,7 +92,7 @@ export function DonationDialog({ open, onOpenChange, onContinue }: Props) {
       console.error("Error opening PayPal link:", error);
       alert("Error opening PayPal. Please try: " + finalLink);
     }
-    
+
     // Close dialog and continue
     onOpenChange(false);
     onContinue();
@@ -107,16 +107,16 @@ export function DonationDialog({ open, onOpenChange, onContinue }: Props) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Support MyMap</DialogTitle>
+          <DialogTitle>Love MyMap? ☕</DialogTitle>
           <DialogDescription>
-            MyMap is free to use. If you find it helpful, consider supporting its development with a small donation.
+            We&apos;re a small team passionate about helping travelers like you. Your support keeps MyMap free for everyone!
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 space-y-4">
           <p className="text-sm text-muted-foreground">
-            Your support helps keep MyMap free and allows us to add new features and improvements.
+            Every coffee helps us add new features and keep the servers running. Thank you for being awesome! 💙
           </p>
-          
+
           {/* Suggested Amount */}
           <div className="border rounded-lg p-3 bg-muted/50">
             <p className="text-xs text-muted-foreground mb-2">Suggested donation:</p>
@@ -135,7 +135,7 @@ export function DonationDialog({ open, onOpenChange, onContinue }: Props) {
             onClick={handleSkip}
             className="w-full sm:w-auto"
           >
-            Skip
+            Maybe later
           </Button>
           <Button
             onClick={() => handleDonate()}

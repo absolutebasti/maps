@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase/server';
+import { isRateLimited, getClientIP, isValidEventType, logError } from '@/lib/api/security';
 
 /**
  * POST /api/stats/events - Record a user action event
  */
 export async function POST(request: NextRequest) {
+  // Rate limiting
+  const ip = getClientIP(request);
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      { status: 429 }
+    );
+  }
+
   if (!supabaseAdmin) {
     return NextResponse.json(
       { error: 'Supabase not configured' },
@@ -16,7 +26,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { event } = body;
 
-    if (!event || !['country_marked', 'map_exported', 'share_clicked'].includes(event)) {
+    // Input validation
+    if (!isValidEventType(event)) {
       return NextResponse.json(
         { error: 'Invalid event type' },
         { status: 400 }
@@ -25,12 +36,12 @@ export async function POST(request: NextRequest) {
 
     const today = new Date().toISOString().split('T')[0];
 
-    // Get today's stats
+    // Get today's stats with maybeSingle to avoid errors when no record exists
     const { data: existingStats } = await supabaseAdmin
       .from('daily_stats')
       .select('*')
       .eq('date', today)
-      .single();
+      .maybeSingle();
 
     // Determine which field to increment
     let updateField: string;
@@ -52,16 +63,18 @@ export async function POST(request: NextRequest) {
     }
 
     if (existingStats) {
-      // Update existing stats
+      // Atomic update with optimistic locking
+      const currentValue = (existingStats[updateField as keyof typeof existingStats] as number) || 0;
       await supabaseAdmin
         .from('daily_stats')
         .update({
-          [updateField]: (existingStats[updateField as keyof typeof existingStats] as number || 0) + 1,
+          [updateField]: currentValue + 1,
           updated_at: new Date().toISOString(),
         })
-        .eq('date', today);
+        .eq('date', today)
+        .eq(updateField, currentValue); // Optimistic lock on the specific field
     } else {
-      // Create new daily stats entry
+      // Create new daily stats entry using upsert to handle race conditions
       const initialStats: Record<string, number> = {
         visits_count: 0,
         countries_marked: 0,
@@ -72,19 +85,18 @@ export async function POST(request: NextRequest) {
 
       await supabaseAdmin
         .from('daily_stats')
-        .insert({
+        .upsert({
           date: today,
           ...initialStats,
-        });
+        }, { onConflict: 'date', ignoreDuplicates: false });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error in POST /api/stats/events:', error);
+    logError('Error in POST /api/stats/events:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
     );
   }
 }
-

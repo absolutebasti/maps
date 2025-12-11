@@ -28,12 +28,13 @@ export function Onboarding() {
     }
   }, []);
 
-  // Track initial step view
+  // Track initial step view - only when dialog first opens
   useEffect(() => {
     if (show && step === 0) {
       analytics.onboardingStepViewed(1, steps.length);
     }
-  }, [show]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [show]); // Intentionally only tracking when dialog opens, not on every step change
 
   // Keyboard navigation
   useEffect(() => {
@@ -58,7 +59,7 @@ export function Onboarding() {
   const steps = [
     {
       title: "Welcome to MyMap! 🗺️",
-      description: "Track your travel journey on an interactive world map.",
+      description: "Your personal travel map awaits.",
       icon: "🗺️",
       content: (
         <div className="space-y-4 text-sm">
@@ -66,17 +67,17 @@ export function Onboarding() {
             <div className="text-6xl animate-bounce">{/* Globe emoji */}</div>
           </div>
           <p className="text-center">
-            <strong>Click any country</strong> on the map to get started.
+            <strong>Tap any country</strong> on the map to start tracking your adventures.
           </p>
           <div className="bg-muted/50 rounded-lg p-3 text-xs text-muted-foreground">
-            💡 <strong>Mobile tip:</strong> Tap the menu (☰) for all features
+            💡 <strong>On mobile?</strong> Use the menu button at the bottom for all features
           </div>
         </div>
       ),
     },
     {
-      title: "Mark Countries as Visited ✨",
-      description: "Track your travels with one click.",
+      title: "Mark Your Travels ✨",
+      description: "Every country tells a story.",
       icon: "✨",
       content: (
         <div className="space-y-4 text-sm">
@@ -84,10 +85,10 @@ export function Onboarding() {
             <div className="text-6xl animate-pulse">{/* Sparkles emoji */}</div>
           </div>
           <p className="text-center">
-            <strong>Mark countries as visited</strong> and add <strong>notes, dates, and ratings</strong> to remember your adventures.
+            <strong>Mark countries as visited</strong> and capture your memories with <strong>notes, dates, and ratings</strong>.
           </p>
           <div className="bg-muted/50 rounded-lg p-3 text-xs text-muted-foreground">
-            💡 <strong>Mobile:</strong> Use the menu (☰) to access all features
+            💡 <strong>Pro tip:</strong> Add tags like "Favorite" or "Want to Visit" to organize your travels
           </div>
         </div>
       ),
@@ -132,7 +133,7 @@ export function Onboarding() {
 
   const handleNext = () => {
     if (isAnimating) return;
-    
+
     setIsAnimating(true);
     setTimeout(() => {
       if (step < steps.length - 1) {
@@ -148,7 +149,7 @@ export function Onboarding() {
 
   const handleBack = () => {
     if (isAnimating || step === 0) return;
-    
+
     setIsAnimating(true);
     setTimeout(() => {
       const newStep = step - 1;
@@ -165,30 +166,12 @@ export function Onboarding() {
   };
 
   const handleComplete = () => {
-    const timeSpent = Math.round((Date.now() - startTime) / 1000);
     analytics.onboardingCompleted();
-    // Track completion with details
-    trackEvent("onboarding_completed", {
-      total_steps: steps.length,
-      time_spent_seconds: timeSpent,
-      completion_rate: "100%",
-      final_step: step + 1,
-    });
     localStorage.setItem(ONBOARDING_KEY, "true");
     setShow(false);
   };
 
-  const trackEvent = (eventName: string, params?: Record<string, unknown>) => {
-    if (typeof window !== "undefined" && window.gtag) {
-      try {
-        window.gtag("event", eventName, params);
-      } catch (error) {
-        console.error("Analytics tracking error:", error);
-      }
-    } else if (process.env.NODE_ENV === "development") {
-      console.log("[Analytics]", eventName, params);
-    }
-  };
+
 
   if (!show) return null;
 
@@ -201,7 +184,7 @@ export function Onboarding() {
       <DialogContent className="sm:max-w-md relative overflow-hidden">
         {/* Decorative background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/5 pointer-events-none" />
-        
+
         {/* Close/Skip button in top-right corner - More prominent */}
         <button
           onClick={handleSkip}
@@ -233,7 +216,7 @@ export function Onboarding() {
               Step {step + 1} of {steps.length}
             </div>
           </div>
-          
+
           <DialogTitle className="text-3xl font-bold text-center">
             {currentStep.title}
           </DialogTitle>
@@ -255,7 +238,7 @@ export function Onboarding() {
               style={{ width: `${progressPercentage}%` }}
             />
           </div>
-          
+
           {/* Step counter and percentage */}
           <div className="flex items-center justify-between text-xs">
             <span className="text-muted-foreground font-medium">
@@ -265,24 +248,23 @@ export function Onboarding() {
               {step + 1} / {steps.length} steps
             </span>
           </div>
-          
+
           {/* Enhanced step dots with completion states */}
           <div className="flex items-center justify-center gap-2">
             {steps.map((_, i) => {
               const isActive = i === step;
               const isCompleted = i < step;
               const isUpcoming = i > step;
-              
+
               return (
                 <div
                   key={i}
-                  className={`rounded-full transition-all duration-300 ${
-                    isActive
-                      ? "bg-primary w-10 h-2.5 shadow-md"
-                      : isCompleted
+                  className={`rounded-full transition-all duration-300 ${isActive
+                    ? "bg-primary w-10 h-2.5 shadow-md"
+                    : isCompleted
                       ? "bg-primary/60 w-6 h-2.5"
                       : "bg-muted w-2.5 h-2.5"
-                  }`}
+                    }`}
                   aria-label={`Step ${i + 1}${isActive ? " (current)" : isCompleted ? " (completed)" : ""}`}
                 >
                   {isCompleted && (
@@ -341,7 +323,7 @@ export function Onboarding() {
               Back
             </Button>
           )}
-          
+
           {/* Skip button - more prominent */}
           <Button
             variant="outline"
@@ -349,9 +331,9 @@ export function Onboarding() {
             disabled={isAnimating}
             className={`flex-1 sm:flex-initial border-2 ${canGoBack ? "" : "flex-1"}`}
           >
-            Skip Tutorial
+            I&apos;ll explore myself
           </Button>
-          
+
           {/* Next/Get Started button */}
           <Button
             onClick={handleNext}

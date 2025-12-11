@@ -27,11 +27,7 @@ export function CountryDrawer() {
   }, [selectedId]);
 
   if (!selectedId) {
-    return (
-      <div className="text-sm text-muted-foreground">
-        Click a country on the map to select it.
-      </div>
-    );
+    return null; // Don't show anything when no country is selected
   }
 
   const isVisited = country?.visited ?? false;
@@ -54,7 +50,7 @@ export function CountryDrawer() {
             }
             toast({
               title: isVisited ? "Country unmarked" : "Country marked as visited",
-              description: isVisited 
+              description: isVisited
                 ? `${title} removed from your visited list`
                 : `${title} added to your visited list`,
               variant: isVisited ? "default" : "success",
@@ -97,11 +93,12 @@ export function CountryDrawer() {
         </button>
       </div>
       <div className="space-y-2">
-        <label className="text-sm font-medium">Note</label>
+        <label className="text-sm font-medium text-foreground">Your Notes</label>
         <textarea
-          className="w-full min-h-24 text-base sm:text-sm rounded-md border bg-background px-3 sm:px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-ring touch-manipulation"
-          placeholder="Add your memories, highlights, or places visited..."
+          className="w-full min-h-24 text-base sm:text-sm rounded-md border-2 border-gray-300 bg-white text-gray-900 px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-primary focus:border-primary placeholder:text-gray-400 touch-manipulation"
+          placeholder="What made this trip special? Favorite memories, must-see spots, local tips..."
           value={country?.note ?? ""}
+          maxLength={2000}
           onChange={(e) => {
             setNote(selectedId, e.target.value);
             // Track note addition/editing (only if note is not empty)
@@ -113,18 +110,18 @@ export function CountryDrawer() {
       </div>
       <div className="grid grid-cols-2 gap-3">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Visited date</label>
+          <label className="text-sm font-medium text-foreground">When did you visit?</label>
           <input
             type="date"
-            className="w-full text-base sm:text-sm rounded-md border bg-background px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-ring touch-manipulation min-h-[44px]"
+            className="w-full text-base sm:text-sm rounded-md border-2 border-gray-300 bg-white text-gray-900 px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-primary focus:border-primary touch-manipulation min-h-[44px]"
             value={country?.visitedAt ?? ""}
             onChange={(e) => setVisitedAt(selectedId, e.target.value || undefined)}
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Rating</label>
+          <label className="text-sm font-medium text-foreground">How was it?</label>
           <select
-            className="w-full text-base sm:text-sm rounded-md border bg-background px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-ring touch-manipulation min-h-[44px]"
+            className="w-full text-base sm:text-sm rounded-md border-2 border-gray-300 bg-white text-gray-900 px-3 py-3 sm:py-2 outline-none focus:ring-2 focus:ring-primary focus:border-primary touch-manipulation min-h-[44px] cursor-pointer"
             value={country?.rating ?? ""}
             onChange={(e) => {
               const rating = e.target.value ? Number(e.target.value) : undefined;
@@ -135,16 +132,16 @@ export function CountryDrawer() {
               }
             }}
           >
-            <option value="">—</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
+            <option value="">Rate your experience</option>
+            <option value="1">⭐ 1 Star</option>
+            <option value="2">⭐⭐ 2 Stars</option>
+            <option value="3">⭐⭐⭐ 3 Stars</option>
+            <option value="4">⭐⭐⭐⭐ 4 Stars</option>
+            <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
           </select>
         </div>
       </div>
-      
+
       {/* Tags Section */}
       <div className="space-y-3">
         <label className="text-sm font-medium">Tags</label>
@@ -176,8 +173,8 @@ export function CountryDrawer() {
                 className={`
                   flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium
                   transition-all duration-200 border-2
-                  ${isActive 
-                    ? 'bg-opacity-100 border-opacity-100 scale-105' 
+                  ${isActive
+                    ? 'bg-opacity-100 border-opacity-100 scale-105'
                     : 'bg-opacity-0 border-opacity-30 hover:border-opacity-60'
                   }
                 `}

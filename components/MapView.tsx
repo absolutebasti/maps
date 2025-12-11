@@ -44,13 +44,19 @@ export function MapView({ onSelectCountry }: Props) {
     return getWorldCountries();
   }, []);
 
-  // Constrain center coordinates to prevent panning too far
+  // Constrain center coordinates - HARD LIMITS to prevent panning outside map
   const constrainCenter = (coordinates: [number, number], zoomLevel: number): [number, number] => {
+    // At zoom 1, lock to center (no panning allowed)
+    if (zoomLevel <= 1) {
+      return [0, 0];
+    }
+
     const [lon, lat] = coordinates;
-    // Define max pan distance based on zoom level (less zoom = less pan allowed)
-    const maxLon = 180 / zoomLevel;
-    const maxLat = 90 / zoomLevel;
-    
+    // Only allow minimal panning at higher zoom levels
+    // The higher the zoom, the more you can pan to explore details
+    const maxLon = Math.min(40, 80 / zoomLevel);
+    const maxLat = Math.min(20, 40 / zoomLevel);
+
     return [
       Math.max(-maxLon, Math.min(maxLon, lon)),
       Math.max(-maxLat, Math.min(maxLat, lat))
@@ -66,15 +72,9 @@ export function MapView({ onSelectCountry }: Props) {
 
   const handleClick = (feature: Feature) => {
     const id = getCountryId(feature as any);
-    
-    // If clicking the same country, deselect it
-    if (selectedId === id) {
-      selectCountry(undefined);
-      return;
-    }
-    
-    // Otherwise, just select the new country (don't auto-mark as visited)
-    selectCountry(id);
+
+    // Toggle visited status on click
+    useAppStore.getState().toggleVisited(id);
     onSelectCountry?.(id);
   };
 
@@ -100,16 +100,16 @@ export function MapView({ onSelectCountry }: Props) {
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     // Only zoom if cursor is over the map
     if (!mapContainerRef.current) return;
-    
+
     // Prevent default scrolling
     e.preventDefault();
-    
+
     // Determine zoom direction based on wheel delta
     // Negative deltaY = scroll up = zoom in
     // Positive deltaY = scroll down = zoom out
     const zoomSensitivity = 0.1; // Adjust this to control zoom speed
     const zoomDelta = -e.deltaY * zoomSensitivity;
-    
+
     if (zoomDelta > 0) {
       // Zoom in
       if (zoom < 4) {
@@ -137,10 +137,10 @@ export function MapView({ onSelectCountry }: Props) {
   const getCountryCentroid = (countryId: string): [number, number] | null => {
     const feature = geoUrlData.features.find((f: any) => getCountryId(f) === countryId);
     if (!feature) return null;
-    
+
     try {
       let centroid = geoCentroid(feature as any);
-      
+
       // Manual adjustments for better placement
       const adjustments: Record<string, [number, number]> = {
         'FRA': [2, 46.5],
@@ -162,7 +162,7 @@ export function MapView({ onSelectCountry }: Props) {
         'CHN': [105, 35],
         'CHINA': [105, 35],
       };
-      
+
       return adjustments[countryId] || centroid;
     } catch {
       return null;
@@ -182,16 +182,16 @@ export function MapView({ onSelectCountry }: Props) {
   }, [selectedId, geoUrlData]);
 
   return (
-    <div 
+    <div
       ref={mapContainerRef}
-      className="relative w-full h-full overflow-hidden"
+      className="relative w-full h-full overflow-hidden border-4 border-gray-800 rounded-lg"
       onWheel={handleWheel}
-      style={{ cursor: 'grab' }}
+      style={{ cursor: zoom > 1 ? 'grab' : 'default' }}
     >
       {/* Ocean background with wave lines */}
-      <div 
-        className="absolute inset-0 w-full h-full" 
-        style={{ 
+      <div
+        className="absolute inset-0 w-full h-full"
+        style={{
           backgroundColor: "#A8D8EA",
           backgroundImage: `
             repeating-linear-gradient(
@@ -215,13 +215,13 @@ export function MapView({ onSelectCountry }: Props) {
           `
         }}
       >
-        <ComposableMap 
-          projection="geoEqualEarth" 
-          width={960} 
+        <ComposableMap
+          projection="geoEqualEarth"
+          width={960}
           height={640}
           style={{ width: "100%", height: "100%" }}
         >
-          <ZoomableGroup 
+          <ZoomableGroup
             zoom={zoom}
             center={center}
             onMoveEnd={handleMoveEnd}
@@ -273,20 +273,20 @@ export function MapView({ onSelectCountry }: Props) {
                   const isSelected = selectedId === id;
                   const isHovered = hoveredId === id;
                   const isVisited = Boolean(countriesById[id]?.visited);
-                  
+
                   // Use custom color from store for visited countries
                   const baseFill = isVisited
                     ? visitedCountryColor
                     : "#E5E7EB";  // Light gray
-                  
+
                   // Only darken on hover, not on selection
                   const hoverFill = isVisited
                     ? `color-mix(in srgb, ${visitedCountryColor} 85%, black)`
                     : "#D1D5DB";
-                  
+
                   // Use base fill even when selected, only change on hover
                   const fill = isHovered ? hoverFill : baseFill;
-                  
+
                   return (
                     <Geography
                       key={`${id}-${geo.rsmKey ?? index}`}
@@ -345,7 +345,7 @@ export function MapView({ onSelectCountry }: Props) {
             {/* Emoji badges for countries with tags */}
             {Object.entries(countriesById).map(([countryId, countryData]) => {
               if (!countryData.tags || countryData.tags.length === 0) return null;
-              
+
               // Find the geography for this country to get its centroid
               const geo = geoUrlData.features.find((f: any) => getCountryId(f) === countryId);
               if (!geo) return null;
@@ -355,12 +355,12 @@ export function MapView({ onSelectCountry }: Props) {
               let centroid: [number, number];
               try {
                 centroid = geoCentroid(geo);
-                
+
                 // If centroid seems invalid (NaN or out of bounds), skip
                 if (!centroid || isNaN(centroid[0]) || isNaN(centroid[1])) {
                   return null;
                 }
-                
+
                 // For multi-polygon geometries, centroid might not be inside the main landmass
                 // We'll use the centroid but add manual adjustments for common cases
                 const adjustments: Record<string, [number, number]> = {
@@ -383,12 +383,12 @@ export function MapView({ onSelectCountry }: Props) {
                   'CHN': [105, 35],      // China - center
                   'CHINA': [105, 35],    // China - alternative
                 };
-                
+
                 centroid = adjustments[countryId] || centroid;
               } catch (error) {
                 return null;
               }
-              
+
               return countryData.tags.map((tagId, index) => {
                 const tag = PREDEFINED_TAGS.find(t => t.id === tagId);
                 if (!tag) return null;

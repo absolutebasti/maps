@@ -7,7 +7,7 @@
  */
 function getSessionId(): string {
   if (typeof window === 'undefined') return '';
-  
+
   let sessionId = sessionStorage.getItem('mymap_session_id');
   if (!sessionId) {
     sessionId = `session_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`;
@@ -17,26 +17,12 @@ function getSessionId(): string {
 }
 
 /**
- * Hash IP address for privacy (one-way hash)
- */
-function hashIP(ip: string): string {
-  // Simple hash function (in production, use crypto.subtle for better security)
-  let hash = 0;
-  for (let i = 0; i < ip.length; i++) {
-    const char = ip.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32-bit integer
-  }
-  return Math.abs(hash).toString(36);
-}
-
-/**
  * Record a page visit
  */
 export async function recordVisit(pagePath: string = '/'): Promise<void> {
   try {
     const sessionId = getSessionId();
-    
+
     // Get IP hash (will be done server-side for security)
     const response = await fetch('/api/stats', {
       method: 'POST',

@@ -118,8 +118,8 @@ export default function CountriesPage() {
             </p>
           </div>
           <div className="flex items-center gap-3">
-            <Button 
-              variant="destructive" 
+            <Button
+              variant="destructive"
               onClick={() => setShowClearDialog(true)}
               disabled={totalVisited === 0}
             >
@@ -189,8 +189,8 @@ export default function CountriesPage() {
             <span className="font-medium text-foreground">{selectedCount}</span>
           </span>
           <div className="flex flex-wrap gap-2">
-            <Button 
-              disabled={!selectedCount} 
+            <Button
+              disabled={!selectedCount}
               onClick={() => handleMarkVisited(true)}
               className="bg-green-600 hover:bg-green-700 text-white"
             >
@@ -209,8 +209,20 @@ export default function CountriesPage() {
         <div className="overflow-hidden rounded-lg border">
           <div className="max-h-[65vh] overflow-y-auto divide-y">
             {filteredCountries.length === 0 ? (
-              <div className="px-4 py-16 text-center text-sm text-muted-foreground">
-                No countries found. Try adjusting your search or filters.
+              <div className="px-4 py-16 text-center space-y-4">
+                <div className="text-5xl mb-2">🔍</div>
+                <div className="space-y-2">
+                  <h3 className="text-base font-semibold">No Countries Found</h3>
+                  <p className="text-sm text-muted-foreground max-w-sm mx-auto">
+                    {query ? (
+                      <>No countries match "{query}". Try a different search term.</>
+                    ) : filter === "visited" ? (
+                      <>You haven't marked any countries as visited yet. Start exploring!</>
+                    ) : (
+                      <>Try adjusting your search or filters.</>
+                    )}
+                  </p>
+                </div>
               </div>
             ) : (
               filteredCountries.map((country) => {

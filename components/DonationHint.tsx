@@ -18,7 +18,7 @@ export function DonationHint({ variant = "default", className }: Props) {
       <>
         <div className={cn("text-center space-y-3 p-4 rounded-lg border bg-muted/30", className)}>
           <p className="text-sm text-muted-foreground">
-            MyMap is completely free to use. If you find it helpful, consider supporting its development. 
+            MyMap is completely free to use. If you find it helpful, consider supporting its development.
             <span className="font-medium text-foreground"> Even 1€ shows us that you love our tool! ☕</span>
           </p>
           <Button
@@ -42,7 +42,7 @@ export function DonationHint({ variant = "default", className }: Props) {
     <>
       <div className={cn("text-center space-y-4 p-6 rounded-lg border bg-muted/30", className)}>
         <p className="text-base text-muted-foreground">
-          MyMap is completely <strong className="text-foreground">free to use</strong>. If you find it helpful, 
+          MyMap is completely <strong className="text-foreground">free to use</strong>. If you find it helpful,
           consider supporting its development with a small donation.
         </p>
         <p className="text-sm text-muted-foreground">
@@ -53,7 +53,7 @@ export function DonationHint({ variant = "default", className }: Props) {
           size="lg"
           className="bg-green-600 hover:bg-green-700 text-white"
         >
-          ☕ Buy me a coffee
+          ☕ Buy us a coffee
         </Button>
       </div>
       <DonationDialog
