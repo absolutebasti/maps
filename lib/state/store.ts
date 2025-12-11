@@ -31,12 +31,18 @@ type SelectCountryOptions = {
   centerOn?: boolean;
 };
 
+type MapView = {
+  zoom: number;
+  center: [number, number];
+};
+
 type AppState = {
   selectedCountryId?: string;
   editingCountryId?: string; // Country being edited in the dialog
   countriesById: Record<string, CountryData>;
   tagsById: Record<string, TagData>;
   settings: Settings;
+  mapView: MapView;
   // actions
   selectCountry: (id?: string, opts?: SelectCountryOptions) => void;
   openEditDialog: (id: string) => void;
@@ -53,6 +59,8 @@ type AppState = {
   setRating: (id: string, rating?: number) => void;
   setVisitedCountryColor: (color: string) => void;
   setFillPattern: (pattern: FillPattern) => void;
+  setMapView: (view: Partial<MapView>) => void;
+  resetMapView: () => void;
   clearAllData: () => void;
 };
 
@@ -75,6 +83,10 @@ export const useAppStore = create<AppState>((set) => ({
     showLabels: false,
     visitedCountryColor: "#F87171",
     fillPattern: "filled"
+  },
+  mapView: {
+    zoom: 1,
+    center: [0, 0]
   },
   selectCountry: (id, opts) =>
     set((s) => {
@@ -198,6 +210,14 @@ export const useAppStore = create<AppState>((set) => ({
     set((s) => ({
       settings: { ...s.settings, fillPattern: pattern }
     })),
+  setMapView: (view) =>
+    set((s) => ({
+      mapView: { ...s.mapView, ...view }
+    })),
+  resetMapView: () =>
+    set({
+      mapView: { zoom: 1, center: [0, 0] }
+    }),
   clearAllData: () =>
     set({
       countriesById: {},

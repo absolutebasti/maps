@@ -28,6 +28,8 @@ export function MapView({ onSelectCountry }: Props) {
   const countriesById = useAppStore((s) => s.countriesById);
   const visitedCountryColor = useAppStore((s) => s.settings.visitedCountryColor);
   const fillPattern = useAppStore((s) => s.settings.fillPattern);
+  const mapView = useAppStore((s) => s.mapView);
+  const setMapView = useAppStore((s) => s.setMapView);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [tooltipData, setTooltipData] = useState<{
     x: number;
@@ -37,8 +39,10 @@ export function MapView({ onSelectCountry }: Props) {
     notes?: string;
     rating?: number;
   } | null>(null);
-  const [zoom, setZoom] = useState(1);
-  const [center, setCenter] = useState<[number, number]>([0, 0]);
+  const zoom = mapView.zoom;
+  const center = mapView.center;
+  const setZoom = (z: number) => setMapView({ zoom: z });
+  const setCenter = (c: [number, number]) => setMapView({ center: c });
   const mapContainerRef = useRef<HTMLDivElement>(null);
 
   const geoUrlData = useMemo(() => {
