@@ -45,20 +45,19 @@ export function MapView({ onSelectCountry }: Props) {
     return getWorldCountries();
   }, []);
 
-  // Constrain center coordinates - HARD LIMITS to prevent panning outside map
+  // Constrain center coordinates - prevent panning too far off the map
   const constrainCenter = (coordinates: [number, number], zoomLevel: number): [number, number] => {
-    // At zoom 1, lock to center (no panning allowed - whole world is visible)
-    if (zoomLevel <= 1) {
+    // At zoom 1, keep centered (whole world is visible anyway)
+    if (zoomLevel <= 1.1) {
       return [0, 0];
     }
 
     const [lon, lat] = coordinates;
 
-    // Calculate max pan distance based on zoom level
-    // At higher zoom, allow more panning to explore details
-    // But cap it to prevent going off the map edges
-    const maxLon = Math.min(180, 120 * (1 - 1 / zoomLevel));
-    const maxLat = Math.min(85, 60 * (1 - 1 / zoomLevel));
+    // Allow more panning at higher zoom levels
+    // These are generous limits to prevent going completely off the map
+    const maxLon = 180;
+    const maxLat = 85;
 
     return [
       Math.max(-maxLon, Math.min(maxLon, lon)),
@@ -228,7 +227,6 @@ export function MapView({ onSelectCountry }: Props) {
             zoom={zoom}
             center={center}
             onMoveEnd={handleMoveEnd}
-            translateExtent={[[-200, -150], [200, 150]]}
             minZoom={1}
             maxZoom={4}
           >
