@@ -27,6 +27,7 @@ export function MapView({ onSelectCountry }: Props) {
   const selectCountry = useAppStore((s) => s.selectCountry);
   const countriesById = useAppStore((s) => s.countriesById);
   const visitedCountryColor = useAppStore((s) => s.settings.visitedCountryColor);
+  const fillPattern = useAppStore((s) => s.settings.fillPattern);
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [tooltipData, setTooltipData] = useState<{
     x: number;
@@ -46,16 +47,18 @@ export function MapView({ onSelectCountry }: Props) {
 
   // Constrain center coordinates - HARD LIMITS to prevent panning outside map
   const constrainCenter = (coordinates: [number, number], zoomLevel: number): [number, number] => {
-    // At zoom 1, lock to center (no panning allowed)
+    // At zoom 1, lock to center (no panning allowed - whole world is visible)
     if (zoomLevel <= 1) {
       return [0, 0];
     }
 
     const [lon, lat] = coordinates;
-    // Only allow minimal panning at higher zoom levels
-    // The higher the zoom, the more you can pan to explore details
-    const maxLon = Math.min(40, 80 / zoomLevel);
-    const maxLat = Math.min(20, 40 / zoomLevel);
+
+    // Calculate max pan distance based on zoom level
+    // At higher zoom, allow more panning to explore details
+    // But cap it to prevent going off the map edges
+    const maxLon = Math.min(180, 120 * (1 - 1 / zoomLevel));
+    const maxLat = Math.min(85, 60 * (1 - 1 / zoomLevel));
 
     return [
       Math.max(-maxLon, Math.min(maxLon, lon)),
@@ -225,7 +228,28 @@ export function MapView({ onSelectCountry }: Props) {
             zoom={zoom}
             center={center}
             onMoveEnd={handleMoveEnd}
+            translateExtent={[[-200, -150], [200, 150]]}
+            minZoom={1}
+            maxZoom={4}
           >
+            {/* SVG Pattern definitions for fill styles */}
+            <defs>
+              {/* Lines pattern */}
+              <pattern id="pattern-lines" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)">
+                <rect width="6" height="6" fill={visitedCountryColor} />
+                <line x1="0" y1="0" x2="0" y2="6" stroke="white" strokeWidth="2" />
+              </pattern>
+              {/* Dots pattern */}
+              <pattern id="pattern-dots" patternUnits="userSpaceOnUse" width="8" height="8">
+                <rect width="8" height="8" fill={visitedCountryColor} />
+                <circle cx="4" cy="4" r="2" fill="white" />
+              </pattern>
+              {/* Crosshatch pattern */}
+              <pattern id="pattern-crosshatch" patternUnits="userSpaceOnUse" width="8" height="8">
+                <rect width="8" height="8" fill={visitedCountryColor} />
+                <path d="M0,0 L8,8 M8,0 L0,8" stroke="white" strokeWidth="1.5" />
+              </pattern>
+            </defs>
             {/* Ocean labels - now INSIDE the SVG so they move with the map */}
             {oceanLabels.map(({ name, top, left, right }, idx) => {
               // Convert percentage positions to approximate geo coordinates
@@ -274,10 +298,14 @@ export function MapView({ onSelectCountry }: Props) {
                   const isHovered = hoveredId === id;
                   const isVisited = Boolean(countriesById[id]?.visited);
 
-                  // Use custom color from store for visited countries
-                  const baseFill = isVisited
-                    ? visitedCountryColor
-                    : "#E5E7EB";  // Light gray
+                  // Determine fill based on pattern
+                  const getVisitedFill = () => {
+                    if (!isVisited) return "#E5E7EB";
+                    if (fillPattern === "filled") return visitedCountryColor;
+                    return `url(#pattern-${fillPattern})`;
+                  };
+
+                  const baseFill = getVisitedFill();
 
                   // Only darken on hover, not on selection
                   const hoverFill = isVisited

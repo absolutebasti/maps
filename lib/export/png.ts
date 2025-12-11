@@ -8,6 +8,20 @@ export type ExportOptions = {
 function serializeSvg(svg: SVGSVGElement): string {
   const clone = svg.cloneNode(true) as SVGSVGElement;
   clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+
+  // Reset any zoom/pan transforms to show the full map
+  // Find the ZoomableGroup's <g> element and reset its transform
+  const zoomGroup = clone.querySelector('g[transform]');
+  if (zoomGroup) {
+    // Get the original viewBox dimensions
+    const width = parseInt(clone.getAttribute('width') || '960');
+    const height = parseInt(clone.getAttribute('height') || '640');
+
+    // Reset to default: centered, zoom 1
+    // The translate should center the map, scale should be 1
+    zoomGroup.setAttribute('transform', `translate(${width / 2}, ${height / 2}) scale(1)`);
+  }
+
   const svgData = new XMLSerializer().serializeToString(clone);
   return svgData;
 }
@@ -84,5 +98,3 @@ export async function exportSvgContainerToPng(
     URL.revokeObjectURL(url);
   }
 }
-
-

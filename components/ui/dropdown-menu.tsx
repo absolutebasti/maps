@@ -72,7 +72,7 @@ export function DropdownMenuContent({ align = "end", className = "", children }:
 
     return (
         <div
-            className={`absolute top-full mt-1 ${alignClass} z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 ${className}`}
+            className={`absolute top-full mt-1 ${alignClass} z-50 min-w-[8rem] overflow-hidden rounded-md border bg-white dark:bg-gray-900 p-1 text-popover-foreground shadow-lg animate-in fade-in-0 zoom-in-95 ${className}`}
             onClick={(e) => e.stopPropagation()}
         >
             {children}

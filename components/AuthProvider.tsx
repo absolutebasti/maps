@@ -56,7 +56,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     theme: "light",
                     showLegend: true,
                     showLabels: false,
-                    visitedCountryColor: "#E8DCC4",
+                    visitedCountryColor: "#F87171",
+                    fillPattern: "filled",
                 },
             } : {
                 countriesById: {},
@@ -65,7 +66,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                     theme: "light" as const,
                     showLegend: true,
                     showLabels: false,
-                    visitedCountryColor: "#E8DCC4",
+                    visitedCountryColor: "#F87171",
+                    fillPattern: "filled" as const,
                 },
             };
 

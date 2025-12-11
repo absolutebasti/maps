@@ -16,11 +16,14 @@ export type TagData = {
   emoji?: string;
 };
 
+export type FillPattern = "filled" | "lines" | "dots" | "crosshatch";
+
 export type Settings = {
   theme: "light" | "dark" | "system";
   showLegend: boolean;
   showLabels: boolean;
   visitedCountryColor: string;
+  fillPattern: FillPattern;
 };
 
 type SelectCountryOptions = {
@@ -49,6 +52,7 @@ type AppState = {
   setVisitedAt: (id: string, isoDate?: string) => void;
   setRating: (id: string, rating?: number) => void;
   setVisitedCountryColor: (color: string) => void;
+  setFillPattern: (pattern: FillPattern) => void;
   clearAllData: () => void;
 };
 
@@ -69,7 +73,8 @@ export const useAppStore = create<AppState>((set) => ({
     theme: "light",
     showLegend: true,
     showLabels: false,
-    visitedCountryColor: "#E8DCC4"
+    visitedCountryColor: "#F87171",
+    fillPattern: "filled"
   },
   selectCountry: (id, opts) =>
     set((s) => {
@@ -188,6 +193,10 @@ export const useAppStore = create<AppState>((set) => ({
   setVisitedCountryColor: (color) =>
     set((s) => ({
       settings: { ...s.settings, visitedCountryColor: color }
+    })),
+  setFillPattern: (pattern) =>
+    set((s) => ({
+      settings: { ...s.settings, fillPattern: pattern }
     })),
   clearAllData: () =>
     set({
