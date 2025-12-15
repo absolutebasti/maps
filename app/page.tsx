@@ -246,8 +246,8 @@ export default function HomePage() {
         {/* Country Edit Dialog (centered modal) */}
         <CountryEditDialog />
 
-        {/* Onboarding */}
-        <Onboarding />
+        {/* Onboarding - disabled for LLM-Class */}
+        {/* <Onboarding /> */}
 
         {/* Auth Dialog */}
         <AuthDialog
