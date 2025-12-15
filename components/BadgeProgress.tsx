@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useAppStore } from "@/lib/state/store";
 import {
+    BADGES,
     TIER_STYLES,
     calculateAllBadgeProgress,
     getNextBadge,
@@ -119,8 +120,106 @@ function BadgeDetailModal({ badge, progress, open, onClose, countriesVisited }: 
     );
 }
 
+// Full badge list modal
+interface AllBadgesModalProps {
+    open: boolean;
+    onClose: () => void;
+    badgeProgress: BadgeProgressType[];
+    countriesVisited: number;
+    onBadgeClick: (badge: Badge, progress: BadgeProgressType) => void;
+}
+
+function AllBadgesModal({ open, onClose, badgeProgress, countriesVisited, onBadgeClick }: AllBadgesModalProps) {
+    return (
+        <Dialog open={open} onOpenChange={onClose}>
+            <DialogContent className="max-w-md max-h-[80vh] overflow-y-auto">
+                <DialogHeader>
+                    <DialogTitle className="flex items-center gap-2">
+                        🏆 All Badges
+                        <span className="text-sm font-normal text-muted-foreground">
+                            ({badgeProgress.filter(p => p.isUnlocked).length}/{badgeProgress.length} unlocked)
+                        </span>
+                    </DialogTitle>
+                </DialogHeader>
+                <div className="space-y-2">
+                    {badgeProgress.map((p) => {
+                        const tierStyle = TIER_STYLES[p.badge.tier];
+                        const isUnlocked = p.isUnlocked;
+
+                        return (
+                            <button
+                                key={p.badge.id}
+                                onClick={() => {
+                                    onClose();
+                                    onBadgeClick(p.badge, p);
+                                }}
+                                className={cn(
+                                    "w-full flex items-center gap-3 p-3 rounded-lg border transition-all",
+                                    "hover:border-primary/50 hover:bg-muted/50 text-left",
+                                    isUnlocked && tierStyle.bg
+                                )}
+                            >
+                                {/* Badge Icon */}
+                                <div className={cn(
+                                    "w-10 h-10 rounded-full flex items-center justify-center text-xl shrink-0",
+                                    isUnlocked
+                                        ? `bg-gradient-to-br ${tierStyle.gradient}`
+                                        : "bg-muted grayscale"
+                                )}>
+                                    {p.badge.icon}
+                                </div>
+
+                                {/* Badge Info */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2">
+                                        <span className={cn(
+                                            "font-medium truncate",
+                                            isUnlocked ? tierStyle.text : "text-foreground"
+                                        )}>
+                                            {p.badge.name}
+                                        </span>
+                                        <span className={cn(
+                                            "text-[10px] font-bold uppercase px-1.5 py-0.5 rounded",
+                                            tierStyle.bg, tierStyle.text
+                                        )}>
+                                            {p.badge.tier}
+                                        </span>
+                                    </div>
+                                    <p className="text-xs text-muted-foreground truncate">
+                                        {p.badge.countriesRequired} countries
+                                    </p>
+                                </div>
+
+                                {/* Status */}
+                                {isUnlocked ? (
+                                    <div className="px-3 py-1.5 rounded-full bg-green-500/20 text-green-600 text-xs font-semibold shrink-0">
+                                        ✓ Completed
+                                    </div>
+                                ) : (
+                                    <div className="text-right shrink-0">
+                                        <div className="w-16 h-1.5 bg-muted rounded-full overflow-hidden">
+                                            <div
+                                                className="h-full bg-primary/60 rounded-full"
+                                                style={{ width: `${p.percentage}%` }}
+                                            />
+                                        </div>
+                                        <span className="text-[10px] text-muted-foreground">
+                                            {countriesVisited}/{p.badge.countriesRequired}
+                                        </span>
+                                    </div>
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
+}
+
 export function BadgeProgress() {
     const [selectedBadge, setSelectedBadge] = useState<{ badge: Badge; progress: BadgeProgressType } | null>(null);
+    const [showAllBadges, setShowAllBadges] = useState(false);
     const countriesById = useAppStore((s) => s.countriesById);
 
     // Calculate visited country count
@@ -216,7 +315,7 @@ export function BadgeProgress() {
                 {unlockedCount > 0 && (
                     <div className="pt-2 border-t">
                         <p className="text-xs text-muted-foreground mb-2">Unlocked badges:</p>
-                        <div className="flex flex-wrap gap-1">
+                        <div className="flex flex-wrap gap-1 items-center">
                             {badgeProgress
                                 .filter((p) => p.isUnlocked)
                                 .slice(-5)
@@ -237,13 +336,24 @@ export function BadgeProgress() {
                                     </button>
                                 ))}
                             {unlockedCount > 5 && (
-                                <span className="text-xs text-muted-foreground self-center ml-1">
+                                <button
+                                    onClick={() => setShowAllBadges(true)}
+                                    className="text-xs text-primary hover:underline font-medium ml-1"
+                                >
                                     +{unlockedCount - 5} more
-                                </span>
+                                </button>
                             )}
                         </div>
                     </div>
                 )}
+
+                {/* See All Badges Button */}
+                <button
+                    onClick={() => setShowAllBadges(true)}
+                    className="w-full text-center text-xs text-primary hover:underline font-medium pt-2 border-t"
+                >
+                    See all {totalBadges} badges →
+                </button>
 
                 {/* All Unlocked */}
                 {unlockedCount === totalBadges && (
@@ -262,6 +372,15 @@ export function BadgeProgress() {
                 open={!!selectedBadge}
                 onClose={() => setSelectedBadge(null)}
                 countriesVisited={countriesVisitedCount}
+            />
+
+            {/* All Badges Modal */}
+            <AllBadgesModal
+                open={showAllBadges}
+                onClose={() => setShowAllBadges(false)}
+                badgeProgress={badgeProgress}
+                countriesVisited={countriesVisitedCount}
+                onBadgeClick={(badge, progress) => setSelectedBadge({ badge, progress })}
             />
         </>
     );
