@@ -39,7 +39,7 @@ export function ChatConcierge() {
             .filter(([, data]) => data.visited)
             .map(([id]) => id);
 
-        const badges = getUnlockedBadges(visitedCountryIds).map((b) => b.name);
+        const badges = getUnlockedBadges(visitedCountryIds.length).map((b) => b.name);
         const continents = getContinentsVisited(visitedCountryIds);
 
         return {

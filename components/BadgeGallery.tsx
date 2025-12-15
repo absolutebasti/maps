@@ -4,9 +4,9 @@ import { useMemo } from "react";
 import { useAppStore } from "@/lib/state/store";
 import {
     BADGES,
-    TIER_COLORS,
+    TIER_STYLES,
     calculateAllBadgeProgress,
-    BadgeProgress
+    type BadgeProgress
 } from "@/lib/badges";
 import { cn } from "@/lib/utils";
 
@@ -16,7 +16,7 @@ interface BadgeCardProps {
 
 function BadgeCard({ progress }: BadgeCardProps) {
     const { badge, isUnlocked, current, required, percentage } = progress;
-    const tierStyle = TIER_COLORS[badge.tier];
+    const tierStyle = TIER_STYLES[badge.tier];
 
     return (
         <div
@@ -88,17 +88,15 @@ function BadgeCard({ progress }: BadgeCardProps) {
 export function BadgeGallery() {
     const countriesById = useAppStore((s) => s.countriesById);
 
-    // Calculate visited country IDs
-    const visitedCountryIds = useMemo(() => {
-        return Object.entries(countriesById)
-            .filter(([, data]) => data.visited)
-            .map(([id]) => id);
+    // Calculate visited country count
+    const visitedCount = useMemo(() => {
+        return Object.values(countriesById).filter((c) => c.visited).length;
     }, [countriesById]);
 
     // Calculate badge progress
     const badgeProgress = useMemo(() => {
-        return calculateAllBadgeProgress(visitedCountryIds);
-    }, [visitedCountryIds]);
+        return calculateAllBadgeProgress(visitedCount);
+    }, [visitedCount]);
 
     const unlockedCount = badgeProgress.filter((p) => p.isUnlocked).length;
 

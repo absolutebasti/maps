@@ -224,7 +224,7 @@ export default function HomePage() {
         </header>
 
         <section className="flex-1 grid md:grid-cols-[1fr,360px]">
-          <div className="p-1 sm:p-2 md:p-4 flex items-center justify-center min-h-[400px]">
+          <div className="p-1 sm:p-2 md:p-2 flex items-center justify-center">
             <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden touch-manipulation">
               <MapView />
             </div>

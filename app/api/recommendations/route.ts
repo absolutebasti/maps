@@ -8,7 +8,7 @@ import {
     COUNTRY_CONTINENTS,
     ISLAND_NATIONS,
     LANDLOCKED_COUNTRIES,
-    getNearlyUnlockedBadges
+    getNextBadge
 } from "@/lib/badges";
 import { ALL_195_COUNTRIES } from "@/lib/map/all-countries";
 
@@ -31,6 +31,7 @@ function generateAlgorithmicRecommendations(
     visitedCountryIds: string[]
 ): Recommendation[] {
     const visitedSet = new Set(visitedCountryIds);
+    const visitedCount = visitedCountryIds.length;
     const recommendations: Recommendation[] = [];
 
     // Analyze travel patterns
@@ -51,8 +52,9 @@ function generateAlgorithmicRecommendations(
         (c) => !visitedSet.has(c.id)
     );
 
-    // Get nearly unlocked badges for context
-    const nearlyUnlocked = getNearlyUnlockedBadges(visitedCountryIds, 50);
+    // Get next badge info for motivation
+    const nextBadge = getNextBadge(visitedCount);
+    const countriesNeeded = nextBadge ? nextBadge.badge.countriesRequired - visitedCount : 0;
 
     // Strategy 1: Regional completion (same continent as favorite)
     if (favoriteContinent) {
@@ -65,10 +67,7 @@ function generateAlgorithmicRecommendations(
                 countryId: sameContinent.id,
                 reason: `Continue exploring ${favoriteContinent}! You've loved it so far.`,
                 matchScore: 92,
-                potentialBadges: nearlyUnlocked
-                    .filter((b) => b.badge.requirement.type === "continent")
-                    .map((b) => b.badge.name)
-                    .slice(0, 2),
+                potentialBadges: nextBadge && countriesNeeded <= 3 ? [nextBadge.badge.name] : [],
                 continent: favoriteContinent,
             });
         }
@@ -90,29 +89,29 @@ function generateAlgorithmicRecommendations(
                 countryId: countryInNew.id,
                 reason: `Explore a new continent! ${newContinent} awaits your first stamp.`,
                 matchScore: 88,
-                potentialBadges: ["Six Continents"],
+                potentialBadges: nextBadge && countriesNeeded === 1 ? [nextBadge.badge.name] : [],
                 continent: newContinent,
             });
         }
     }
 
     // Strategy 3: Island or landlocked suggestion
-    const hasIslands = visitedCountryIds.some((id) => ISLAND_NATIONS.has(id));
-    const hasLandlocked = visitedCountryIds.some((id) => LANDLOCKED_COUNTRIES.has(id));
+    const islandCount = visitedCountryIds.filter((id) => ISLAND_NATIONS.has(id)).length;
+    const landlockedCount = visitedCountryIds.filter((id) => LANDLOCKED_COUNTRIES.has(id)).length;
 
-    if (!hasIslands || visitedCountryIds.filter((id) => ISLAND_NATIONS.has(id)).length < 3) {
+    if (islandCount < 3) {
         const island = unvisitedCountries.find((c) => ISLAND_NATIONS.has(c.id));
         if (island) {
             recommendations.push({
                 country: island.name,
                 countryId: island.id,
-                reason: "Island paradise! Perfect for the Island Hopper badge.",
+                reason: "Island paradise! Perfect for beach lovers and unique cultures.",
                 matchScore: 85,
-                potentialBadges: ["Island Hopper"],
+                potentialBadges: nextBadge && countriesNeeded === 1 ? [nextBadge.badge.name] : [],
                 continent: COUNTRY_CONTINENTS[island.id] || "Unknown",
             });
         }
-    } else if (!hasLandlocked || visitedCountryIds.filter((id) => LANDLOCKED_COUNTRIES.has(id)).length < 2) {
+    } else if (landlockedCount < 2) {
         const landlocked = unvisitedCountries.find((c) => LANDLOCKED_COUNTRIES.has(c.id));
         if (landlocked) {
             recommendations.push({
@@ -120,7 +119,7 @@ function generateAlgorithmicRecommendations(
                 countryId: landlocked.id,
                 reason: "Discover the charm of a landlocked nation!",
                 matchScore: 82,
-                potentialBadges: ["Landlocked Expert"],
+                potentialBadges: nextBadge && countriesNeeded === 1 ? [nextBadge.badge.name] : [],
                 continent: COUNTRY_CONTINENTS[landlocked.id] || "Unknown",
             });
         }
