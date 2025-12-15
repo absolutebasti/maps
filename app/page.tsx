@@ -20,6 +20,9 @@ import { UserMenu } from "./../components/UserMenu";
 import { useAuth } from "./../components/AuthProvider";
 import { recordVisit } from "./../lib/supabase/stats";
 import { MobileBottomNav } from "./../components/MobileBottomNav";
+import { BadgeProgress } from "./../components/BadgeProgress";
+import { Recommendations } from "./../components/Recommendations";
+import { ChatConcierge } from "./../components/ChatConcierge";
 import { useState, useEffect, useRef } from "react";
 
 export default function HomePage() {
@@ -234,6 +237,8 @@ export default function HomePage() {
               <CountrySearch />
             </div>
             <CountryDrawer />
+            <BadgeProgress />
+            <Recommendations />
             <Legend />
           </aside>
         </section>
@@ -250,6 +255,9 @@ export default function HomePage() {
           onOpenChange={setAuthDialogOpen}
           onSuccess={refreshAuth}
         />
+
+        {/* AI Chat Concierge */}
+        <ChatConcierge />
 
         {/* Hidden SEO content */}
         <div className="sr-only">
