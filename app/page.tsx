@@ -105,11 +105,17 @@ export default function HomePage() {
       <main className="min-h-dvh flex flex-col">
         <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
           <div className="mx-auto max-w-6xl px-2 sm:px-4 py-2 sm:py-4 flex items-center justify-between gap-2">
-            <h1 className="text-lg sm:text-2xl font-bold tracking-wide truncate" style={{ fontFamily: "var(--font-lemon-milk)" }}>
-              <span className="hidden md:inline">My Visited Countries</span>
-              <span className="hidden sm:inline md:hidden">Visited Countries</span>
-              <span className="sm:hidden">MyMap</span>
-            </h1>
+            <div className="flex items-center gap-3">
+              <h1 className="text-lg sm:text-2xl font-bold tracking-wide truncate" style={{ fontFamily: "var(--font-lemon-milk)" }}>
+                <span className="hidden md:inline">My Visited Countries</span>
+                <span className="hidden sm:inline md:hidden">Visited Countries</span>
+                <span className="sm:hidden">MyMap</span>
+              </h1>
+              <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-full bg-muted/50 border">
+                <img src="/esmt-logo.png" alt="ESMT Berlin" className="h-4 w-auto" />
+                <span className="text-[10px] text-muted-foreground font-medium">Built for LLM Course</span>
+              </div>
+            </div>
             <div className="flex gap-1 sm:gap-2 items-center shrink-0">
               <KeyboardShortcuts />
               <ThemeToggle />
