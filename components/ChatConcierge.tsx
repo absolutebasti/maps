@@ -149,16 +149,17 @@ export function ChatConcierge() {
                 onClick={() => setIsOpen(true)}
                 className={cn(
                     "fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50",
-                    "w-14 h-14 rounded-full shadow-lg",
+                    "px-4 py-3 rounded-full shadow-lg",
                     "bg-gradient-to-br from-purple-500 to-indigo-600",
-                    "flex items-center justify-center",
-                    "hover:scale-110 active:scale-95 transition-transform",
+                    "flex items-center gap-2",
+                    "hover:scale-105 active:scale-95 transition-transform",
                     "focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2",
                     isOpen && "hidden"
                 )}
-                aria-label="Open AI Travel Concierge"
+                aria-label="Get AI Travel Recommendations"
             >
-                <span className="text-2xl">🤖</span>
+                <span className="text-xl">🤖</span>
+                <span className="text-sm font-medium text-white hidden sm:inline">Get AI Travel Recommendations</span>
             </button>
 
             {/* Chat Panel */}
