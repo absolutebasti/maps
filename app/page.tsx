@@ -224,18 +224,14 @@ export default function HomePage() {
         </header>
 
         <section className="flex-1 grid md:grid-cols-[1fr,360px]">
-          <div className="p-1 sm:p-2 md:p-2 flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden touch-manipulation">
               <MapView />
             </div>
           </div>
-          <aside className="border-l p-4 hidden md:block space-y-6">
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <StatsBar />
-              </div>
-              <CountrySearch />
-            </div>
+          <aside className="border-l p-4 hidden md:block space-y-4">
+            <StatsBar />
+            <CountrySearch />
             <CountryDrawer />
             <BadgeProgress />
             <Recommendations />

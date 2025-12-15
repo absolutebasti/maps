@@ -179,7 +179,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 if (newUser) {
                     await loadUserData(newUser.id);
                 } else {
+                    // User logged out - clear the store to show blank map
+                    useAppStore.setState({
+                        countriesById: {},
+                        selectedCountryId: undefined,
+                        editingCountryId: undefined,
+                    });
+                    // Clear local storage too
+                    localStorage.removeItem("mymap_state");
                     setSyncStatus("idle");
+                    lastSyncedRef.current = "";
                 }
             }
         });
