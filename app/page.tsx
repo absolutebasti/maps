@@ -223,13 +223,13 @@ export default function HomePage() {
           </div>
         </header>
 
-        <section className="flex-1 grid md:grid-cols-[1fr,360px]">
-          <div className="flex items-center justify-center">
-            <div id="map-container" className="w-full max-w-5xl aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden touch-manipulation">
+        <section className="flex-1 grid md:grid-cols-[1fr,360px] items-start">
+          <div className="sticky top-[57px]">
+            <div id="map-container" className="w-full aspect-[3/2] rounded-lg border bg-card/50 overflow-hidden touch-manipulation">
               <MapView />
             </div>
           </div>
-          <aside className="border-l p-4 hidden md:block space-y-4">
+          <aside className="border-l p-4 hidden md:flex md:flex-col gap-4 max-h-[calc(100vh-57px)] overflow-y-auto sticky top-[57px]">
             <StatsBar />
             <CountrySearch />
             <CountryDrawer />
