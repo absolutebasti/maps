@@ -25,18 +25,24 @@ const QUICK_ACTIONS = [
 
 // Format AI messages with proper line breaks and bullet points
 function FormattedMessage({ content }: { content: string }) {
-    const lines = content.split('\n').filter(line => line.trim());
+    // First, normalize inline bullets: split on bullet characters that appear mid-text
+    // This handles cases where AI writes "text • bullet1 • bullet2" without newlines
+    const normalizedContent = content
+        .replace(/\s+[•\-\*]\s+/g, '\n• ') // Convert inline bullets to newlines
+        .replace(/^[•\-\*]\s*/gm, '• ');    // Normalize bullet markers
+
+    const lines = normalizedContent.split('\n').filter(line => line.trim());
 
     return (
-        <div className="space-y-1.5">
+        <div className="space-y-2">
             {lines.map((line, i) => {
                 const trimmedLine = line.trim();
-                const isBullet = /^[•\-\*]\s/.test(trimmedLine);
+                const isBullet = /^[•\-\*]\s?/.test(trimmedLine);
 
                 if (isBullet) {
                     return (
-                        <div key={i} className="flex gap-2 items-start pl-1">
-                            <span className="text-purple-400 font-bold">•</span>
+                        <div key={i} className="flex gap-2 items-start">
+                            <span className="text-purple-400 flex-shrink-0">•</span>
                             <span>{trimmedLine.replace(/^[•\-\*]\s*/, '')}</span>
                         </div>
                     );
