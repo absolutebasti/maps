@@ -178,7 +178,7 @@ export function ChatConcierge() {
             <button
                 onClick={() => setIsOpen(true)}
                 className={cn(
-                    "fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50",
+                    "fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-50",
                     "px-4 py-3 rounded-full shadow-lg",
                     "bg-gradient-to-br from-purple-500 to-indigo-600",
                     "flex items-center gap-2",
@@ -196,7 +196,7 @@ export function ChatConcierge() {
             {isOpen && (
                 <div
                     className={cn(
-                        "fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-50",
+                        "fixed bottom-20 sm:bottom-6 left-4 sm:left-6 z-50",
                         "w-[calc(100vw-2rem)] sm:w-96 max-h-[70vh] sm:max-h-[600px]",
                         "bg-background/95 backdrop-blur-xl",
                         "rounded-2xl shadow-2xl border",
