@@ -23,6 +23,30 @@ const QUICK_ACTIONS = [
     "Tell me about my travel stats",
 ];
 
+// Format AI messages with proper line breaks and bullet points
+function FormattedMessage({ content }: { content: string }) {
+    const lines = content.split('\n').filter(line => line.trim());
+
+    return (
+        <div className="space-y-1.5">
+            {lines.map((line, i) => {
+                const trimmedLine = line.trim();
+                const isBullet = /^[•\-\*]\s/.test(trimmedLine);
+
+                if (isBullet) {
+                    return (
+                        <div key={i} className="flex gap-2 items-start pl-1">
+                            <span className="text-purple-400 font-bold">•</span>
+                            <span>{trimmedLine.replace(/^[•\-\*]\s*/, '')}</span>
+                        </div>
+                    );
+                }
+                return <p key={i}>{trimmedLine}</p>;
+            })}
+        </div>
+    );
+}
+
 export function ChatConcierge() {
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -242,7 +266,11 @@ export function ChatConcierge() {
                                             : "bg-muted rounded-bl-md"
                                     )}
                                 >
-                                    {message.content}
+                                    {message.role === "assistant" ? (
+                                        <FormattedMessage content={message.content} />
+                                    ) : (
+                                        message.content
+                                    )}
                                 </div>
                             </div>
                         ))}
