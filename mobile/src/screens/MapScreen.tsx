@@ -12,7 +12,6 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { WorldMap } from "../map/WorldMap";
 import { MapTooltip, type TooltipData } from "../map/MapTooltip";
-import { CountryEditSheet } from "../components/CountryEditSheet";
 import { colors } from "../theme/colors";
 
 export function MapScreen() {
@@ -68,8 +67,8 @@ export function MapScreen() {
           </Text>
         </View>
 
-        {/* Zoom controls (bottom-right) */}
-        <View style={[styles.zoomControls, { bottom: insets.bottom + 16 }]}>
+        {/* Zoom controls (bottom-right; tab bar owns the safe-area inset) */}
+        <View style={[styles.zoomControls, { bottom: 16 }]}>
           <Pressable
             style={styles.zoomButton}
             onPress={() => mapApi.current?.zoomBy(0.5)}
@@ -93,9 +92,6 @@ export function MapScreen() {
           <MapTooltip data={tooltip} screenWidth={screenWidth} />
         </View>
       )}
-
-      {/* Country detail / edit sheet (long-press a country) */}
-      <CountryEditSheet />
     </View>
   );
 }

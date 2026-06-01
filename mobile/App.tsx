@@ -5,7 +5,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
-import { MapScreen } from "./src/screens/MapScreen";
+import { RootTabs } from "./src/navigation/RootTabs";
 import { usePersistence } from "./src/persist/usePersistence";
 
 export default function App() {
@@ -16,7 +16,7 @@ export default function App() {
       <SafeAreaProvider>
         <StatusBar style="dark" />
         {hydrated ? (
-          <MapScreen />
+          <RootTabs />
         ) : (
           <View style={styles.loading}>
             <ActivityIndicator size="large" />
