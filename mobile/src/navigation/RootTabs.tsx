@@ -14,19 +14,22 @@ import { CountryEditSheet } from "../components/CountryEditSheet";
 import { Onboarding } from "../components/Onboarding";
 import { useAppStore } from "../core/state/store";
 import { useTheme } from "../theme/useTheme";
+import { useDeepLinks } from "../links/useDeepLinks";
+import { TabIcon } from "./TabIcon";
 
 type Tab = "map" | "countries" | "settings";
 
-const TABS: Array<{ key: Tab; label: string; icon: string }> = [
-  { key: "map", label: "Map", icon: "🗺️" },
-  { key: "countries", label: "Countries", icon: "📋" },
-  { key: "settings", label: "Settings", icon: "⚙️" },
+const TABS: Array<{ key: Tab; label: string }> = [
+  { key: "map", label: "Map" },
+  { key: "countries", label: "Countries" },
+  { key: "settings", label: "Settings" },
 ];
 
 export function RootTabs() {
   const insets = useSafeAreaInsets();
   const { c } = useTheme();
   const [tab, setTab] = useState<Tab>("map");
+  useDeepLinks();
 
   const locateOnMap = useCallback((id: string) => {
     useAppStore.getState().selectCountry(id);
@@ -59,9 +62,7 @@ export function RootTabs() {
               style={styles.tabItem}
               onPress={() => setTab(t.key)}
             >
-              <Text style={[styles.tabIcon, { opacity: active ? 1 : 0.45 }]}>
-                {t.icon}
-              </Text>
+              <TabIcon name={t.key} color={active ? c.text : c.subtext} />
               <Text
                 style={[
                   styles.tabLabel,
