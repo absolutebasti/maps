@@ -6,15 +6,19 @@ import {
   Text,
   Pressable,
   StyleSheet,
+  ActionSheetIOS,
   useWindowDimensions,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import ViewShot from "react-native-view-shot";
 
 import { WorldMap } from "../map/WorldMap";
 import { MapTooltip, type TooltipData } from "../map/MapTooltip";
 import { colors } from "../theme/colors";
 import { useTheme } from "../theme/useTheme";
 import { fonts } from "../theme/tokens";
+import { useAppStore } from "../core/state/store";
+import { shareLink, saveImageToPhotos, shareImage } from "../share/shareExport";
 
 export function MapScreen() {
   const insets = useSafeAreaInsets();
@@ -25,6 +29,22 @@ export function MapScreen() {
   const [stats, setStats] = useState({ visited: 0, total: 195, pct: 0 });
   const mapApi = useRef<{ zoomBy: (d: number) => void } | null>(null);
   const tooltipTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const shotRef = useRef<any>(null);
+
+  const openShareMenu = useCallback(() => {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        title: "Share your map",
+        options: ["Share link", "Save image to Photos", "Share image", "Cancel"],
+        cancelButtonIndex: 3,
+      },
+      (i) => {
+        if (i === 0) void shareLink(useAppStore.getState().countriesById);
+        else if (i === 1) void saveImageToPhotos(shotRef);
+        else if (i === 2) void shareImage(shotRef);
+      }
+    );
+  }, []);
 
   const handleShowTooltip = useCallback((data: TooltipData) => {
     setTooltip(data);
@@ -55,21 +75,34 @@ export function MapScreen() {
           { paddingTop: insets.top + 8, backgroundColor: c.card, borderBottomColor: c.border },
         ]}
       >
-        <Text style={[styles.title, { color: c.text, fontFamily: fonts.bold }]}>
-          My Visited Countries
-        </Text>
-        <Text style={[styles.subtitle, { color: c.subtext }]}>
-          Tap a country to mark it · long-press to edit
-        </Text>
+        <View style={styles.headerRow}>
+          <View style={styles.headerText}>
+            <Text style={[styles.title, { color: c.text, fontFamily: fonts.bold }]}>
+              My Visited Countries
+            </Text>
+            <Text style={[styles.subtitle, { color: c.subtext }]}>
+              Tap a country to mark it · long-press to edit
+            </Text>
+          </View>
+          <Pressable
+            style={[styles.shareBtn, { backgroundColor: c.primary }]}
+            onPress={openShareMenu}
+            hitSlop={8}
+          >
+            <Text style={[styles.shareBtnText, { color: c.primaryText }]}>Share</Text>
+          </Pressable>
+        </View>
       </View>
 
       {/* Map */}
       <View style={styles.mapArea}>
-        <WorldMap
-          onShowTooltip={handleShowTooltip}
-          onStatsChange={handleStatsChange}
-          onReady={handleReady}
-        />
+        <ViewShot ref={shotRef} style={styles.shot}>
+          <WorldMap
+            onShowTooltip={handleShowTooltip}
+            onStatsChange={handleStatsChange}
+            onReady={handleReady}
+          />
+        </ViewShot>
 
         {/* Stats box (top-right) */}
         <View style={styles.statsBox}>
@@ -117,9 +150,23 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E5E7EB",
     backgroundColor: "#ffffff",
   },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+  },
+  headerText: { flex: 1 },
   title: { fontSize: 20, fontWeight: "700", letterSpacing: 0.5 },
   subtitle: { fontSize: 11, color: "#9CA3AF", marginTop: 2 },
+  shareBtn: {
+    paddingHorizontal: 16,
+    paddingVertical: 9,
+    borderRadius: 10,
+  },
+  shareBtnText: { fontSize: 14, fontWeight: "700" },
   mapArea: { flex: 1, padding: 8 },
+  shot: { flex: 1 },
   statsBox: {
     position: "absolute",
     top: 16,

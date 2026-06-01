@@ -7,6 +7,7 @@ import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
 
 import { RootTabs } from "./src/navigation/RootTabs";
+import { AuthProvider } from "./src/auth/AuthProvider";
 import { usePersistence } from "./src/persist/usePersistence";
 import { useTheme } from "./src/theme/useTheme";
 
@@ -26,7 +27,9 @@ export default function App() {
       <SafeAreaProvider>
         <StatusBar style={scheme === "dark" ? "light" : "dark"} />
         {ready ? (
-          <RootTabs />
+          <AuthProvider>
+            <RootTabs />
+          </AuthProvider>
         ) : (
           <View style={[styles.loading, { backgroundColor: c.bg }]}>
             <ActivityIndicator size="large" color={c.text} />

@@ -1,7 +1,7 @@
 // Settings tab — visited-color picker + fill-pattern picker (ported from the web
 // Legend's customization section), plus data controls. Theme toggle is added in
 // the theming batch.
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, Pressable, ScrollView, StyleSheet, Alert } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,6 +11,16 @@ import type { FillPattern, Settings } from "../core/state/store";
 import { ONBOARDING_KEY } from "../components/Onboarding";
 import { useTheme } from "../theme/useTheme";
 import { fonts } from "../theme/tokens";
+import { useAuth } from "../auth/AuthProvider";
+import { AuthSheet } from "../auth/AuthSheet";
+import { signOut } from "../core/supabase/auth";
+
+const SYNC_LABEL: Record<string, string> = {
+  idle: "",
+  syncing: "Syncing…",
+  synced: "Synced ✓",
+  error: "Sync error",
+};
 
 const THEME_OPTIONS: Array<{ key: Settings["theme"]; label: string }> = [
   { key: "light", label: "Light" },
@@ -41,6 +51,13 @@ export function SettingsScreen() {
   const setFillPattern = useAppStore((s) => s.setFillPattern);
   const setTheme = useAppStore((s) => s.setTheme);
   const clearAllData = useAppStore((s) => s.clearAllData);
+  const { user, syncStatus, configured, refresh } = useAuth();
+  const [authVisible, setAuthVisible] = useState(false);
+
+  const handleSignOut = async () => {
+    await signOut();
+    await refresh();
+  };
 
   const confirmClear = () => {
     Alert.alert(
@@ -67,6 +84,39 @@ export function SettingsScreen() {
       ]}
     >
       <Text style={[styles.title, { color: c.text, fontFamily: fonts.bold }]}>Settings</Text>
+
+      {/* Account / cloud sync */}
+      {configured && (
+        <>
+          <Text style={[styles.section, { color: c.subtext }]}>Account</Text>
+          {user ? (
+            <View>
+              <View style={styles.accountRow}>
+                <Text style={[styles.accountEmail, { color: c.text }]} numberOfLines={1}>
+                  {user.email}
+                </Text>
+                {!!SYNC_LABEL[syncStatus] && (
+                  <Text style={[styles.syncStatus, { color: c.subtext }]}>
+                    {SYNC_LABEL[syncStatus]}
+                  </Text>
+                )}
+              </View>
+              <Pressable style={[styles.rowBtn, { backgroundColor: c.muted }]} onPress={handleSignOut}>
+                <Text style={[styles.rowBtnText, { color: c.text }]}>Sign out</Text>
+              </Pressable>
+            </View>
+          ) : (
+            <Pressable
+              style={[styles.rowBtn, { backgroundColor: c.primary }]}
+              onPress={() => setAuthVisible(true)}
+            >
+              <Text style={[styles.rowBtnText, { color: c.primaryText }]}>
+                Sign in / Sign up
+              </Text>
+            </Pressable>
+          )}
+        </>
+      )}
 
       {/* Appearance */}
       <Text style={[styles.section, { color: c.subtext }]}>Appearance</Text>
@@ -152,6 +202,12 @@ export function SettingsScreen() {
       </Pressable>
 
       <Text style={[styles.version, { color: c.subtext }]}>MyMap · v1.0.0</Text>
+
+      <AuthSheet
+        visible={authVisible}
+        onClose={() => setAuthVisible(false)}
+        onSuccess={refresh}
+      />
     </ScrollView>
   );
 }
@@ -206,4 +262,13 @@ const styles = StyleSheet.create({
   dangerBtn: { backgroundColor: "#FEF2F2" },
   dangerText: { color: "#DC2626" },
   version: { textAlign: "center", color: "#9CA3AF", fontSize: 12, marginTop: 24 },
+  accountRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
+  accountEmail: { fontSize: 15, fontWeight: "600", flex: 1 },
+  syncStatus: { fontSize: 12, marginLeft: 8 },
 });
+
