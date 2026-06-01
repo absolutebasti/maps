@@ -6,27 +6,28 @@ import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "../theme/useTheme";
 import { fonts } from "../theme/tokens";
+import { OnboardingIcon, type GlyphName } from "./OnboardingIcon";
 
 export const ONBOARDING_KEY = "mymap.onboarding.completed";
 
-const STEPS = [
+const STEPS: Array<{ glyph: GlyphName; title: string; body: string }> = [
   {
-    icon: "🗺️",
+    glyph: "globe",
     title: "Welcome to MyMap",
     body: "Tap any country on the map to mark it as visited.",
   },
   {
-    icon: "✨",
+    glyph: "pin",
     title: "Mark your travels",
     body: "Long-press a country to add notes, a visit date, a star rating, and tags like Favorite or Want to Visit.",
   },
   {
-    icon: "📋",
+    glyph: "list",
     title: "Browse & search",
-    body: "Use the Countries tab to search, filter, and manage every country — tap 📍 to jump to it on the map.",
+    body: "Use the Countries tab to search, filter, and manage every country — tap the locate icon to jump to it on the map.",
   },
   {
-    icon: "🎨",
+    glyph: "palette",
     title: "Make it yours",
     body: "Change your map's colors and fill style in Settings, then share or export your travel map.",
   },
@@ -71,7 +72,9 @@ export function Onboarding() {
             <Text style={[styles.skipText, { color: c.subtext }]}>Skip</Text>
           </Pressable>
 
-          <Text style={styles.icon}>{current.icon}</Text>
+          <View style={styles.icon}>
+            <OnboardingIcon name={current.glyph} color={c.text} />
+          </View>
           <Text style={styles.stepBadge}>
             Step {step + 1} of {STEPS.length}
           </Text>
@@ -131,7 +134,7 @@ const styles = StyleSheet.create({
   },
   skip: { position: "absolute", top: 14, right: 16, padding: 4 },
   skipText: { color: "#9CA3AF", fontSize: 14, fontWeight: "600" },
-  icon: { fontSize: 56, marginTop: 8, marginBottom: 12 },
+  icon: { marginTop: 12, marginBottom: 14 },
   stepBadge: {
     fontSize: 12,
     fontWeight: "700",

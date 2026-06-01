@@ -95,11 +95,20 @@ Intentionally dropped (web-only / not App-Store-appropriate): marketing/SEO/blog
 pages, sitemap, Next.js API routes, keyboard shortcuts, and the pre-export
 donation gate (external-payment prompts gating features risk App Review).
 
+Done since: branded app icon + splash, vector tab/onboarding icons, deep links
+(`mymap://share/<id>`, `mymap://auth/confirm`), and the iOS Privacy Manifest.
+Verified running on the iOS Simulator (map renders, visited fill + stats, fonts,
+navigation).
+
 Still open before a public release:
 
-- Real app icon + splash art (currently the Expo placeholder).
-- Deep links (`mymap://share/<id>`, `mymap://auth/confirm`) + Universal Links.
-- iOS Privacy Manifest + App Store privacy answers.
+- Add your Supabase keys to `mobile/.env` to enable accounts/cloud sync, and set
+  the `mymap://auth/confirm` redirect URL in the Supabase dashboard.
+- Universal Links (associated domains) — optional; the `mymap://` scheme already
+  works without server config.
+- Answer the App Store privacy questions in App Store Connect (email collected
+  for the optional account; no tracking).
+- Optionally replace the globe icon with your own art.
 
 ## Performance note
 

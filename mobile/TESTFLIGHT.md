@@ -77,8 +77,17 @@ the signed archive for TestFlight/App Store.
 
 - Export-compliance: `app.json` sets `ios.config.usesNonExemptEncryption: false`,
   so TestFlight won't ask the encryption question on every build.
-- App icon: currently the Expo placeholder (`assets/icon.png`). TestFlight
-  accepts it, but replace it with real 1024×1024 art before a public release.
-- Privacy: once cloud sync / Photos export ship, add the matching usage strings
-  and a Privacy Manifest, and answer the App Privacy questions in App Store
-  Connect.
+- App icon + splash: a branded globe icon and splash are configured. You can
+  swap your own art into `assets/icon.png` (1024×1024) and `assets/splash-icon.png`.
+- Privacy: an iOS Privacy Manifest (`app.json` → `ios.privacyManifests`) declares
+  the required-reason APIs. Still answer the App Privacy questions in App Store
+  Connect (email is collected for the optional account/sync; no tracking).
+
+## Troubleshooting
+
+- **Build error `Build input file cannot be found: …/Supporting/Expo.plist`** —
+  a stale `ios/` from repeated local builds. Regenerate it clean:
+  ```bash
+  rm -rf ios && npx expo prebuild -p ios --clean
+  ```
+  (A fresh checkout — where `ios/` doesn't exist yet — never hits this.)
