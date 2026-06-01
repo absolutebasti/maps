@@ -7,8 +7,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useAppStore } from "../core/state/store";
-import type { FillPattern } from "../core/state/store";
+import type { FillPattern, Settings } from "../core/state/store";
 import { ONBOARDING_KEY } from "../components/Onboarding";
+import { useTheme } from "../theme/useTheme";
+import { fonts } from "../theme/tokens";
+
+const THEME_OPTIONS: Array<{ key: Settings["theme"]; label: string }> = [
+  { key: "light", label: "Light" },
+  { key: "dark", label: "Dark" },
+  { key: "system", label: "System" },
+];
 
 // Exact 15-color palette from the web Legend.
 const COLOR_PALETTE = [
@@ -26,10 +34,12 @@ const FILL_PATTERNS: Array<{ id: FillPattern; name: string; icon: string }> = [
 
 export function SettingsScreen() {
   const insets = useSafeAreaInsets();
+  const { c, pref } = useTheme();
   const visitedColor = useAppStore((s) => s.settings.visitedCountryColor);
   const setVisitedColor = useAppStore((s) => s.setVisitedCountryColor);
   const fillPattern = useAppStore((s) => s.settings.fillPattern);
   const setFillPattern = useAppStore((s) => s.setFillPattern);
+  const setTheme = useAppStore((s) => s.setTheme);
   const clearAllData = useAppStore((s) => s.clearAllData);
 
   const confirmClear = () => {
@@ -50,16 +60,38 @@ export function SettingsScreen() {
 
   return (
     <ScrollView
-      style={styles.root}
+      style={[styles.root, { backgroundColor: c.bg }]}
       contentContainerStyle={[
         styles.content,
         { paddingTop: insets.top + 8, paddingBottom: 32 },
       ]}
     >
-      <Text style={styles.title}>Settings</Text>
+      <Text style={[styles.title, { color: c.text, fontFamily: fonts.bold }]}>Settings</Text>
+
+      {/* Appearance */}
+      <Text style={[styles.section, { color: c.subtext }]}>Appearance</Text>
+      <View style={styles.patternRow}>
+        {THEME_OPTIONS.map((opt) => {
+          const active = pref === opt.key;
+          return (
+            <Pressable
+              key={opt.key}
+              onPress={() => setTheme(opt.key)}
+              style={[
+                styles.patternBtn,
+                { borderColor: active ? c.primary : c.border, backgroundColor: active ? c.muted : "transparent" },
+              ]}
+            >
+              <Text style={[styles.patternName, { color: active ? c.text : c.subtext }]}>
+                {opt.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </View>
 
       {/* Visited color */}
-      <Text style={styles.section}>Visited color</Text>
+      <Text style={[styles.section, { color: c.subtext }]}>Visited color</Text>
       <View style={styles.swatchGrid}>
         {COLOR_PALETTE.map((color) => {
           const active = visitedColor === color;
@@ -69,8 +101,7 @@ export function SettingsScreen() {
               onPress={() => setVisitedColor(color)}
               style={[
                 styles.swatch,
-                { backgroundColor: color },
-                active && styles.swatchActive,
+                { backgroundColor: color, borderColor: active ? c.text : "transparent" },
               ]}
             />
           );
@@ -78,7 +109,7 @@ export function SettingsScreen() {
       </View>
 
       {/* Fill style */}
-      <Text style={styles.section}>Fill style</Text>
+      <Text style={[styles.section, { color: c.subtext }]}>Fill style</Text>
       <View style={styles.patternRow}>
         {FILL_PATTERNS.map((p) => {
           const active = fillPattern === p.id;
@@ -86,10 +117,13 @@ export function SettingsScreen() {
             <Pressable
               key={p.id}
               onPress={() => setFillPattern(p.id)}
-              style={[styles.patternBtn, active && styles.patternBtnActive]}
+              style={[
+                styles.patternBtn,
+                { borderColor: active ? c.primary : c.border, backgroundColor: active ? c.muted : "transparent" },
+              ]}
             >
-              <Text style={styles.patternIcon}>{p.icon}</Text>
-              <Text style={[styles.patternName, active && styles.patternNameActive]}>
+              <Text style={[styles.patternIcon, { color: c.text }]}>{p.icon}</Text>
+              <Text style={[styles.patternName, { color: active ? c.text : c.subtext }]}>
                 {p.name}
               </Text>
             </Pressable>
@@ -98,26 +132,26 @@ export function SettingsScreen() {
       </View>
 
       {/* Legend key */}
-      <Text style={styles.section}>Legend</Text>
+      <Text style={[styles.section, { color: c.subtext }]}>Legend</Text>
       <View style={styles.legendRow}>
         <View style={[styles.legendSwatch, { backgroundColor: visitedColor }]} />
-        <Text style={styles.legendText}>Visited</Text>
+        <Text style={[styles.legendText, { color: c.text }]}>Visited</Text>
       </View>
       <View style={styles.legendRow}>
         <View style={[styles.legendSwatch, { backgroundColor: "#E5E7EB" }]} />
-        <Text style={styles.legendText}>Not visited</Text>
+        <Text style={[styles.legendText, { color: c.text }]}>Not visited</Text>
       </View>
 
       {/* Data */}
-      <Text style={styles.section}>Data</Text>
-      <Pressable style={styles.rowBtn} onPress={replayOnboarding}>
-        <Text style={styles.rowBtnText}>Replay intro</Text>
+      <Text style={[styles.section, { color: c.subtext }]}>Data</Text>
+      <Pressable style={[styles.rowBtn, { backgroundColor: c.muted }]} onPress={replayOnboarding}>
+        <Text style={[styles.rowBtnText, { color: c.text }]}>Replay intro</Text>
       </Pressable>
-      <Pressable style={[styles.rowBtn, styles.dangerBtn]} onPress={confirmClear}>
-        <Text style={[styles.rowBtnText, styles.dangerText]}>Clear all data</Text>
+      <Pressable style={[styles.rowBtn, { backgroundColor: c.dangerBg }]} onPress={confirmClear}>
+        <Text style={[styles.rowBtnText, { color: c.danger }]}>Clear all data</Text>
       </Pressable>
 
-      <Text style={styles.version}>MyMap · v1.0.0</Text>
+      <Text style={[styles.version, { color: c.subtext }]}>MyMap · v1.0.0</Text>
     </ScrollView>
   );
 }

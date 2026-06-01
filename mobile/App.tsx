@@ -4,23 +4,35 @@ import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
+import { useFonts } from "expo-font";
 
 import { RootTabs } from "./src/navigation/RootTabs";
 import { usePersistence } from "./src/persist/usePersistence";
+import { useTheme } from "./src/theme/useTheme";
 
 export default function App() {
   const { hydrated } = usePersistence();
+  const { scheme, c } = useTheme();
+  const [fontsLoaded] = useFonts({
+    "LemonMilk-Regular": require("./assets/fonts/LemonMilk-Regular.otf"),
+    "LemonMilk-Medium": require("./assets/fonts/LemonMilk-Medium.otf"),
+    "LemonMilk-Bold": require("./assets/fonts/LemonMilk-Bold.otf"),
+  });
+
+  const ready = hydrated && fontsLoaded;
 
   return (
     <GestureHandlerRootView style={styles.flex}>
       <SafeAreaProvider>
-        <StatusBar style="dark" />
-        {hydrated ? (
+        <StatusBar style={scheme === "dark" ? "light" : "dark"} />
+        {ready ? (
           <RootTabs />
         ) : (
-          <View style={styles.loading}>
-            <ActivityIndicator size="large" />
-            <Text style={styles.loadingText}>Loading your map…</Text>
+          <View style={[styles.loading, { backgroundColor: c.bg }]}>
+            <ActivityIndicator size="large" color={c.text} />
+            <Text style={[styles.loadingText, { color: c.subtext }]}>
+              Loading your map…
+            </Text>
           </View>
         )}
       </SafeAreaProvider>
@@ -34,8 +46,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#ffffff",
     gap: 12,
   },
-  loadingText: { color: "#6B7280", fontSize: 14 },
+  loadingText: { fontSize: 14 },
 });

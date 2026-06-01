@@ -14,6 +14,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useAppStore } from "../core/state/store";
 import { getWorldCountryList } from "../core/map";
+import { useTheme } from "../theme/useTheme";
+import { fonts } from "../theme/tokens";
 
 type Filter = "all" | "visited" | "bucket";
 
@@ -26,6 +28,7 @@ const ALL_COUNTRIES = getWorldCountryList();
 
 export function CountriesScreen({ onLocate }: Props) {
   const insets = useSafeAreaInsets();
+  const { c } = useTheme();
   const [query, setQuery] = useState("");
   const [filter, setFilter] = useState<Filter>("all");
 
@@ -50,14 +53,16 @@ export function CountriesScreen({ onLocate }: Props) {
   }, [query, filter, countriesById]);
 
   return (
-    <View style={[styles.root, { paddingTop: insets.top + 8 }]}>
-      <Text style={styles.title}>Countries</Text>
-      <Text style={styles.subtitle}>{visitedCount} / {ALL_COUNTRIES.length} visited</Text>
+    <View style={[styles.root, { backgroundColor: c.bg, paddingTop: insets.top + 8 }]}>
+      <Text style={[styles.title, { color: c.text, fontFamily: fonts.bold }]}>Countries</Text>
+      <Text style={[styles.subtitle, { color: c.subtext }]}>
+        {visitedCount} / {ALL_COUNTRIES.length} visited
+      </Text>
 
       <TextInput
-        style={styles.search}
+        style={[styles.search, { backgroundColor: c.inputBg, borderColor: c.inputBorder, color: c.text }]}
         placeholder="Find any country…"
-        placeholderTextColor="#9CA3AF"
+        placeholderTextColor={c.placeholder}
         value={query}
         onChangeText={setQuery}
         autoCapitalize="none"
@@ -77,10 +82,18 @@ export function CountriesScreen({ onLocate }: Props) {
           return (
             <Pressable
               key={f.key}
-              style={[styles.filterBtn, active && styles.filterBtnActive]}
+              style={[
+                styles.filterBtn,
+                { backgroundColor: active ? c.primary : c.muted },
+              ]}
               onPress={() => setFilter(f.key)}
             >
-              <Text style={[styles.filterText, active && styles.filterTextActive]}>
+              <Text
+                style={[
+                  styles.filterText,
+                  { color: active ? c.primaryText : c.mutedText },
+                ]}
+              >
                 {f.label}
               </Text>
             </Pressable>
@@ -96,17 +109,19 @@ export function CountriesScreen({ onLocate }: Props) {
         initialNumToRender={20}
         windowSize={10}
         ListEmptyComponent={
-          <Text style={styles.empty}>No matches. Try a different search.</Text>
+          <Text style={[styles.empty, { color: c.subtext }]}>
+            No matches. Try a different search.
+          </Text>
         }
         renderItem={({ item }) => {
           const visited = Boolean(countriesById[item.id]?.visited);
           return (
-            <View style={[styles.row, visited && styles.rowVisited]}>
+            <View style={[styles.row, visited && { backgroundColor: c.rowVisitedBg }]}>
               <Pressable
                 style={styles.rowMain}
                 onPress={() => toggleVisited(item.id)}
               >
-                <Text style={styles.rowName} numberOfLines={1}>
+                <Text style={[styles.rowName, { color: c.text }]} numberOfLines={1}>
                   {item.name}
                 </Text>
                 {visited && <Text style={styles.check}>✓</Text>}

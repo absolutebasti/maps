@@ -13,9 +13,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { WorldMap } from "../map/WorldMap";
 import { MapTooltip, type TooltipData } from "../map/MapTooltip";
 import { colors } from "../theme/colors";
+import { useTheme } from "../theme/useTheme";
+import { fonts } from "../theme/tokens";
 
 export function MapScreen() {
   const insets = useSafeAreaInsets();
+  const { c } = useTheme();
   const { width: screenWidth } = useWindowDimensions();
 
   const [tooltip, setTooltip] = useState<TooltipData | null>(null);
@@ -44,11 +47,20 @@ export function MapScreen() {
   );
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, { backgroundColor: c.bg }]}>
       {/* Header */}
-      <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
-        <Text style={styles.title}>My Visited Countries</Text>
-        <Text style={styles.subtitle}>Tap a country to mark it · long-press to edit</Text>
+      <View
+        style={[
+          styles.header,
+          { paddingTop: insets.top + 8, backgroundColor: c.card, borderBottomColor: c.border },
+        ]}
+      >
+        <Text style={[styles.title, { color: c.text, fontFamily: fonts.bold }]}>
+          My Visited Countries
+        </Text>
+        <Text style={[styles.subtitle, { color: c.subtext }]}>
+          Tap a country to mark it · long-press to edit
+        </Text>
       </View>
 
       {/* Map */}

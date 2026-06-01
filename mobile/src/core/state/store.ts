@@ -59,6 +59,7 @@ type AppState = {
   setRating: (id: string, rating?: number) => void;
   setVisitedCountryColor: (color: string) => void;
   setFillPattern: (pattern: FillPattern) => void;
+  setTheme: (theme: Settings["theme"]) => void;
   setMapView: (view: Partial<MapView>) => void;
   resetMapView: () => void;
   clearAllData: () => void;
@@ -209,6 +210,10 @@ export const useAppStore = create<AppState>((set) => ({
   setFillPattern: (pattern) =>
     set((s) => ({
       settings: { ...s.settings, fillPattern: pattern }
+    })),
+  setTheme: (theme) =>
+    set((s) => ({
+      settings: { ...s.settings, theme }
     })),
   setMapView: (view) =>
     set((s) => ({

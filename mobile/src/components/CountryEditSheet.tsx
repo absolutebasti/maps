@@ -18,9 +18,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useAppStore, PREDEFINED_TAGS } from "../core/state/store";
 import { getCountryNameById } from "../core/map";
+import { useTheme } from "../theme/useTheme";
+import { fonts } from "../theme/tokens";
 
 export function CountryEditSheet() {
   const insets = useSafeAreaInsets();
+  const { c } = useTheme();
 
   const editingId = useAppStore((s) => s.editingCountryId);
   const closeEditDialog = useAppStore((s) => s.closeEditDialog);
@@ -46,20 +49,23 @@ export function CountryEditSheet() {
       animationType="slide"
       onRequestClose={closeEditDialog}
     >
-      <Pressable style={styles.backdrop} onPress={closeEditDialog} />
+      <Pressable
+        style={[styles.backdrop, { backgroundColor: c.backdrop }]}
+        onPress={closeEditDialog}
+      />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.kav}
         pointerEvents="box-none"
       >
-        <View style={[styles.sheet, { paddingBottom: insets.bottom + 16 }]}>
-          <View style={styles.grabber} />
+        <View style={[styles.sheet, { backgroundColor: c.card, paddingBottom: insets.bottom + 16 }]}>
+          <View style={[styles.grabber, { backgroundColor: c.border }]} />
           <View style={styles.headerRow}>
-            <Text style={styles.title} numberOfLines={1}>
+            <Text style={[styles.title, { color: c.text, fontFamily: fonts.bold }]} numberOfLines={1}>
               {countryName}
             </Text>
             <Pressable onPress={closeEditDialog} hitSlop={10}>
-              <Text style={styles.close}>✕</Text>
+              <Text style={[styles.close, { color: c.subtext }]}>✕</Text>
             </Pressable>
           </View>
 
@@ -73,13 +79,15 @@ export function CountryEditSheet() {
               onPress={() => editingId && toggleVisited(editingId)}
               style={[
                 styles.visitedBtn,
-                isVisited ? styles.visitedOn : styles.visitedOff,
+                isVisited
+                  ? styles.visitedOn
+                  : [styles.visitedOff, { backgroundColor: c.muted, borderColor: c.border }],
               ]}
             >
               <Text
                 style={[
                   styles.visitedText,
-                  isVisited ? styles.visitedTextOn : styles.visitedTextOff,
+                  isVisited ? styles.visitedTextOn : { color: c.text },
                 ]}
               >
                 {isVisited ? "✓  Visited" : "○  Mark as visited"}
@@ -87,11 +95,11 @@ export function CountryEditSheet() {
             </Pressable>
 
             {/* Note */}
-            <Text style={styles.label}>Note</Text>
+            <Text style={[styles.label, { color: c.subtext }]}>Note</Text>
             <TextInput
-              style={styles.noteInput}
+              style={[styles.noteInput, { backgroundColor: c.inputBg, borderColor: c.inputBorder, color: c.text }]}
               placeholder="Add notes about your trip…"
-              placeholderTextColor="#9CA3AF"
+              placeholderTextColor={c.placeholder}
               value={country?.note ?? ""}
               onChangeText={(text) => editingId && setNote(editingId, text)}
               maxLength={2000}
@@ -100,11 +108,11 @@ export function CountryEditSheet() {
             />
 
             {/* Visited date */}
-            <Text style={styles.label}>Visited date</Text>
+            <Text style={[styles.label, { color: c.subtext }]}>Visited date</Text>
             <TextInput
-              style={styles.dateInput}
+              style={[styles.dateInput, { backgroundColor: c.inputBg, borderColor: c.inputBorder, color: c.text }]}
               placeholder="YYYY-MM-DD"
-              placeholderTextColor="#9CA3AF"
+              placeholderTextColor={c.placeholder}
               value={country?.visitedAt ?? ""}
               onChangeText={(text) =>
                 editingId && setVisitedAt(editingId, text || undefined)
@@ -115,7 +123,7 @@ export function CountryEditSheet() {
 
             {/* Rating */}
             <View style={styles.ratingHeader}>
-              <Text style={styles.label}>Rating</Text>
+              <Text style={[styles.label, { color: c.subtext }]}>Rating</Text>
               {rating > 0 && (
                 <Pressable onPress={() => editingId && setRating(editingId, undefined)}>
                   <Text style={styles.clear}>Clear</Text>
@@ -142,7 +150,7 @@ export function CountryEditSheet() {
             </View>
 
             {/* Tags */}
-            <Text style={styles.label}>Tags</Text>
+            <Text style={[styles.label, { color: c.subtext }]}>Tags</Text>
             <View style={styles.tagsRow}>
               {PREDEFINED_TAGS.map((tag) => {
                 const isActive = country?.tags?.includes(tag.id) ?? false;
@@ -166,7 +174,7 @@ export function CountryEditSheet() {
                     <Text
                       style={[
                         styles.tagText,
-                        { color: isActive ? "#fff" : "#374151" },
+                        { color: isActive ? "#fff" : c.text },
                       ]}
                     >
                       {tag.emoji}  {tag.name}

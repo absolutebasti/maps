@@ -13,6 +13,7 @@ import { SettingsScreen } from "../screens/SettingsScreen";
 import { CountryEditSheet } from "../components/CountryEditSheet";
 import { Onboarding } from "../components/Onboarding";
 import { useAppStore } from "../core/state/store";
+import { useTheme } from "../theme/useTheme";
 
 type Tab = "map" | "countries" | "settings";
 
@@ -24,6 +25,7 @@ const TABS: Array<{ key: Tab; label: string; icon: string }> = [
 
 export function RootTabs() {
   const insets = useSafeAreaInsets();
+  const { c } = useTheme();
   const [tab, setTab] = useState<Tab>("map");
 
   const locateOnMap = useCallback((id: string) => {
@@ -32,14 +34,23 @@ export function RootTabs() {
   }, []);
 
   return (
-    <View style={styles.root}>
+    <View style={[styles.root, { backgroundColor: c.bg }]}>
       <View style={styles.screen}>
         {tab === "map" && <MapScreen />}
         {tab === "countries" && <CountriesScreen onLocate={locateOnMap} />}
         {tab === "settings" && <SettingsScreen />}
       </View>
 
-      <View style={[styles.tabBar, { paddingBottom: insets.bottom || 8 }]}>
+      <View
+        style={[
+          styles.tabBar,
+          {
+            paddingBottom: insets.bottom || 8,
+            backgroundColor: c.card,
+            borderTopColor: c.border,
+          },
+        ]}
+      >
         {TABS.map((t) => {
           const active = t.key === tab;
           return (
@@ -54,7 +65,7 @@ export function RootTabs() {
               <Text
                 style={[
                   styles.tabLabel,
-                  { color: active ? "#111827" : "#9CA3AF" },
+                  { color: active ? c.text : c.subtext },
                 ]}
               >
                 {t.label}

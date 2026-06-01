@@ -4,6 +4,8 @@
 import React, { useEffect, useState } from "react";
 import { Modal, View, Text, Pressable, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTheme } from "../theme/useTheme";
+import { fonts } from "../theme/tokens";
 
 export const ONBOARDING_KEY = "mymap.onboarding.completed";
 
@@ -31,6 +33,7 @@ const STEPS = [
 ];
 
 export function Onboarding() {
+  const { c } = useTheme();
   const [show, setShow] = useState(false);
   const [step, setStep] = useState(0);
 
@@ -62,18 +65,20 @@ export function Onboarding() {
 
   return (
     <Modal visible transparent animationType="fade" onRequestClose={complete}>
-      <View style={styles.backdrop}>
-        <View style={styles.card}>
+      <View style={[styles.backdrop, { backgroundColor: c.backdrop }]}>
+        <View style={[styles.card, { backgroundColor: c.card }]}>
           <Pressable style={styles.skip} onPress={complete} hitSlop={10}>
-            <Text style={styles.skipText}>Skip</Text>
+            <Text style={[styles.skipText, { color: c.subtext }]}>Skip</Text>
           </Pressable>
 
           <Text style={styles.icon}>{current.icon}</Text>
           <Text style={styles.stepBadge}>
             Step {step + 1} of {STEPS.length}
           </Text>
-          <Text style={styles.title}>{current.title}</Text>
-          <Text style={styles.body}>{current.body}</Text>
+          <Text style={[styles.title, { color: c.text, fontFamily: fonts.bold }]}>
+            {current.title}
+          </Text>
+          <Text style={[styles.body, { color: c.subtext }]}>{current.body}</Text>
 
           <View style={styles.dots}>
             {STEPS.map((_, i) => (
@@ -81,7 +86,8 @@ export function Onboarding() {
                 key={i}
                 style={[
                   styles.dot,
-                  i === step ? styles.dotActive : undefined,
+                  { backgroundColor: c.border },
+                  i === step ? [styles.dotActive, { backgroundColor: c.primary }] : undefined,
                 ]}
               />
             ))}
@@ -89,14 +95,14 @@ export function Onboarding() {
 
           <View style={styles.actions}>
             {step > 0 ? (
-              <Pressable style={styles.backBtn} onPress={back}>
-                <Text style={styles.backText}>Back</Text>
+              <Pressable style={[styles.backBtn, { borderColor: c.border }]} onPress={back}>
+                <Text style={[styles.backText, { color: c.text }]}>Back</Text>
               </Pressable>
             ) : (
               <View style={styles.backBtnSpacer} />
             )}
-            <Pressable style={styles.nextBtn} onPress={next}>
-              <Text style={styles.nextText}>
+            <Pressable style={[styles.nextBtn, { backgroundColor: c.primary }]} onPress={next}>
+              <Text style={[styles.nextText, { color: c.primaryText }]}>
                 {isLast ? "Get started" : "Next"}
               </Text>
             </Pressable>

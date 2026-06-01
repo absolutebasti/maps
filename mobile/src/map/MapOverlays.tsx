@@ -9,6 +9,7 @@ import type { ProjectedCountry } from "./projection";
 import type { CountryData } from "../core/state/store";
 import { PREDEFINED_TAGS } from "../core/state/store";
 import { colors } from "../theme/colors";
+import { fonts } from "../theme/tokens";
 
 type Props = {
   projection: GeoProjection;
@@ -48,6 +49,7 @@ export function MapOverlays({
             y={p[1]}
             fontSize={labelSize}
             fill={colors.oceanLabel}
+            fontFamily={fonts.bold}
             fontWeight="700"
             textAnchor="middle"
             opacity={0.4}
