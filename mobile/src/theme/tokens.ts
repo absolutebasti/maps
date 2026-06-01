@@ -58,8 +58,10 @@ export const darkColors: ThemeColors = {
   backdrop: "rgba(0,0,0,0.6)",
 };
 
+// Montserrat — a free, SIL OFL–licensed geometric display font (safe for App
+// Store distribution), used as the brand type in place of Lemon Milk.
 export const fonts = {
-  regular: "LemonMilk-Regular",
-  medium: "LemonMilk-Medium",
-  bold: "LemonMilk-Bold",
+  regular: "Montserrat_400Regular",
+  medium: "Montserrat_500Medium",
+  bold: "Montserrat_700Bold",
 } as const;

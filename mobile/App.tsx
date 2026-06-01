@@ -5,6 +5,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 import { useFonts } from "expo-font";
+// Import only the 3 weights we use, from their subpaths — importing from the
+// package index would bundle every Montserrat weight (~6MB of fonts).
+import { Montserrat_400Regular } from "@expo-google-fonts/montserrat/400Regular";
+import { Montserrat_500Medium } from "@expo-google-fonts/montserrat/500Medium";
+import { Montserrat_700Bold } from "@expo-google-fonts/montserrat/700Bold";
 
 import { RootTabs } from "./src/navigation/RootTabs";
 import { AuthProvider } from "./src/auth/AuthProvider";
@@ -15,9 +20,9 @@ export default function App() {
   const { hydrated } = usePersistence();
   const { scheme, c } = useTheme();
   const [fontsLoaded] = useFonts({
-    "LemonMilk-Regular": require("./assets/fonts/LemonMilk-Regular.otf"),
-    "LemonMilk-Medium": require("./assets/fonts/LemonMilk-Medium.otf"),
-    "LemonMilk-Bold": require("./assets/fonts/LemonMilk-Bold.otf"),
+    Montserrat_400Regular,
+    Montserrat_500Medium,
+    Montserrat_700Bold,
   });
 
   const ready = hydrated && fontsLoaded;

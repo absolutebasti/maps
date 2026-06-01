@@ -69,7 +69,11 @@ EXPO_PUBLIC_SUPABASE_URL=https://<project>.supabase.co
 EXPO_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
 ```
 
-The same Supabase project / schema as the web app is reused unchanged.
+To set up the backend, create a Supabase project and run the SQL in
+[docs/SUPABASE_SQL.sql](docs/SUPABASE_SQL.sql) and
+[docs/SUPABASE_AUTH_SQL.sql](docs/SUPABASE_AUTH_SQL.sql); see
+[docs/SUPABASE_SETUP.md](docs/SUPABASE_SETUP.md). The schema is unchanged from
+the original web app.
 
 ## Feature parity with the web app
 
@@ -83,7 +87,7 @@ Built (full parity with the core web app):
 - **Settings** tab: visited-color picker, fill-pattern picker, legend, light /
   dark / system theming, clear-all-data, replay intro, account.
 - **Onboarding** (4-step, first launch).
-- **Lemon Milk** brand font, light/dark theming across all chrome.
+- **Montserrat** brand font (free, SIL OFL), light/dark theming across all chrome.
 - **Share**: share link + image export (Save to Photos / Share sheet).
 - **Accounts + cloud sync**: email sign-in/up, debounced Supabase sync.
 
@@ -93,8 +97,6 @@ donation gate (external-payment prompts gating features risk App Review).
 
 Still open before a public release:
 
-- Settle the Lemon Milk font license (freeware-with-donation) or swap a
-  freely-licensed display font.
 - Real app icon + splash art (currently the Expo placeholder).
 - Deep links (`mymap://share/<id>`, `mymap://auth/confirm`) + Universal Links.
 - iOS Privacy Manifest + App Store privacy answers.

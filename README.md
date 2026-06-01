@@ -25,5 +25,5 @@ open ios/MyMap.xcworkspace    # ▶ Run on a simulator or device
 
 The native app reuses the original app's pure-JS core (state store, the
 d3-geo/topojson map pipeline, share encoding, and Supabase sync logic) verbatim
-under `mobile/src/core/`, and rebuilds the UI/rendering natively. The Supabase
-backend (schema in `legacy-web/SUPABASE_*.sql`) is shared.
+under `mobile/src/core/`, and rebuilds the UI/rendering natively. The shared
+Supabase backend setup + schema lives in [mobile/docs/](mobile/docs/).
