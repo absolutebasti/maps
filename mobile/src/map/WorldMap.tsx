@@ -233,6 +233,10 @@ export function WorldMap({ onShowTooltip, onStatsChange, onReady }: Props) {
     [onShowTooltip]
   );
 
+  const handleCountryLongPress = useCallback((id: string) => {
+    useAppStore.getState().openEditDialog(id);
+  }, []);
+
   const onLayout = useCallback(
     (e: { nativeEvent: { layout: { width: number; height: number } } }) => {
       const { width, height } = e.nativeEvent.layout;
@@ -288,6 +292,7 @@ export function WorldMap({ onShowTooltip, onStatsChange, onReady }: Props) {
                   fillPattern={fillPattern}
                   selectedId={selectedId}
                   onPressCountry={handleCountryPress}
+                  onLongPressCountry={handleCountryLongPress}
                 />
                 <MapOverlays
                   projection={geography.projection}

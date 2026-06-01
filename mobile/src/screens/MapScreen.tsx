@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { WorldMap } from "../map/WorldMap";
 import { MapTooltip, type TooltipData } from "../map/MapTooltip";
+import { CountryEditSheet } from "../components/CountryEditSheet";
 import { colors } from "../theme/colors";
 
 export function MapScreen() {
@@ -48,6 +49,7 @@ export function MapScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 8 }]}>
         <Text style={styles.title}>My Visited Countries</Text>
+        <Text style={styles.subtitle}>Tap a country to mark it · long-press to edit</Text>
       </View>
 
       {/* Map */}
@@ -91,6 +93,9 @@ export function MapScreen() {
           <MapTooltip data={tooltip} screenWidth={screenWidth} />
         </View>
       )}
+
+      {/* Country detail / edit sheet (long-press a country) */}
+      <CountryEditSheet />
     </View>
   );
 }
@@ -105,6 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#ffffff",
   },
   title: { fontSize: 20, fontWeight: "700", letterSpacing: 0.5 },
+  subtitle: { fontSize: 11, color: "#9CA3AF", marginTop: 2 },
   mapArea: { flex: 1, padding: 8 },
   statsBox: {
     position: "absolute",

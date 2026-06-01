@@ -16,6 +16,7 @@ type Props = {
   fillPattern: FillPattern;
   selectedId?: string;
   onPressCountry: (id: string, e: GestureResponderEvent) => void;
+  onLongPressCountry: (id: string) => void;
 };
 
 function fillFor(
@@ -35,6 +36,7 @@ function CountryPathsComponent({
   fillPattern,
   selectedId,
   onPressCountry,
+  onLongPressCountry,
 }: Props) {
   return (
     <>
@@ -49,6 +51,7 @@ function CountryPathsComponent({
             stroke={isSelected ? colors.selectedStroke : colors.countryStroke}
             strokeWidth={isSelected ? 1.5 : 0.5}
             onPress={(e) => onPressCountry(c.id, e)}
+            onLongPress={() => onLongPressCountry(c.id)}
           />
         );
       })}
