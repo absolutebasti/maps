@@ -71,17 +71,33 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=<anon-key>
 
 The same Supabase project / schema as the web app is reused unchanged.
 
-## Not yet built (next phases)
+## Feature parity with the web app
 
-Tracked against the full migration plan — roughly in priority order:
+Built (full parity with the core web app):
 
-1. Country detail / edit sheet (notes, date, rating, tags) — `@gorhom/bottom-sheet`.
-2. Legend (color + pattern picker) and country search (cmdk replacement).
-3. Bulk country-management screen + bottom-tab navigation.
-4. Light/dark theming (NativeWind + `useColorScheme`), Lemon Milk fonts.
-5. Auth UI + cloud sync wiring + share/export (view-shot → Photos / Share sheet)
-   + deep links (`mymap://share/<id>`, `mymap://auth/confirm`).
-6. App Store hardening: privacy manifest, icons/splash, donation/IAP review.
+- Interactive map: tap-to-toggle, pinch-zoom, drag-pan (1–4×), zoom-to-country,
+  fill patterns, ocean labels, emoji tags, tap tooltip, % stats, zoom buttons.
+- Country **edit sheet** (long-press): visited, note, visit date, rating, tags.
+- **Countries** tab: searchable / filterable (All / Visited / Bucket List) list
+  with per-row toggle, edit, and locate-on-map.
+- **Settings** tab: visited-color picker, fill-pattern picker, legend, light /
+  dark / system theming, clear-all-data, replay intro, account.
+- **Onboarding** (4-step, first launch).
+- **Lemon Milk** brand font, light/dark theming across all chrome.
+- **Share**: share link + image export (Save to Photos / Share sheet).
+- **Accounts + cloud sync**: email sign-in/up, debounced Supabase sync.
+
+Intentionally dropped (web-only / not App-Store-appropriate): marketing/SEO/blog
+pages, sitemap, Next.js API routes, keyboard shortcuts, and the pre-export
+donation gate (external-payment prompts gating features risk App Review).
+
+Still open before a public release:
+
+- Settle the Lemon Milk font license (freeware-with-donation) or swap a
+  freely-licensed display font.
+- Real app icon + splash art (currently the Expo placeholder).
+- Deep links (`mymap://share/<id>`, `mymap://auth/confirm`) + Universal Links.
+- iOS Privacy Manifest + App Store privacy answers.
 
 ## Performance note
 
